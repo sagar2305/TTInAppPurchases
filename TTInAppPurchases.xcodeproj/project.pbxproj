@@ -11,15 +11,19 @@
 		1B42B36A26480E230004F76B /* View Controllers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36726480E230004F76B /* View Controllers */; };
 		1B42B36B26480E230004F76B /* Helpers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36826480E230004F76B /* Helpers */; };
 		1BD9B98E2646AD9C00176112 /* TTInAppPurchases.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		900CD74E546A3F00D0196EB8 /* Pods_TTInAppPurchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA688ADA8E17D09E49845D2 /* Pods_TTInAppPurchases.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.release.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.release.xcconfig"; sourceTree = "<group>"; };
 		1B42B36626480E230004F76B /* Coordinator */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Coordinator; sourceTree = "<group>"; };
 		1B42B36726480E230004F76B /* View Controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "View Controllers"; sourceTree = "<group>"; };
 		1B42B36826480E230004F76B /* Helpers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpers; sourceTree = "<group>"; };
 		1BD9B9892646AD9C00176112 /* TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTInAppPurchases.h; sourceTree = "<group>"; };
 		1BD9B98D2646AD9C00176112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.debug.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.debug.xcconfig"; sourceTree = "<group>"; };
+		CDA688ADA8E17D09E49845D2 /* Pods_TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				900CD74E546A3F00D0196EB8 /* Pods_TTInAppPurchases.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +43,8 @@
 			children = (
 				1BD9B98B2646AD9C00176112 /* TTInAppPurchases */,
 				1BD9B98A2646AD9C00176112 /* Products */,
+				8AEFB8A644421D17D4A63874 /* Pods */,
+				D6ED06D48E49DAE139974E93 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +68,24 @@
 			path = TTInAppPurchases;
 			sourceTree = "<group>";
 		};
+		8AEFB8A644421D17D4A63874 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */,
+				039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D6ED06D48E49DAE139974E93 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CDA688ADA8E17D09E49845D2 /* Pods_TTInAppPurchases.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -79,6 +104,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BD9B9912646AD9C00176112 /* Build configuration list for PBXNativeTarget "TTInAppPurchases" */;
 			buildPhases = (
+				82603023A40ED458ABF4BC91 /* [CP] Check Pods Manifest.lock */,
 				1BD9B9842646AD9C00176112 /* Headers */,
 				1BD9B9852646AD9C00176112 /* Sources */,
 				1BD9B9862646AD9C00176112 /* Frameworks */,
@@ -136,6 +162,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		82603023A40ED458ABF4BC91 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TTInAppPurchases-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BD9B9852646AD9C00176112 /* Sources */ = {
@@ -272,6 +323,7 @@
 		};
 		1BD9B9922646AD9C00176112 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -296,6 +348,7 @@
 		};
 		1BD9B9932646AD9C00176112 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
