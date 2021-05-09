@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B42B36926480E230004F76B /* Coordinator in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36626480E230004F76B /* Coordinator */; };
+		1B42B36A26480E230004F76B /* View Controllers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36726480E230004F76B /* View Controllers */; };
+		1B42B36B26480E230004F76B /* Helpers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36826480E230004F76B /* Helpers */; };
 		1BD9B98E2646AD9C00176112 /* TTInAppPurchases.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B42B36626480E230004F76B /* Coordinator */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Coordinator; sourceTree = "<group>"; };
+		1B42B36726480E230004F76B /* View Controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "View Controllers"; sourceTree = "<group>"; };
+		1B42B36826480E230004F76B /* Helpers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpers; sourceTree = "<group>"; };
 		1BD9B9892646AD9C00176112 /* TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTInAppPurchases.h; sourceTree = "<group>"; };
 		1BD9B98D2646AD9C00176112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +52,9 @@
 		1BD9B98B2646AD9C00176112 /* TTInAppPurchases */ = {
 			isa = PBXGroup;
 			children = (
+				1B42B36626480E230004F76B /* Coordinator */,
+				1B42B36826480E230004F76B /* Helpers */,
+				1B42B36726480E230004F76B /* View Controllers */,
 				1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */,
 				1BD9B98D2646AD9C00176112 /* Info.plist */,
 			);
@@ -120,6 +129,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B42B36B26480E230004F76B /* Helpers in Resources */,
+				1B42B36A26480E230004F76B /* View Controllers in Resources */,
+				1B42B36926480E230004F76B /* Coordinator in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
