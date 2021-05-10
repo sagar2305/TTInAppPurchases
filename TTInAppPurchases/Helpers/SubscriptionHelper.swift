@@ -54,6 +54,10 @@ class SubscriptionHelper {
             self._process(purchaserInfo: purchaserInfo)
         }
     }
+    
+    static func attributedFeatureText(_ feature: String) -> String {
+        return "✓  " + feature
+    }
 
     func restorePurchases(_ completionHandler: @escaping PurchaseCompletion) {
         Purchases.shared.restoreTransactions { (purchaserInfo, error) in
@@ -89,22 +93,6 @@ class SubscriptionHelper {
 //        }
 //    }
     
-    // This is method is called from everywhere else other than onboarding so always show the reduced
-    // price offer (gift offer)
-    func startSubscribeCoordinator(navigationController: UINavigationController, parentCoordinator: Coordinator, currentEvent: EventForSubscription = .call) {
-//        let identifier = _offeringIdentifier(for: currentEvent)
-        var identifier: String
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            identifier = Constants.Offering.lifetime
-        } else {
-            identifier = Constants.Offering.annualFullPriceAndSpecialOffer
-        }
-        let subscribeCoordinator = SubscribeCoordinator(navigationController: navigationController, offeringIdentifier: identifier, giftOffer: true)
-        subscribeCoordinator.parentCoordinator = parentCoordinator
-        subscribeCoordinator.currentEvent = currentEvent
-        parentCoordinator.childCoordinators.append(subscribeCoordinator)
-        subscribeCoordinator.start()
-    }
     
     func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping CompletionHandler) {
         var availableProducts: [IAPProduct]?
@@ -168,7 +156,7 @@ class SubscriptionHelper {
                     "Transaction Identifier": transaction.transactionIdentifier ?? "--"
                 ])
                 AnalyticsHelper.shared.logRevenue(revenue)
-                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
+//                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
                 User.shared.saveUserProperty(.dateOfSubScription, value: Date().toFormat("yyyy-MM-dd HH:mm"))
                 User.shared.saveUserProperty(.userPlan, value: package.product.productIdentifier)
                 completionHandler(true, nil)

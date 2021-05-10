@@ -1,0 +1,260 @@
+//
+//  UIColorExtensions.swift
+//  CallRecorder
+//
+//  Created by Sagar Mutha on 5/19/20.
+//  Copyright © 2020 Smart Apps. All rights reserved.
+//
+
+import Foundation
+import UIKit
+import AudioToolbox
+
+extension UIWindow {
+    static var key: UIWindow? {
+        if #available(iOS 13, *) {
+            return UIApplication.shared.windows.first { $0.isKeyWindow }
+        } else {
+            return UIApplication.shared.keyWindow
+        }
+    }
+}
+
+extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt32()
+        Scanner(string: hex).scanHexInt32(&int)
+        let alpha, red, green, blue: UInt32
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (alpha, red, green, blue) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (alpha, red, green, blue) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (alpha, red, green, blue) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (alpha, red, green, blue) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(red) / 255, green: CGFloat(green) / 255,
+                  blue: CGFloat(blue) / 255, alpha: CGFloat(alpha) / 255)
+    }
+}
+
+extension UIColor {
+    
+    class var backgroundColor: UIColor {
+        return UIColor(named: "backgroundColor")!
+    }
+    
+    class var inverseBackgroundColor: UIColor {
+        return UIColor(named: "inverseBackgroundColor")!
+    }
+    
+    class var primaryColor: UIColor {
+        return UIColor(named: "primaryColor")!
+    }
+    
+    class var secondaryColor: UIColor {
+        return UIColor(named: "secondaryColor")!
+    }
+    
+    class var primaryTextColor: UIColor {
+        return UIColor(named: "primaryTextColor")!
+    }
+    
+    class var secondaryTextColor: UIColor {
+        return UIColor(named: "secondaryTextColor")!
+    }
+    
+    class var navigationTitleTextColor: UIColor {
+        return UIColor(named: "navigationTitleTextColor")!
+    }
+    
+    class var buttonTextColor: UIColor {
+        return UIColor(named: "buttonTextColor")!
+    }
+    
+    func lighter(by percentage: CGFloat = 30.0) -> UIColor {
+        return self.adjust(by: abs(percentage) ) ?? self
+    }
+
+    func darker(by percentage: CGFloat = 30.0) -> UIColor {
+        return self.adjust(by: -1 * abs(percentage) ) ?? self
+    }
+
+    func adjust(by percentage: CGFloat = 30.0) -> UIColor? {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            return UIColor(red: min(red + percentage/100, 1.0),
+                           green: min(green + percentage/100, 1.0),
+                           blue: min(blue + percentage/100, 1.0),
+                           alpha: alpha)
+        } else {
+            return nil
+        }
+    }
+}
+
+extension UIView {
+    func shake(duration: CFTimeInterval) {
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        let shakeValues = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
+        
+        let translation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        translation.timingFunction = CAMediaTimingFunction(name: .linear)
+        translation.values = shakeValues
+        
+        let rotation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
+        rotation.values = shakeValues.map { (Int(Double.pi) * $0) / 180 }
+        
+        let shakeGroup = CAAnimationGroup()
+        shakeGroup.animations = [translation, rotation]
+        shakeGroup.duration = duration
+        layer.add(shakeGroup, forKey: "shakeIt")
+    }
+    
+    func addLinearGradient(_ colors: [CGColor], startPoint: CGPoint, endPoint: CGPoint) {
+        let gradient = CAGradientLayer()
+        gradient.frame = bounds
+        gradient.colors = colors
+        gradient.startPoint = startPoint
+        gradient.endPoint = endPoint
+        layer.addSublayer(gradient)
+    }
+    
+    func getMyFrame(in view: UIView) -> CGRect {
+        return self.convert(self.bounds, to: view)
+    }
+}
+
+extension UILabel {
+    static func titleLabel(title: String?) -> UILabel {
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 80))
+        titleLabel.text = title ?? ""
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.font(.sofiaProMedium, style: .title3)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.textColor = .navigationTitleTextColor
+        titleLabel.sizeToFit()
+        return titleLabel
+    }
+    
+    func configure(with font: UIFont) {
+        self.font = font
+        adjustsFontForContentSizeCategory = true
+        adjustsFontSizeToFitWidth = true
+    }
+    
+    func getPointer(center: CGPoint, onBottom edge: Bool) -> UIView {
+        let path = UIBezierPath()
+        let pointerView = UIView(frame: .zero)
+        pointerView.backgroundColor = self.backgroundColor
+        
+        if edge {
+            pointerView.frame = CGRect(x: center.x - 6,
+                                           y: self.frame.maxY - 2,
+                                           width: 12,
+                                           height: 12)
+                        
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addLine(to: CGPoint(x: 12, y: 0))
+            path.addLine(to: CGPoint(x: 6, y: 12))
+            path.close()
+        } else {
+            pointerView.frame = CGRect(x: center.x - 6,
+                                           y: self.frame.minY - 10,
+                                           width: 12,
+                                           height: 12)
+                        
+            path.move(to: CGPoint(x: 0, y: 12))
+            path.addLine(to: CGPoint(x: 12, y: 12))
+            path.addLine(to: CGPoint(x: 6, y: 0))
+            path.close()
+        }
+        
+        let hintBannerPointerLayer = CAShapeLayer()
+        hintBannerPointerLayer.path = path.cgPath
+        hintBannerPointerLayer.fillColor = UIColor.green.cgColor
+        pointerView.layer.mask = hintBannerPointerLayer
+        return pointerView
+    }
+}
+
+extension UIViewController {
+    func configureUI(title: String) {
+        let titleView = UILabel.titleLabel(title: title.localized)
+        titleView.tintColor = .navigationTitleTextColor
+        navigationItem.titleView = titleView
+    }
+    
+    func addChildViewController(_ viewController: UIViewController) {
+        addChild(viewController)
+        viewController.willMove(toParent: self)
+        viewController.view.frame = view.bounds
+        view.addSubview(viewController.view)
+        viewController.didMove(toParent: self)
+    }
+}
+
+extension UIFont {
+    
+    static func sizeFor(_ style: UIFont.TextStyle) -> CGFloat {
+        switch style {
+        case .largeTitle:   return CGFloat(40)
+        case .title1:       return CGFloat(32)
+        case .title2:       return CGFloat(26)
+        case .title3:       return CGFloat(22)
+        case .headline:      return CGFloat(17)
+        case .body:         return CGFloat(17)
+        case .callout:      return CGFloat(16)
+        case .subheadline:  return CGFloat(15)
+        case .footnote:     return CGFloat(13)
+        case .caption1:     return CGFloat(12)
+        case .caption2:     return CGFloat(11)
+        default: return CGFloat(17)
+        }
+    }
+    
+    static func font(_ name: Constants.Fonts, style: UIFont.TextStyle) -> UIFont {
+        let fontSize = UIFont.sizeFor(style)
+        let font = UIFont(name: name.rawValue, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        return UIFontMetrics(forTextStyle: style).scaledFont(for: font)
+    }
+}
+
+extension UITapGestureRecognizer {
+
+    func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
+        // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
+        let layoutManager = NSLayoutManager()
+        let textContainer = NSTextContainer(size: CGSize.zero)
+        let textStorage = NSTextStorage(attributedString: label.attributedText!)
+
+        // Configure layoutManager and textStorage
+        layoutManager.addTextContainer(textContainer)
+        textStorage.addLayoutManager(layoutManager)
+
+        // Configure textContainer
+        textContainer.lineFragmentPadding = 0.0
+        textContainer.lineBreakMode = label.lineBreakMode
+        textContainer.maximumNumberOfLines = label.numberOfLines
+        let labelSize = label.bounds.size
+        textContainer.size = labelSize
+
+        // Find the tapped character location and compare it to the specified range
+        let locationOfTouchInLabel = self.location(in: label)
+        let textBoundingBox = layoutManager.usedRect(for: textContainer)
+        let textContainerOffset = CGPoint(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
+                                          y: (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
+        let locationOfTouchInTextContainer = CGPoint(x: locationOfTouchInLabel.x - textContainerOffset.x,
+                                                     y: locationOfTouchInLabel.y - textContainerOffset.y)
+        let indexOfCharacter = layoutManager.characterIndex(
+                            for: locationOfTouchInTextContainer,
+                            in: textContainer,
+                            fractionOfDistanceBetweenInsertionPoints: nil)
+
+        return NSLocationInRange(indexOfCharacter, targetRange)
+    }
+}

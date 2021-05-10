@@ -1,0 +1,20 @@
+${PODS_ROOT}/Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases-resources.sh
+${PODS_ROOT}/Amplitude/Sources/Amplitude/ComodoRsaDomainValidationCA.der
+${PODS_ROOT}/LGButton/LGButton/Resources/FontAwesome.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/Ionicons.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/LGButton.xib
+${PODS_ROOT}/LGButton/LGButton/Resources/map-icons.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/MaterialIcons-Regular.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/octicons.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/open-iconic.ttf
+${PODS_ROOT}/LGButton/LGButton/Resources/themify.ttf
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/MiniNotificationViewController.xib
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/MPCloseButton.png
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/MPCloseButton@2x.png
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/MPCloseButton@3x.png
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/placeholder-image.png
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/TakeoverNotificationViewController~ipad.xib
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/TakeoverNotificationViewController~iphonelandscape.xib
+${PODS_ROOT}/Mixpanel-swift/Mixpanel/TakeoverNotificationViewController~iphoneportrait.xib
+${PODS_ROOT}/PhoneNumberKit/PhoneNumberKit/Resources/PhoneNumberMetadata.json
+${PODS_ROOT}/SwiftDate/Sources/SwiftDate/Formatters/RelativeFormatter/langs

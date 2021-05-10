@@ -25,8 +25,17 @@ s.source = { :git => "https://github.com/sagar2305/TTInAppPurchases.git",
 
 # 7
 s.framework = "UIKit"
-#s.dependency 'Alamofire', '~> 4.7'
-#s.dependency 'MBProgressHUD', '~> 1.1.0'
+s.dependency 'PhoneNumberKit'
+s.dependency 'LGButton'
+s.dependency 'lottie-ios'
+s.dependency 'Purchases'
+s.dependency 'NVActivityIndicatorView', '~> 4.8.0'
+s.dependency 'Amplitude'
+s.dependency 'SwiftDate'
+s.dependency 'Mixpanel-swift'
+s.dependency 'SwiftEntryKit'
+
+
 
 # 8
 s.source_files = "TTInAppPurchases/**/*.{swift}"
