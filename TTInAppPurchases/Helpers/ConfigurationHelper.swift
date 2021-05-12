@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct ConfigurationHelper {
-    static var shared = ConfigurationHelper()
+public struct ConfigurationHelper {
+    public static var shared = ConfigurationHelper()
     
     private var _accessNumberVersion: Int
     private var _minimumAppVersion: String
@@ -19,23 +19,23 @@ struct ConfigurationHelper {
     private var _lifetimePlan: Bool
     private var _lifetimePlanAllCountries: Bool
     
-    var minimumAppVersion: String {
+    public var minimumAppVersion: String {
        return _minimumAppVersion
     }
     
-    var inReview: Bool {
+    public var inReview: Bool {
         return _inReview
     }
     
-    var freeUserRecordingPlaybackDuration: Int {
+    public var freeUserRecordingPlaybackDuration: Int {
         return _freeUserRecordingPlaybackDuration
     }
     
-    var reviewPromptOnStartup: Bool {
+    public var reviewPromptOnStartup: Bool {
         return _reviewPromptOnStartup
     }
     
-    var isLifetimePlanAvailable: Bool {
+    public var isLifetimePlanAvailable: Bool {
         if PhoneNumberHelper.shared.isIndianUser {
             return _lifetimePlan
         } else {
@@ -54,7 +54,7 @@ struct ConfigurationHelper {
         _lifetimePlanAllCountries = currentConfiguration?.lifetimePlanAllCountries ?? false
     }
     
-    mutating func update(config: Configuration) {
+    public mutating func update(config: Configuration) {
         _minimumAppVersion = config.minimumVersion
         _inReview = config.inReview
         _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration

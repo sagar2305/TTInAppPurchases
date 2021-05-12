@@ -11,19 +11,19 @@ import CoreGraphics
 import UIKit
 import SwiftDate
 
-extension CGFloat {
+public extension CGFloat {
     func toInt() -> Int {
         return Int(self)
     }
 }
 
-extension Int {
+public extension Int {
     func toCGFloat() -> CGFloat {
         return CGFloat(self)
     }
 }
 
-extension Int {
+public extension Int {
     func toString() -> String {
         return String(self)
     }
@@ -40,7 +40,7 @@ extension Int {
     }
 }
 
-extension TimeInterval {
+public extension TimeInterval {
     func clockTime(showHours: Bool = false) -> String {
         let date = DateInRegion(seconds: self)
         if self > 3600 || showHours {
@@ -51,7 +51,7 @@ extension TimeInterval {
     }
 }
 
-extension Array where Element: Equatable {
+public extension Array where Element: Equatable {
     func findDuplicates() -> [Element] {
         var result = [Element]()
         var duplicates = [Element]()
@@ -68,7 +68,7 @@ extension Array where Element: Equatable {
     }
 }
 
-extension UserDefaults {
+public extension UserDefaults {
 
     func save<T: Codable>(_ object: T, forKey key: String) {
         let encoder = JSONEncoder()
@@ -87,7 +87,7 @@ extension UserDefaults {
     }
 }
 
-extension NSNumber {
+public extension NSNumber {
     func toCurrency(locale: Locale?) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
@@ -98,7 +98,7 @@ extension NSNumber {
     }
 }
 
-extension Date {
+public extension Date {
     func minutes(from date: Date) -> Int {
         return Calendar.current.dateComponents([.minute], from: date, to: self).minute ?? 0
     }

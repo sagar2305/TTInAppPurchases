@@ -265,21 +265,21 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
         _selectedIndex = 0
         _configureHeaderMessageLabel()
         _configureContinueButton()
-        didTapContnueButton(nil)
+        didTapContinueButton(nil)
     }
     
     @IBAction func selectedSecondSubscription(_ sender: LGButton) {
         _selectedIndex = 1
         _configureHeaderMessageLabel()
         _configureContinueButton()
-        didTapContnueButton(nil)
+        didTapContinueButton(nil)
     }
     
     @IBAction func restorePurchases(_ sender: UIButton) {
         delegate?.restorePurchases(self)
     }
     
-    @IBAction func didTapContnueButton(_ sender: UIButton?) {
+    @IBAction func didTapContinueButton(_ sender: UIButton?) {
         delegate?.selectPlan(at: _selectedIndex, controller: self)
     }
     

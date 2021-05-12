@@ -13,129 +13,27 @@ import PhoneNumberKit
 //in memory for the object's lifecycle), you should try and make sure PhoneNumberKit is allocated once
 //and deallocated when no longer needed.
 
-struct PhoneNumberHelper {
-    static let shared = PhoneNumberHelper()
+public struct PhoneNumberHelper {
+    public static let shared = PhoneNumberHelper()
     let phoneNumberKit: PhoneNumberKit
     let partialFormatter: PartialFormatter
     
-    private init() {
-        phoneNumberKit = PhoneNumberKit()
-        partialFormatter = PartialFormatter()
-    }
-    
-    // MARK: - Registered Phone
-    
-    func registeredPhoneNumber() -> PhoneNumber? {
-        #if targetEnvironment(simulator)
-        return phoneNumber(from: "+16505551111")
-        #endif
-        
-        let number: PhoneNumber? = UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.verifiedNumberKey)
-        return number
-    }
-    
-    func setRegisteredPhoneNumber(phoneNumber: PhoneNumber) {
-        UserDefaults.standard.save(phoneNumber, forKey: Constants.CallRecorderDefaults.verifiedNumberKey)
-    }
-    
-    func callerId() -> String {
-        var number = registeredPhoneNumber()!.e164String
-        number.remove(at: number.startIndex)
-        return number
-    }
-    
-    func phoneNumber(from num: String?) -> PhoneNumber? {
-        guard let num = num else {
-            return nil
-        }
-        
-        var number: PhoneNumber?
-        do {
-            number = try phoneNumberKit.parse(num)
-        } catch {
-//            print("exception while generating number - \(string)")
-        }
-        return number
-    }
-    
-    func e164Format(from string: String) -> String? {
-        guard let number = phoneNumber(from: string) else {
-            return nil
-        }
-        return e164Format(from: number)
-    }
-    
-    private func _internationalFormat(from string: String) -> String? {
-        guard let number = phoneNumber(from: string) else {
-            return nil
-        }
-        return internationalFormat(from: number)
-    }
-    
-    func e164Format(from number: PhoneNumber) -> String {
-        let e164 = phoneNumberKit.format(number, toType: .e164)
-        return e164
-    }
-    
-    func internationalFormat(from number: PhoneNumber) -> String {
-        let international = partialFormatter.formatPartial(number.e164String)
-        return international
-    }
-    
-    func countryFlag(from number: PhoneNumber) -> String? {
-       return number.regionID? .unicodeScalars
-            .map({ 127397 + $0.value })
-            .compactMap(UnicodeScalar.init)
-            .map(String.init)
-            .joined()       
-    }
-    
-    func countryName(from number: PhoneNumber) -> String? {
-        guard let countryCode = number.regionID else { return nil }
-        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
-            return name
-        } else {
-            return countryCode
-        }
-    }
-    
-    func filter(_ numbers: [PhoneNumber], for countryCode: UInt64) -> [PhoneNumber] {
-        return numbers.filter { phoneNumber in
-            return phoneNumber.countryCode == countryCode
-        }
-    }
-    
-    func setAccessNumber(_ number: PhoneNumber) {
-        let currentAccessNumber: PhoneNumber?  = UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey)
-        if currentAccessNumber != nil {
-            AnalyticsHelper.shared.logEvent(.accessNumberChanged,
-                                                     properties: [
-                                                        .oldAccessNumber: currentAccessNumber!.e164String,
-                                                        .newAccessNumber: number.e164String
-            ])
-        }
-        
-        User.shared.saveUserProperty(.accessNumber, value: number.e164String)
-        UserDefaults.standard.save(number, forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey)
-        PhoneContactsHelper.shared.saveAccessNumberToContacts()
-    }
-    
-    var accessNumber: PhoneNumber {
+    public var  accessNumber: PhoneNumber {
         UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey) ?? Constants.CallRecorder.backupAccessNumber
     }
     
-    var countryCodeForRegisteredNumber: UInt64 {
+    public var  countryCodeForRegisteredNumber: UInt64 {
         guard let registeredPhoneNumber = registeredPhoneNumber() else {
             return 1
         }
         return registeredPhoneNumber.countryCode
     }
     
-    var isIndianUser: Bool {
+    public var  isIndianUser: Bool {
         return countryCodeForRegisteredNumber == 91 ? true : false
     }
     
-    var tutorialPhoneNumberForUser: String {
+    public var  tutorialPhoneNumberForUser: String {
         switch countryCodeForRegisteredNumber {
         case 1: return "+12138554022"
         case 33: return "+33186262071"
@@ -167,7 +65,7 @@ struct PhoneNumberHelper {
     39 => Italy
     */
     
-    var incomingCallerName: String {
+    public var  incomingCallerName: String {
         let availableNamesCountryCode: [UInt64] = [1, 33, 34, 49, 81, 7, 91, 39]
         if availableNamesCountryCode.contains(countryCodeForRegisteredNumber) {
             switch countryCodeForRegisteredNumber {
@@ -195,5 +93,107 @@ struct PhoneNumberHelper {
             default: return "John Appleseed"
             }
         }
+    }
+    
+    private init() {
+        phoneNumberKit = PhoneNumberKit()
+        partialFormatter = PartialFormatter()
+    }
+    
+    // MARK: - Registered Phone
+    
+    public func registeredPhoneNumber() -> PhoneNumber? {
+//        #if targetEnvironment(simulator)
+//        return phoneNumber(from: "+16505551111")
+//        #endif
+        
+        let number: PhoneNumber? = UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.verifiedNumberKey)
+        return number
+    }
+    
+    public func setRegisteredPhoneNumber(phoneNumber: PhoneNumber) {
+        UserDefaults.standard.save(phoneNumber, forKey: Constants.CallRecorderDefaults.verifiedNumberKey)
+    }
+    
+    public func callerId() -> String {
+        var number = registeredPhoneNumber()!.e164String
+        number.remove(at: number.startIndex)
+        return number
+    }
+    
+    public func phoneNumber(from num: String?) -> PhoneNumber? {
+        guard let num = num else {
+            return nil
+        }
+        
+        var number: PhoneNumber?
+        do {
+            number = try phoneNumberKit.parse(num)
+        } catch {
+//            print("exception while generating number - \(string)")
+        }
+        return number
+    }
+    
+    public func e164Format(from string: String) -> String? {
+        guard let number = phoneNumber(from: string) else {
+            return nil
+        }
+        return e164Format(from: number)
+    }
+    
+    private func _internationalFormat(from string: String) -> String? {
+        guard let number = phoneNumber(from: string) else {
+            return nil
+        }
+        return internationalFormat(from: number)
+    }
+    
+    public func e164Format(from number: PhoneNumber) -> String {
+        let e164 = phoneNumberKit.format(number, toType: .e164)
+        return e164
+    }
+    
+    public func internationalFormat(from number: PhoneNumber) -> String {
+        let international = partialFormatter.formatPartial(number.e164String)
+        return international
+    }
+    
+    public func countryFlag(from number: PhoneNumber) -> String? {
+       return number.regionID? .unicodeScalars
+            .map({ 127397 + $0.value })
+            .compactMap(UnicodeScalar.init)
+            .map(String.init)
+            .joined()       
+    }
+    
+    public func countryName(from number: PhoneNumber) -> String? {
+        guard let countryCode = number.regionID else { return nil }
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+            return name
+        } else {
+            return countryCode
+        }
+    }
+    
+    public func filter(_ numbers: [PhoneNumber], for countryCode: UInt64) -> [PhoneNumber] {
+        return numbers.filter { phoneNumber in
+            return phoneNumber.countryCode == countryCode
+        }
+    }
+    
+    public func setAccessNumber(_ number: PhoneNumber) {
+        let currentAccessNumber: PhoneNumber?  = UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey)
+        if currentAccessNumber != nil {
+            AnalyticsHelper.shared.logEvent(.accessNumberChanged,
+                                                     properties: [
+                                                        .oldAccessNumber: currentAccessNumber!.e164String,
+                                                        .newAccessNumber: number.e164String
+            ])
+        }
+        
+        User.shared.saveUserProperty(.accessNumber, value: number.e164String)
+        UserDefaults.standard.save(number, forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey)
+        PhoneContactsHelper.shared.saveAccessNumberToContacts()
     }
 }

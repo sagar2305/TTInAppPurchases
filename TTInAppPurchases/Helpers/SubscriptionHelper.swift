@@ -10,32 +10,23 @@ import UIKit
 import Purchases
 import Amplitude
 
-class SubscriptionHelper {
+public class SubscriptionHelper {
     
-    enum InAppPurchaseError: Error {
+    public enum InAppPurchaseError: Error {
         case noProductsAvailable
         case purchasedFailed
         case userCancelledPurchase
     }
     
-    enum EventForSubscription {
-        case call
-        case giftOffer
-        case onFirstOnBoardingCompletion
-        case playRecording
-        case transcribeRecording
-        case shareRecording
-    }
-    
-    static let shared = SubscriptionHelper()
-    typealias CompletionHandler = (_ product: [IAPProduct]?, InAppPurchaseError?) -> Void
-    typealias PurchaseCompletion = (_ success: Bool, InAppPurchaseError?) -> Void
+    public static let shared = SubscriptionHelper()
+    public typealias CompletionHandler = (_ product: [IAPProduct]?, InAppPurchaseError?) -> Void
+    public typealias PurchaseCompletion = (_ success: Bool, InAppPurchaseError?) -> Void
     
     private init() {
         refreshPurchaseInfo()
     }
     
-    private(set) var isProUser: Bool = false
+    private(set) public var isProUser: Bool = false
     
     private func _process(purchaserInfo: Purchases.PurchaserInfo?) {
         guard let purchaserInfo = purchaserInfo else {
@@ -49,17 +40,17 @@ class SubscriptionHelper {
         }
     }
     
-    func refreshPurchaseInfo() {
+    public func refreshPurchaseInfo() {
         Purchases.shared.purchaserInfo { (purchaserInfo, _) in
             self._process(purchaserInfo: purchaserInfo)
         }
     }
     
-    static func attributedFeatureText(_ feature: String) -> String {
+    static public func attributedFeatureText(_ feature: String) -> String {
         return "✓  " + feature
     }
 
-    func restorePurchases(_ completionHandler: @escaping PurchaseCompletion) {
+    public func restorePurchases(_ completionHandler: @escaping PurchaseCompletion) {
         Purchases.shared.restoreTransactions { (purchaserInfo, error) in
             guard error == nil else {
                 AnalyticsHelper.shared.logEvent(.restorationFailure,
@@ -79,7 +70,7 @@ class SubscriptionHelper {
         }
     }
     
-//    private func _offeringIdentifier(for event: EventForSubscription) -> String {
+//    private public func _offeringIdentifier(for event: EventForSubscription) -> String {
 //        switch event {
 //        case .playRecording,
 //             .transcribeRecording,
@@ -94,7 +85,7 @@ class SubscriptionHelper {
 //    }
     
     
-    func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping CompletionHandler) {
+    public func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping CompletionHandler) {
         var availableProducts: [IAPProduct]?
         Purchases.shared.offerings { (offerings, _) in
             if let offerings = offerings {
@@ -119,7 +110,7 @@ class SubscriptionHelper {
         }
     }
     
-    func purchasePackage(_ package: IAPProduct, _ completionHandler: @escaping PurchaseCompletion) {
+    public func purchasePackage(_ package: IAPProduct, _ completionHandler: @escaping PurchaseCompletion) {
         AnalyticsHelper.shared.logEvent(.initiatesPurchase,
                                                  properties: [
                                                     .productId: package.product.productIdentifier,

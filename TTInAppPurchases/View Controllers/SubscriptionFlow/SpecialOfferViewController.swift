@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SpecialOfferViewControllerDelegate: class {
+public protocol SpecialOfferViewControllerDelegate: class {
     func viewDidLoad(_ controller: SpecialOfferViewController)
     func viewWillAppear(_ controller: SpecialOfferViewController)
     func restorePurchases(_ controller: SpecialOfferViewController)
@@ -19,7 +19,7 @@ protocol SpecialOfferViewControllerDelegate: class {
     func purchaseOffer(_ controller: SpecialOfferViewController)
 }
 
-protocol SpecialOfferUIProviderDelegate: class {
+public protocol SpecialOfferUIProviderDelegate: class {
     func productsFetched() -> Bool
     func originalPrice() -> String
     func discountedPrice() -> String
@@ -27,10 +27,10 @@ protocol SpecialOfferUIProviderDelegate: class {
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
 }
 
-class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerProtocol {
+public class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerProtocol {
     
-    weak var delegate: SpecialOfferViewControllerDelegate?
-    weak var uiProviderDelegate: SpecialOfferUIProviderDelegate?
+    public weak var delegate: SpecialOfferViewControllerDelegate?
+    public weak var uiProviderDelegate: SpecialOfferUIProviderDelegate?
 
     private var borderLayer: CALayer!
     private var lastBounds: CGRect!
@@ -59,7 +59,7 @@ class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerPr
     @IBOutlet weak var privacyPolicyAndTermsLabel: UILabel!
     @IBOutlet weak var restoreButton: UIButton!
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         delegate?.viewDidLoad(self)
         _configureVerticalSpaceBetweenContinueAndFeatureList()
@@ -76,7 +76,7 @@ class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerPr
         _configureCancelButton()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
         print("**********uiProviderDelegate!.productsFetched() else ")
@@ -87,7 +87,7 @@ class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerPr
                                                object: nil)
     }
     
-    override func viewDidLayoutSubviews() {
+    public override  func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         _configureOfferDescriptionView()
     }
@@ -316,7 +316,7 @@ class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerPr
         delegate?.didTapCancelButton(self)
     }
     
-    func updateTimer(_ timeString: String) {
+    public func updateTimer(_ timeString: String) {
         offerTimerLabel.text = timeString
     }
 }

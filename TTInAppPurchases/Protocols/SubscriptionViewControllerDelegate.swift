@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SubscriptionViewControllerDelegate: class {
+public protocol SubscriptionViewControllerDelegate: class {
     func viewWillAppear(_ controller: SubscriptionViewControllerProtocol)
     func viewDidAppear(_ controller: SubscriptionViewControllerProtocol)
     func exit(_ controller: SubscriptionViewControllerProtocol)

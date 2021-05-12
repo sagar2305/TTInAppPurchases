@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SubscriptionViewControllerProtocol: UIViewController {
+public protocol SubscriptionViewControllerProtocol: UIViewController {
     var delegate: SubscriptionViewControllerDelegate? { get set }
     var uiProviderDelegate: UpgradeUIProviderDelegate? { get set }
     var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate? { get set }

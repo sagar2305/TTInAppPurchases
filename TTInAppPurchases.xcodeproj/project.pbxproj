@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B303496264BC11F00B720A1 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 1B303495264BC11F00B720A1 /* Resources */; };
 		1B42B36B26480E230004F76B /* Helpers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36826480E230004F76B /* Helpers */; };
 		1B42B3742648C39D0004F76B /* View Controllers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36E2648C39D0004F76B /* View Controllers */; };
 		1B42B3752648C39D0004F76B /* Models in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36F2648C39D0004F76B /* Models */; };
 		1B42B3762648C39D0004F76B /* Extensions in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B3702648C39D0004F76B /* Extensions */; };
 		1B42B3782648C39D0004F76B /* Protocols in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B3722648C39D0004F76B /* Protocols */; };
-		1B42B37B2648C5090004F76B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B37A2648C5090004F76B /* Assets.xcassets */; };
 		1BD9B98E2646AD9C00176112 /* TTInAppPurchases.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ED56358B1EAD6864EE0A6A87 /* Pods_TTInAppPurchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A54482FAB15624ACBFDAB26 /* Pods_TTInAppPurchases.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.release.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.release.xcconfig"; sourceTree = "<group>"; };
+		1B303495264BC11F00B720A1 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		1B42B36826480E230004F76B /* Helpers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpers; sourceTree = "<group>"; };
 		1B42B36E2648C39D0004F76B /* View Controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "View Controllers"; sourceTree = "<group>"; };
 		1B42B36F2648C39D0004F76B /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
 		1B42B3702648C39D0004F76B /* Extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Extensions; sourceTree = "<group>"; };
 		1B42B3722648C39D0004F76B /* Protocols */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Protocols; sourceTree = "<group>"; };
-		1B42B37A2648C5090004F76B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1BD9B9892646AD9C00176112 /* TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTInAppPurchases.h; sourceTree = "<group>"; };
 		1BD9B98D2646AD9C00176112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,7 +47,6 @@
 		1BD9B97F2646AD9C00176112 = {
 			isa = PBXGroup;
 			children = (
-				1B42B37A2648C5090004F76B /* Assets.xcassets */,
 				1BD9B98B2646AD9C00176112 /* TTInAppPurchases */,
 				1BD9B98A2646AD9C00176112 /* Products */,
 				8AEFB8A644421D17D4A63874 /* Pods */,
@@ -66,6 +65,7 @@
 		1BD9B98B2646AD9C00176112 /* TTInAppPurchases */ = {
 			isa = PBXGroup;
 			children = (
+				1B303495264BC11F00B720A1 /* Resources */,
 				1B42B3702648C39D0004F76B /* Extensions */,
 				1B42B36826480E230004F76B /* Helpers */,
 				1B42B36F2648C39D0004F76B /* Models */,
@@ -165,9 +165,9 @@
 			files = (
 				1B42B3752648C39D0004F76B /* Models in Resources */,
 				1B42B3742648C39D0004F76B /* View Controllers in Resources */,
+				1B303496264BC11F00B720A1 /* Resources in Resources */,
 				1B42B3782648C39D0004F76B /* Protocols in Resources */,
 				1B42B36B26480E230004F76B /* Helpers in Resources */,
-				1B42B37B2648C5090004F76B /* Assets.xcassets in Resources */,
 				1B42B3762648C39D0004F76B /* Extensions in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SpecialOfferViewControllerProtocol: UIViewController {
+public protocol SpecialOfferViewControllerProtocol: UIViewController {
     var delegate: SpecialOfferViewControllerDelegate? { get set}
     var uiProviderDelegate: SpecialOfferUIProviderDelegate? { get set }
     func updateTimer(_ timeString: String)

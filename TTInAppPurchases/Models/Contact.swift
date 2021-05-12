@@ -10,12 +10,12 @@ import Foundation
 import PhoneNumberKit
 import Contacts
 
-struct Contact: Codable {
-    let phoneNumber: PhoneNumber
-    let name: String
-    let thumbnail: Data? //image
+public struct Contact: Codable {
+    public let phoneNumber: PhoneNumber
+    public let name: String
+    public let thumbnail: Data? //image
     
-    init(with cnContact: CNContact, number: PhoneNumber) {
+    public init(with cnContact: CNContact, number: PhoneNumber) {
         let formatter = CNContactFormatter()
         formatter.style = .fullName
         name = formatter.string(from: cnContact) ?? ""
@@ -24,12 +24,12 @@ struct Contact: Codable {
         thumbnail = cnContact.thumbnailImageData
     }
     
-    var displayImage: UIImage? {
+    public var displayImage: UIImage? {
         return thumbnail != nil ? UIImage(data: thumbnail!) : nil
     }
 }
 
-extension Contact {
+public extension Contact {
     /// Please supply phoneNumber in .E164 format
     static func cache(contact: Contact, for phoneNumber: String) {
         var contacts: [String: Contact] = [:]

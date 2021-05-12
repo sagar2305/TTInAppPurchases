@@ -7,19 +7,19 @@
 
 import UIKit
 /// Use this class to extract commao alerts application
-struct AlertMessageHelper {
+public struct AlertMessageHelper {
     
-    static let shared = AlertMessageHelper()
+    public static let shared = AlertMessageHelper()
     private init() { }
 
-    func presentAlert(message: String) {
+    public func presentAlert(message: String) {
         UIAlertView(title: "Something went wrong!".localized,
                     description: message,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: { })
         ).present()
     }
     
-    func presentMicrophoneAccessDeniedAlert() {
+    public func presentMicrophoneAccessDeniedAlert() {
         UIAlertView(title: "Permission Denied!".localized,
                     description: "Please grant permission to use the microphone".localized,
                     actions: UIAlertView.Action(title: "Cancel".localized, onSelect: {}),
@@ -29,35 +29,35 @@ struct AlertMessageHelper {
         ).present()
     }
     
-    func presentInvalidPhoneNumberAlert(_ completion: @escaping () -> Void) {
+    public func presentInvalidPhoneNumberAlert(_ completion: @escaping () -> Void) {
         UIAlertView(title: "Invalid Number".localized,
                     description: "Please check the number you have entered".localized,
                     actions: UIAlertView.Action(title: "EDIT".localized, onSelect: completion)
         ).present()
     }
     
-    func presentFailedToVerifyNumberAtFirebaseEndAlert() {
+    public func   presentFailedToVerifyNumberAtFirebaseEndAlert() {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to complete the verification, please check your phone number and try again".localized,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: { })
         ).present()
     }
     
-    func presentInvalidOTPAlert(_ completion: @escaping () -> Void) {
+    public func presentInvalidOTPAlert(_ completion: @escaping () -> Void) {
         UIAlertView(title: "Invalid code".localized,
                     description: "The verification code you’ve entered is incorrect, please try again".localized,
                     actions: UIAlertView.Action(title: "EDIT".localized, onSelect: completion)
         ).present()
     }
     
-    func presentInternetConnectionUnavailableAlert() {
+    public func presentInternetConnectionUnavailableAlert() {
         UIAlertView(title: "No Internet Connection".localized,
                     description: "Please make sure that your connected to a network".localized,
                     actions: UIAlertView.Action(title: "OK".localized.localized, onSelect: { })
         ).present()
     }
     
-    func presentProductUnavailableAlert( onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
+    public func presentProductUnavailableAlert( onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to initiate your purchases, please try again".localized,
                     actions: UIAlertView.Action(title: "Cancel".localized, onSelect: onCancel),
@@ -65,7 +65,7 @@ struct AlertMessageHelper {
         ).present()
     }
     
-    func presentPurchaseFailedAlert(onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
+    public func presentPurchaseFailedAlert(onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to complete your purchase, please try again".localized,
                     actions: UIAlertView.Action(title: "Cancel".localized, onSelect: onCancel),
@@ -73,7 +73,7 @@ struct AlertMessageHelper {
         ).present()
     }
     
-    func presentRestorationFailedAlert(onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
+    public func presentRestorationFailedAlert(onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to restore your purchase, please try again".localized,
                     actions: UIAlertView.Action(title: "Cancel".localized, onSelect: onCancel),
@@ -81,28 +81,28 @@ struct AlertMessageHelper {
         ).present()
     }
     
-    func presentAlreadyProAlert(_ completion: @escaping () -> Void) {
+    public func presentAlreadyProAlert(_ completion: @escaping () -> Void) {
         UIAlertView(title: "Success".localized,
                     description: "You are already a pro user with access to all the app features".localized,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: completion)
         ).present()
     }
     
-    func presentTrancriptionNotAvailableAlert() {
+    public func presentTranscriptionNotAvailableAlert() {
         UIAlertView(title: "Not Available".localized,
                     description: "Transcription service is not availabel for selected langauage at present, please try after some time".localized,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: {})
         ).present()
     }
     
-    func presentTranscriptionFailedError() {
+    public func   presentTranscriptionFailedError() {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to transcribe your audio currently, please try after some time".localized,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: {})
         ).present()
     }
     
-    func presentTranscriptionPermissionDeniedAlert() {
+    public func   presentTranscriptionPermissionDeniedAlert() {
         UIAlertView(title: "Permission Denied!".localized,
                     description: "Please grant permission to transcribe your audio".localized,
                     actions: UIAlertView.Action(title: "Cancel".localized, onSelect: {}),

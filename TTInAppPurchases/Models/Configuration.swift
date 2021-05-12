@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Configuration: Codable {
-    var accessNumberVersion: Int
-    var minimumVersion: String
-    var inReview: Bool
-    var freeUserRecordingPlaybackDuration: Int
-    var reviewPromptOnStartup: Bool
-    var lifetimePlan: Bool
-    var lifetimePlanAllCountries: Bool
+public struct Configuration: Codable {
+    public var accessNumberVersion: Int
+    public var minimumVersion: String
+    public var inReview: Bool
+    public var freeUserRecordingPlaybackDuration: Int
+    public var reviewPromptOnStartup: Bool
+    public var lifetimePlan: Bool
+    public var lifetimePlanAllCountries: Bool
 }

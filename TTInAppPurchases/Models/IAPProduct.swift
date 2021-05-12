@@ -9,14 +9,14 @@
 import Foundation
 import Purchases
 
-struct IAPProduct {
-    let identifier: String
+public struct IAPProduct {
+    public let   identifier: String
     private let _price: String
     private let _introductoryPrice: String
-    let product: SKProduct
-    let offersFreeTrial: Bool
-    let packageType: Purchases.PackageType
-    let package: Purchases.Package
+    public let   product: SKProduct
+    public let   offersFreeTrial: Bool
+    public let   packageType: Purchases.PackageType
+    public let   package: Purchases.Package
     
     private var _durationSuffix: String {
         switch packageType {
@@ -33,7 +33,7 @@ struct IAPProduct {
         }
     }
     
-    var displayName: String {
+    public var displayName: String {
         switch packageType {
         case .annual:
             return "Yearly Premium".localized
@@ -48,19 +48,19 @@ struct IAPProduct {
         }
     }
     
-    var price: String {
+    public var price: String {
         return _price
     }
     
-    var introductoryPrice: String {
+    public var introductoryPrice: String {
         return _introductoryPrice
     }
     
-    var introductoryPriceWithDurationSuffix: String {
+    public var introductoryPriceWithDurationSuffix: String {
         return _introductoryPrice + _durationSuffix
     }
     
-    var priceWithDurationSuffix: String {
+    public var priceWithDurationSuffix: String {
         return _price + _durationSuffix
     }
     

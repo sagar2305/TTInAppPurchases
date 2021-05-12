@@ -8,30 +8,30 @@
 
 import Foundation
 
-struct User {
+public struct User {
     
-    static let shared = User()
+    public static let shared = User()
     
     private init() { }
     
-    var accessNumber: String {
+    public var accessNumber: String {
         UserDefaults.standard.string(forKey: Constants.CallRecorderDefaults.selectedAccessNumberKey)
             ?? Constants.CallRecorder.backupAccessNumber.e164String
     }
     
-    func setUserId(_ userId: String) {
+    public func setUserId(_ userId: String) {
         UserDefaults.standard.set(userId, forKey: Constants.CallRecorderDefaults.userId)
     }
     
-    func setDeviceId(_ deviceId: String) {
+    public func setDeviceId(_ deviceId: String) {
         UserDefaults.standard.set(deviceId, forKey: Constants.CallRecorderDefaults.deviceId)
     }
 
-    var phoneNumber: String {
+    public var phoneNumber: String {
         PhoneNumberHelper.shared.registeredPhoneNumber()?.e164String ?? "--"
     }
     
-    func saveUserProperty(_ property: Constants.AnalyticsUserProperties, value: String) {
+    public func saveUserProperty(_ property: Constants.AnalyticsUserProperties, value: String) {
         //check if user properties are already stored in user defaults
         DispatchQueue.global().async {
             if var userProperties = UserDefaults.standard.value(forKey: Constants.CallRecorderDefaults.userPropertiesKey) as? [String: Any] {
@@ -45,7 +45,7 @@ struct User {
         }
     }
     
-    func incrementPropertyValue(_ property: Constants.AnalyticsUserProperties) {
+    public func incrementPropertyValue(_ property: Constants.AnalyticsUserProperties) {
         DispatchQueue.global().async {
             if var userProperties = UserDefaults.standard.value(forKey: Constants.CallRecorderDefaults.userPropertiesKey) as? [String: Any],
                 var currentValue = userProperties[property.rawValue] as? Int {

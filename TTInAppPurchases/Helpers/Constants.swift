@@ -8,102 +8,102 @@
 
 import Foundation
 
-struct Constants {
-    struct RevenueCat {
-        static let apiKey = "MoLhuBBtzrRhsnUcqvRjHffckdYwfUEX"
+public struct Constants {
+    public struct RevenueCat {
+        public static let apiKey = "MoLhuBBtzrRhsnUcqvRjHffckdYwfUEX"
     }
     
-    struct Qonversion {
-        static let apiKey = "w0vcdbHWssRpyzklG24RvbAR3t9fDYXz"
+    public struct Qonversion {
+        public static let apiKey = "w0vcdbHWssRpyzklG24RvbAR3t9fDYXz"
     }
     
-    struct Amplitude {
-        static let liveAPIKey = "756fb5f2409d9c0f25de90811a097850"
-        static let devAPIKey = "16c6f8537a7da60e7ce27e6dc42defa3"
+    public struct Amplitude {
+        public static let liveAPIKey = "756fb5f2409d9c0f25de90811a097850"
+        public static let devAPIKey = "16c6f8537a7da60e7ce27e6dc42defa3"
     }
     
-    struct Mixpanel {
-        static let liveAPIKey = "a183c69686c8434ed5adc954f7e74710"
-        static let devAPIKey = "c83bcb489dd8bb1fc7466a3ff1d7c1bb"
+    public struct Mixpanel {
+        public static let liveAPIKey = "a183c69686c8434ed5adc954f7e74710"
+        public static let devAPIKey = "c83bcb489dd8bb1fc7466a3ff1d7c1bb"
     }
     
-    struct AppsFlyer {
-        static let sdkKey = "GfL9ihNS8aC3vVjv4QgaK6"
+    public struct AppsFlyer {
+        public static let sdkKey = "GfL9ihNS8aC3vVjv4QgaK6"
     }
     
-    struct Offering {
-//        static let onlyAnnualDiscountedNoTrialOnboarding = "onlyannualdiscounted_notrial_onboarding"
-//        static let onlyAnnualDiscountedNoTrialHomeScreen = "onlyannualdiscounted_notrial_homescreen"
-//        static let onlyAnnualDiscountedNoTrialRecordingScreen = "onlyannualdiscounted_notrial_recordingscreen"
-//        static let weeklyAndAnnualReduced = "weeklyandannualreduced"
-//        static let annualReducedSpecialOffer = "annualreduced"
-        static let annualFullPriceAndSpecialOffer = "annualfullpriceandspecialoffer"
-        static let lifetime = "lifetime"
+    public struct Offering {
+//        public static let onlyAnnualDiscountedNoTrialOnboarding = "onlyannualdiscounted_notrial_onboarding"
+//        public static let onlyAnnualDiscountedNoTrialHomeScreen = "onlyannualdiscounted_notrial_homescreen"
+//        public static let onlyAnnualDiscountedNoTrialRecordingScreen = "onlyannualdiscounted_notrial_recordingscreen"
+//        public static let weeklyAndAnnualReduced = "weeklyandannualreduced"
+//        public static let annualReducedSpecialOffer = "annualreduced"
+        public static let annualFullPriceAndSpecialOffer = "annualfullpriceandspecialoffer"
+        public static let lifetime = "lifetime"
     }
     
-    struct CallRecorder {
-        static let shakeDuration: CFTimeInterval = 0.5
-        static let backupAccessNumber = PhoneNumberHelper.shared.phoneNumber(from: "+12138554064")!
-        static let appUrl = "http://itunes.apple.com/app/id1512476140"
+    public struct CallRecorder {
+        public static let shakeDuration: CFTimeInterval = 0.5
+        public static let backupAccessNumber = PhoneNumberHelper.shared.phoneNumber(from: "+12138554064")!
+        public static let appUrl = "http://itunes.apple.com/app/id1512476140"
     }
     
-    struct FirebaseConstants {
-        static let hasUserMadeFirstFreeCall = "hasUserMadeFirstFreeCall"
-        static let callCountInTrialPeriod = "CallCountInTrailPeriod"
+    public struct FirebaseConstants {
+        public static let hasUserMadeFirstFreeCall = "hasUserMadeFirstFreeCall"
+        public static let callCountInTrialPeriod = "CallCountInTrailPeriod"
     }
     
-    struct CallRecorderDefaults {
-        static let userId = "UserID"
-        static let deviceId = "DeviceID"
-        static let isUserOnBoarded = "IsUserOnBoardedd"
-        static let hasUserUsedInteractiveGuide = "HasUserUsedIntractiveGuide"
-        static let sectionsKey = "CallRecorderSectionsKey"
-        static let recentContactsListKey = "RecentContactssListKey"
-        static let recordingsFetchedDateKey = "CallRecorderRecordingsFetchedDateKey"
-        static let savedContactsKey = "CallRecorderSavedContactsKey"
-        static let verifiedNumberKey = "CallRecorderVerifiedNumberKey"
-        static let cachedAccessNumberKey = "CallRecorderCachedAccessNumberKey"
-        static let selectedAccessNumberKey = "CallRecorderAccessNumberKey"
-        static let timeWhenFirstSubscriptionScreenShownKey = "SubscriptionScreenFirstDisplayKey"
-        static let firstTimeUserShownHomeScreen = "firstTimeUserShownHomeScreen"
-        static let lastReviewRequestDate = "lastReviewRequestDate"
-        static let currentAppConfiguration = "CurrentAPPConfiguration"
-        static let userPropertiesKey = "UserPropertyKey"
-        static let haveUserPlayedFirstRecordingKey = "UserPlayedFirstRecording"
-        static let transcriptionLanguageKey = "TranscriptionLanguageKey"
-        static let haveUserGuidedForCallMergeKey = "UserBeenGuidedForCallMergeKey"
-        static let widgetURLKey = "URLPassedFromWidgetKey"
-        static let appOpenedCountKey = "AppOpnedCountKey"
-        static let lastFetchedFreeCallStatusKey = "LastFetchedFreeCallStatus"
-        static let callIDOfCallsUploadedToiCloudKey = "CallIDOfCallsUploadedToiCloud"
-        static let lastFetchDateBackupStatusKey = "LastFetchDateBackupStatus"
-        static let callIdMarkedForDeletionKey = "CallIDMarkedForDeletionFromICloud"
-        static let lastFetchedDateiCloudRecordIDKey = "LastFetchedDateiCloudRecordID"
-        static let subscribedToCallRecordChangesKey = "subscribedToCallRecordChangesKey"
-        static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
+    public struct CallRecorderDefaults {
+        public static let userId = "UserID"
+        public static let deviceId = "DeviceID"
+        public static let isUserOnBoarded = "IsUserOnBoardedd"
+        public static let hasUserUsedInteractiveGuide = "HasUserUsedIntractiveGuide"
+        public static let sectionsKey = "CallRecorderSectionsKey"
+        public static let recentContactsListKey = "RecentContactssListKey"
+        public static let recordingsFetchedDateKey = "CallRecorderRecordingsFetchedDateKey"
+        public static let savedContactsKey = "CallRecorderSavedContactsKey"
+        public static let verifiedNumberKey = "CallRecorderVerifiedNumberKey"
+        public static let cachedAccessNumberKey = "CallRecorderCachedAccessNumberKey"
+        public static let selectedAccessNumberKey = "CallRecorderAccessNumberKey"
+        public static let timeWhenFirstSubscriptionScreenShownKey = "SubscriptionScreenFirstDisplayKey"
+        public static let firstTimeUserShownHomeScreen = "firstTimeUserShownHomeScreen"
+        public static let lastReviewRequestDate = "lastReviewRequestDate"
+        public static let currentAppConfiguration = "CurrentAPPConfiguration"
+        public static let userPropertiesKey = "UserPropertyKey"
+        public static let haveUserPlayedFirstRecordingKey = "UserPlayedFirstRecording"
+        public static let transcriptionLanguageKey = "TranscriptionLanguageKey"
+        public static let haveUserGuidedForCallMergeKey = "UserBeenGuidedForCallMergeKey"
+        public static let widgetURLKey = "URLPassedFromWidgetKey"
+        public static let appOpenedCountKey = "AppOpnedCountKey"
+        public static let lastFetchedFreeCallStatusKey = "LastFetchedFreeCallStatus"
+        public static let callIDOfCallsUploadedToiCloudKey = "CallIDOfCallsUploadedToiCloud"
+        public static let lastFetchDateBackupStatusKey = "LastFetchDateBackupStatus"
+        public static let callIdMarkedForDeletionKey = "CallIDMarkedForDeletionFromICloud"
+        public static let lastFetchedDateiCloudRecordIDKey = "LastFetchedDateiCloudRecordID"
+        public static let subscribedToCallRecordChangesKey = "subscribedToCallRecordChangesKey"
+        public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
     }
     
-    struct SettingsDefaults {
-        static let isAppLaunch = "IsApplicationLaunch"
-        static let feedbackEmail = "support@eztape.app"
+    public struct SettingsDefaults {
+        public static let isAppLaunch = "IsApplicationLaunch"
+        public static let feedbackEmail = "support@eztape.app"
     }
     
-    struct API {
-        static let version = "v1"
+    public struct API {
+        public static let version = "v1"
         private static let _baseUrl = "https://api.eztape.app/" + version
         
-        static let getAccessNumbers = _baseUrl + "/lists/accessnumbers"
-        static let getRecordings = _baseUrl + "/lists/recordings"
-        static let configurationAPI = _baseUrl + "/lists/appconfig"
+        public static let getAccessNumbers = _baseUrl + "/lists/accessnumbers"
+        public static let getRecordings = _baseUrl + "/lists/recordings"
+        public static let configurationAPI = _baseUrl + "/lists/appconfig"
     }
     
-    struct WebURL {
-        static let callRecordingLaws = "https://en.wikipedia.org/wiki/Telephone_call_recording_laws"
-        static let termsOfLaw = "https://eztape.app/terms-and-conditions.html"
-        static let privacyPolicy = "https://eztape.app/privacy-policy.html"
+    public struct WebURL {
+        public static let callRecordingLaws = "https://en.wikipedia.org/wiki/Telephone_call_recording_laws"
+        public static let termsOfLaw = "https://eztape.app/terms-and-conditions.html"
+        public static let privacyPolicy = "https://eztape.app/privacy-policy.html"
     }
     
-    enum Fonts: String {
+    public enum Fonts: String {
         case sofiaProLight = "SofiaProLight"
         case sofiaProExtralight = "SofiaProExtraLight"
         case sofiaProMedium = "SofiaProMedium"
@@ -115,9 +115,9 @@ struct Constants {
     }
         
     ///Properties that are tied to user and are stored with every single event depicting the state of the use
-    enum AnalyticsUserProperties: String, CustomStringConvertible {
+    public enum  AnalyticsUserProperties: String, CustomStringConvertible {
         
-        var description: String {
+        public var description: String {
             return self.rawValue
         }
         
@@ -136,9 +136,9 @@ struct Constants {
         case appVersion = "App Version"
     }
     
-    enum AnalyticsEvent: String, CustomStringConvertible {
+    public enum AnalyticsEvent: String, CustomStringConvertible {
         
-        var description: String {
+        public var description: String {
             return self.rawValue
         }
         
@@ -258,9 +258,9 @@ struct Constants {
         
     }
 
-    enum AnalyticsEventProperties: String, CustomStringConvertible {
+    public enum AnalyticsEventProperties: String, CustomStringConvertible {
     
-        var description: String {
+        public var description: String {
             return self.rawValue
         }
         
@@ -306,28 +306,28 @@ struct Constants {
     }
 }
 
-struct CloudKitConstants {
-    static let containerID = "iCloud.com.triviatribe.callrecorder"
+public struct CloudKitConstants {
+    public static let containerID = "iCloud.com.triviatribe.callrecorder"
     
-    struct Records {
-        static let call = "Call"
-        static let serverFetchDate = "ServerFetchDate"
+    public struct Records {
+        public static let call = "Call"
+        public static let serverFetchDate = "ServerFetchDate"
     }
     
-    struct CallRecordFields {
-        static let callID = "callID"
-        static let direction = "direction"
-        static let duration = "duration"
-        static let startTime = "startTime"
-        static let endTime = "endTime"
-        static let fromNumber = "fromNumber"
-        static let toNumber = "toNumber"
-        static let provider = "provider"
-        static let recording = "recording"
-        static let recordingURL = "recordingURL"
+    public struct CallRecordFields {
+        public static let callID = "callID"
+        public static let direction = "direction"
+        public static let duration = "duration"
+        public static let startTime = "startTime"
+        public static let endTime = "endTime"
+        public static let fromNumber = "fromNumber"
+        public static let toNumber = "toNumber"
+        public static let provider = "provider"
+        public static let recording = "recording"
+        public static let recordingURL = "recordingURL"
     }
     
-    struct ServerFetchDateFields {
-        static let date = "date"
+    public struct ServerFetchDateFields {
+        public static let date = "date"
     }
 }

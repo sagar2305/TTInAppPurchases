@@ -11,16 +11,16 @@ import LGButton
 import NVActivityIndicatorView
 import Lottie
 
-class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewControllerProtocol {
+public class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewControllerProtocol {
 
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let lottieView = AnimationView(name: "HelloAnimation")
     
-    weak var delegate: SubscriptionViewControllerDelegate?
-    weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+    public weak var delegate: SubscriptionViewControllerDelegate?
+    public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
+    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
     private var _index = 1
     
     @IBOutlet weak var cancelButton: UIButton!
@@ -41,10 +41,10 @@ class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewC
     @IBOutlet weak var continueButton: UIButton!
     
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
-    var giftOffer: Bool = false
-    var hideCloseButton: Bool = false
+    public var giftOffer: Bool = false
+    public var hideCloseButton: Bool = false
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         _configureUI()
@@ -76,7 +76,7 @@ class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewC
         animationView.addSubview(lottieView)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.viewWillAppear(self)
         lottieView.play()

@@ -9,7 +9,7 @@
 import Foundation
 import SwiftEntryKit
 
-struct UIAlertView {
+public struct UIAlertView {
     
     struct  Action {
         var title: String

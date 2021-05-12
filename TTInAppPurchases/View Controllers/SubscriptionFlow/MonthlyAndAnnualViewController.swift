@@ -10,7 +10,7 @@ import UIKit
 import LGButton
 import NVActivityIndicatorView
 
-protocol UpgradeUIProviderDelegate: class {
+public protocol UpgradeUIProviderDelegate: class {
     func productsFetched() -> Bool
     func headerMessage(for index: Int) -> String
     func subscriptionTitle(for index: Int) -> String

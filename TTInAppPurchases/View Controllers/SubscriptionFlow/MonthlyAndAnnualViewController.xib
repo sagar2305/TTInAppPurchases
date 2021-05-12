@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -9,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonthlyAndAnnualViewController" customModule="TTInAppPurchases">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonthlyAndAnnualViewController" customModule="TTInAppPurchases" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundImageOverlayView" destination="CTt-TN-bmw" id="j6U-gD-hfo"/>
                 <outlet property="cancelButton" destination="bbs-eX-mKX" id="nNW-lP-oXc"/>
@@ -350,13 +351,21 @@
             <point key="canvasLocation" x="131.8840579710145" y="147.99107142857142"/>
         </view>
     </objects>
+    <designables>
+        <designable name="OT0-vJ-jGY">
+            <size key="intrinsicContentSize" width="10" height="10"/>
+        </designable>
+        <designable name="pNY-iw-JPM">
+            <size key="intrinsicContentSize" width="10" height="10"/>
+        </designable>
+    </designables>
     <resources>
         <image name="caller" width="6720" height="4480"/>
         <namedColor name="buttonTextColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryColor">
-            <color red="0.015686274509803921" green="0.49803921568627452" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.016000000759959221" green="0.49799999594688416" blue="0.88200002908706665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="secondaryTextColor">
             <color red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

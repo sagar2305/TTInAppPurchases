@@ -8,7 +8,6 @@ target 'TTInAppPurchases' do
 
   pod 'LGButton'
   pod 'PhoneNumberKit'
-  pod 'LGButton'
   pod 'lottie-ios'
   pod 'Purchases'
   pod 'NVActivityIndicatorView', '~> 4.8.0'

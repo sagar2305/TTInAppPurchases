@@ -16,9 +16,9 @@ import SwiftDate
 import Amplitude
 import Mixpanel
 //import AppsFlyerLib
-class AnalyticsHelper {
+public class AnalyticsHelper {
 
-    static let shared = AnalyticsHelper()
+    public static let shared = AnalyticsHelper()
     lazy var amplitudeInstance = Amplitude.instance()
     lazy var mixpanelInstance = Mixpanel.mainInstance()
 
@@ -28,31 +28,31 @@ class AnalyticsHelper {
     
     // MARK: - Properties
     
-    func createAlias(_ userId: String) {
+    public func createAlias(_ userId: String) {
         amplitudeInstance.setUserId(userId, startNewSession: false)
         mixpanelInstance.createAlias(userId, distinctId: mixpanelInstance.distinctId)
     }
     
-    func setUserId(_ userId: String) {
+    public func setUserId(_ userId: String) {
         amplitudeInstance.setUserId(userId, startNewSession: false)
         mixpanelInstance.identify(distinctId: userId)
 //        AppsFlyerLib.shared().customerUserID = userId
     }
 
     // MARK: - Event Logging
-    func logEvent(_ event: String) {
+    public func logEvent(_ event: String) {
         amplitudeInstance.logEvent(event)
         mixpanelInstance.track(event: event)
 //        AppsFlyerHelper.shared.logEvent(event: event, properties: nil)
     }
     
-    func logEvent(_ type: Constants.AnalyticsEvent) {
+    public func logEvent(_ type: Constants.AnalyticsEvent) {
         amplitudeInstance.logEvent(type.rawValue)
         mixpanelInstance.track(event: type.rawValue)
 //        AppsFlyerHelper.shared.logEvent(event: type.rawValue, properties: nil)
     }
     
-    func logEvent(_ type: Constants.AnalyticsEvent, properties: [Constants.AnalyticsEventProperties: Any]) {
+    public func logEvent(_ type: Constants.AnalyticsEvent, properties: [Constants.AnalyticsEventProperties: Any]) {
         amplitudeInstance.logEvent(type.rawValue, withEventProperties: properties)
         let mixpanelProperties = properties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
@@ -65,12 +65,12 @@ class AnalyticsHelper {
         
     }
     
-    func logRevenue(_ revenue: AMPRevenue) {
+    public func logRevenue(_ revenue: AMPRevenue) {
         amplitudeInstance.logRevenueV2(revenue)
 //        mixpanelInstance.people.trackCharge(amount: revenue.price.doubleValue)
     }
     
-    func updateUserProperties() {
+    public func updateUserProperties() {
         guard let userProperties = UserDefaults.standard.value(forKey: Constants.CallRecorderDefaults.userPropertiesKey) as? [String: Any] else {
             return
         }

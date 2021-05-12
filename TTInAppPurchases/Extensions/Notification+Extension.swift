@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Notification.Name {
+public extension Notification.Name {
     static let accessNumberFetchedNotification = Notification.Name("CallRecorderAccessNumberAreFetchedNotification")
     static let iapProductsFetchedNotification = Notification.Name("CallRecorderIAPProductsFetchedNotification")
     static let requiredPermissionsGrantedNotification = Notification.Name("CallRecorderRequiredPermissionsGrantedNotification")

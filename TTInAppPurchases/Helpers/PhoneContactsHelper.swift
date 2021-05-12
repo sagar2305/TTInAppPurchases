@@ -10,11 +10,11 @@ import Foundation
 import Contacts
 import PhoneNumberKit
 
-class PhoneContactsHelper {
-    static var shared = PhoneContactsHelper()
+public class PhoneContactsHelper {
+    public static var shared = PhoneContactsHelper()
     private var _cacheInProgress = false
     
-    func cacheContacts(for numbers: [PhoneNumber]) {
+    public func cacheContacts(for numbers: [PhoneNumber]) {
         DispatchQueue.global().async {
             if self._cacheInProgress {
                 return
@@ -60,7 +60,7 @@ class PhoneContactsHelper {
         return results
     }
     
-    func saveAccessNumberToContacts() {
+    public func saveAccessNumberToContacts() {
         let store = CNContactStore()
         guard CNContactStore.authorizationStatus(for: .contacts) == .authorized else { return }
         

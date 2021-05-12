@@ -10,7 +10,7 @@ import NVActivityIndicatorView
 import PhoneNumberKit
 import LGButton
 
-extension CALayer {
+public extension CALayer {
     func applySketchShadow(color: UIColor, alpha: Float, position: CGPoint, blur: CGFloat, spread: CGFloat) {
         shadowColor = color.cgColor
         shadowOpacity = alpha
@@ -26,7 +26,7 @@ extension CALayer {
     }
 }
 
-extension NVActivityIndicatorView {
+public extension NVActivityIndicatorView {
     static func start() {
         let activityData = ActivityData(type: .ballScaleMultiple)
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData)
@@ -42,7 +42,7 @@ extension NVActivityIndicatorView {
     }
 }
 
-extension URL {
+public extension URL {
     public func byAppending(item: URLQueryItem) -> URL {
         guard var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             return self
@@ -55,7 +55,7 @@ extension URL {
     }
 }
 
-extension PhoneNumber {
+public extension PhoneNumber {
     var e164String: String {
         return PhoneNumberHelper.shared.e164Format(from: self)
     }
@@ -65,8 +65,8 @@ extension PhoneNumber {
     }
 }
 
-extension PhoneNumberTextField {
-    var phoneNumber: PhoneNumber? {
+public extension PhoneNumberTextField {
+    var validPhoneNumber: PhoneNumber? {
         guard isValidNumber else {
             return nil
         }
@@ -81,7 +81,7 @@ extension PhoneNumberTextField {
     }
 }
 
-extension UITextField {
+public extension UITextField {
     var isEmpty: Bool {
         if let text = text, !text.isEmpty {
              return false

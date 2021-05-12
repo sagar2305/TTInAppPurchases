@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import AudioToolbox
 
-extension UIWindow {
+public extension UIWindow {
     static var key: UIWindow? {
         if #available(iOS 13, *) {
             return UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -20,7 +20,7 @@ extension UIWindow {
     }
 }
 
-extension UIColor {
+public extension UIColor {
     convenience init(hexString: String) {
         let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int = UInt32()
@@ -41,38 +41,43 @@ extension UIColor {
     }
 }
 
-extension UIColor {
+public extension UIColor {
+    
+    class func bundle() -> Bundle {
+        let bundle = Bundle(for: SubscriptionHelper.self)
+        return bundle
+    }
     
     class var backgroundColor: UIColor {
-        return UIColor(named: "backgroundColor")!
+        return UIColor(named: "backgroundColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var inverseBackgroundColor: UIColor {
-        return UIColor(named: "inverseBackgroundColor")!
+        return UIColor(named: "inverseBackgroundColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var primaryColor: UIColor {
-        return UIColor(named: "primaryColor")!
+        return UIColor(named: "primaryColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var secondaryColor: UIColor {
-        return UIColor(named: "secondaryColor")!
+        return UIColor(named: "secondaryColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var primaryTextColor: UIColor {
-        return UIColor(named: "primaryTextColor")!
+        return UIColor(named: "primaryTextColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var secondaryTextColor: UIColor {
-        return UIColor(named: "secondaryTextColor")!
+        return UIColor(named: "secondaryTextColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var navigationTitleTextColor: UIColor {
-        return UIColor(named: "navigationTitleTextColor")!
+        return UIColor(named: "navigationTitleTextColor", in: bundle(), compatibleWith: nil)!
     }
     
     class var buttonTextColor: UIColor {
-        return UIColor(named: "buttonTextColor")!
+        return UIColor(named: "buttonTextColor", in: bundle(), compatibleWith: nil)!
     }
     
     func lighter(by percentage: CGFloat = 30.0) -> UIColor {
@@ -96,7 +101,7 @@ extension UIColor {
     }
 }
 
-extension UIView {
+public extension UIView {
     func shake(duration: CFTimeInterval) {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         let shakeValues = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
@@ -128,7 +133,7 @@ extension UIView {
     }
 }
 
-extension UILabel {
+public extension UILabel {
     static func titleLabel(title: String?) -> UILabel {
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 80))
         titleLabel.text = title ?? ""
@@ -182,7 +187,13 @@ extension UILabel {
     }
 }
 
-extension UIViewController {
+public extension UIViewController {
+
+    convenience init(fromPod: Bool) {
+        let bundle = fromPod ? Bundle(for: Self.self) : nil
+        self.init(nibName: nil, bundle: bundle)
+    }
+    
     func configureUI(title: String) {
         let titleView = UILabel.titleLabel(title: title.localized)
         titleView.tintColor = .navigationTitleTextColor
@@ -198,7 +209,7 @@ extension UIViewController {
     }
 }
 
-extension UIFont {
+public extension UIFont {
     
     static func sizeFor(_ style: UIFont.TextStyle) -> CGFloat {
         switch style {
@@ -224,7 +235,7 @@ extension UIFont {
     }
 }
 
-extension UITapGestureRecognizer {
+public extension UITapGestureRecognizer {
 
     func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
         // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
