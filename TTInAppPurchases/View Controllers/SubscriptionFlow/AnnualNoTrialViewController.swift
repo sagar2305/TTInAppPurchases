@@ -15,17 +15,16 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
-    private let lottieView = AnimationView(name: "HelloAnimation")
-    
+    private var lottieView: AnimationView!
+
     public weak var delegate: SubscriptionViewControllerDelegate?
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
     
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet weak var primaryHeaderLabel: UILabel!
     @IBOutlet weak var pricingTopLabel: UILabel!
-    @IBOutlet weak var animationView: UIView!
+    @IBOutlet weak var  animationView: UIView!
     
     @IBOutlet weak var pricingBottomLabel: UILabel!
     @IBOutlet weak var restorePurchasesButton: UIButton!
@@ -45,7 +44,6 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         _configureUI()
         _configureFeatureLabel()
         _configurePrimaryHeaderLabel()
@@ -70,12 +68,15 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
                                                    object: nil)
         }
         
+        lottieView = uiProviderDelegate?.animatingAnimationView().view
         lottieView.frame = animationView.bounds
         lottieView.contentMode = .scaleAspectFit
         lottieView.loopMode = .loop
         lottieView.animationSpeed = 1.0
-        let xOffset: CGFloat = bounds.width >= 400 ? -18 : -40
-        lottieView.frame = lottieView.frame.offsetBy(dx: xOffset, dy: 0)
+        if uiProviderDelegate?.animatingAnimationView().shouldOffset ?? false {
+            let xOffset: CGFloat = bounds.width >= 400 ? -18 : -40
+            lottieView.frame = lottieView.frame.offsetBy(dx: xOffset, dy: 0)
+        }
         animationView.addSubview(lottieView)
     }
     
@@ -142,23 +143,23 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         // *** DO NOT DELETE - for introductory screen
         
         pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
-        let price = specialOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: false, withDurationSuffix: true)
+        let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withIntroDiscount: false, withDurationSuffix: true)
         pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
     }
     
     private func _configureFeatureLabel() {
         
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature1Label.text = SubscriptionHelper.attributedFeatureText("Automatic call recordings".localized)
+        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature2Label.text = SubscriptionHelper.attributedFeatureText("Unlimited recordings".localized)
+        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature3Label.text = SubscriptionHelper.attributedFeatureText("No per minute fees".localized)
+        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
         
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText("Cancel at any time".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
     
     private func _configureContinueButton() {
