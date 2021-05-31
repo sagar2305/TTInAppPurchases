@@ -69,15 +69,19 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         }
         
         lottieView = uiProviderDelegate?.animatingAnimationView().view
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.addSubview(lottieView)
+        let xOffset: CGFloat = uiProviderDelegate?.animatingAnimationView().offsetBy ?? 0
+        NSLayoutConstraint.activate( [
+            lottieView.topAnchor.constraint(equalTo: animationView.topAnchor,constant: xOffset),
+            lottieView.rightAnchor.constraint(equalTo: animationView.rightAnchor),
+            lottieView.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
+            lottieView.leftAnchor.constraint(equalTo: animationView.leftAnchor)
+        ])
         lottieView.frame = animationView.bounds
         lottieView.contentMode = .scaleAspectFit
         lottieView.loopMode = .loop
         lottieView.animationSpeed = 1.0
-        if uiProviderDelegate?.animatingAnimationView().shouldOffset ?? false {
-            let xOffset: CGFloat = bounds.width >= 400 ? -18 : -40
-            lottieView.frame = lottieView.frame.offsetBy(dx: xOffset, dy: 0)
-        }
-        animationView.addSubview(lottieView)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
