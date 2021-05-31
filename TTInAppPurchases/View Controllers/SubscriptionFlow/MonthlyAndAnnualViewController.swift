@@ -22,7 +22,7 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func monthlyBreakdownOfPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
     /// provide Lottie animating view for subscription page
     /// and whether to shift the xOffSet (Only For EZTAPE)
-    func animatingAnimationView() -> (view: AnimationView,shouldOffset: Bool)
+    func animatingAnimationView() -> (view: AnimationView,offsetBy: CGFloat?)
     func featureOne() -> String
     func featureTwo() -> String
     func featureThree() -> String
