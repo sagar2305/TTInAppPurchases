@@ -90,6 +90,11 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         lottieView.play()
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.viewDidAppear(self)
+    }
+    
     @objc func setupSubscriptionButtons(notification: Notification?) {
         print("**********setupSubscriptionButtons ")
         NVActivityIndicatorView.stop()
