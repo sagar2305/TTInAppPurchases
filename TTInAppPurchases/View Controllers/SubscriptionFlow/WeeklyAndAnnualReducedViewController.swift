@@ -188,16 +188,16 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
     
     private func _configureFeatureLabel() {
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature1Label.text = SubscriptionHelper.attributedFeatureText("Automatic call recordings".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature2Label.text = SubscriptionHelper.attributedFeatureText("Unlimited recordings".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature3Label.text = SubscriptionHelper.attributedFeatureText("No per minute fees".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
        
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText("Cancel at any time".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
 
     private func _configureContinueButton() {

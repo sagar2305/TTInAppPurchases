@@ -153,7 +153,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="54" id="JsE-aP-6IP"/>
                                             </constraints>
-                                            <state key="normal" title="Button">
+                                            <state key="normal">
                                                 <color key="titleColor" name="buttonTextColor"/>
                                             </state>
                                             <connections>

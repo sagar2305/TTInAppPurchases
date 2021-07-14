@@ -21,6 +21,11 @@ public class AnalyticsHelper {
     public static let shared = AnalyticsHelper()
     lazy var amplitudeInstance = Amplitude.instance()
     lazy var mixpanelInstance = Mixpanel.mainInstance()
+    
+    //TODO: - Temporary code to block logging for for document scanner app
+    var shouldLogMixPanelEvents: Bool {
+        return Bundle.main.bundleIdentifier == "com.triviatribe.callrecorder"
+    }
 
     private init() {
         amplitudeInstance.trackingSessionEvents = true
@@ -29,12 +34,15 @@ public class AnalyticsHelper {
     // MARK: - Properties
     
     public func createAlias(_ userId: String) {
+       
         amplitudeInstance.setUserId(userId, startNewSession: false)
+        if !shouldLogEvent { return }
         mixpanelInstance.createAlias(userId, distinctId: mixpanelInstance.distinctId)
     }
     
     public func setUserId(_ userId: String) {
         amplitudeInstance.setUserId(userId, startNewSession: false)
+        if !shouldLogEvent { return }
         mixpanelInstance.identify(distinctId: userId)
 //        AppsFlyerLib.shared().customerUserID = userId
     }
@@ -42,18 +50,21 @@ public class AnalyticsHelper {
     // MARK: - Event Logging
     public func logEvent(_ event: String) {
         amplitudeInstance.logEvent(event)
+        if !shouldLogEvent { return }
         mixpanelInstance.track(event: event)
 //        AppsFlyerHelper.shared.logEvent(event: event, properties: nil)
     }
     
     public func logEvent(_ type: Constants.AnalyticsEvent) {
         amplitudeInstance.logEvent(type.rawValue)
+        if !shouldLogEvent { return }
         mixpanelInstance.track(event: type.rawValue)
 //        AppsFlyerHelper.shared.logEvent(event: type.rawValue, properties: nil)
     }
     
     public func logEvent(_ type: Constants.AnalyticsEvent, properties: [Constants.AnalyticsEventProperties: Any]) {
         amplitudeInstance.logEvent(type.rawValue, withEventProperties: properties)
+        if !shouldLogEvent { return }
         let mixpanelProperties = properties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
             var propertiesSoFar = propertiesSoFar
@@ -76,6 +87,7 @@ public class AnalyticsHelper {
         }
         print(userProperties)
         amplitudeInstance.setUserProperties(userProperties)
+        if !shouldLogEvent { return }
         let mixpanelProperties = userProperties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
             var propertiesSoFar = propertiesSoFar
