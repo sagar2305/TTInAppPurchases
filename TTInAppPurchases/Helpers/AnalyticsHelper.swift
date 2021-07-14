@@ -23,7 +23,7 @@ public class AnalyticsHelper {
     lazy var mixpanelInstance = Mixpanel.mainInstance()
     
     //TODO: - Temporary code to block logging for for document scanner app
-    var shouldLogEvent: Bool {
+    var shouldLogMixPanelEvents: Bool {
         return Bundle.main.bundleIdentifier == "com.triviatribe.callrecorder"
     }
 
@@ -41,7 +41,6 @@ public class AnalyticsHelper {
     }
     
     public func setUserId(_ userId: String) {
-        if !shouldLogEvent { return }
         amplitudeInstance.setUserId(userId, startNewSession: false)
         if !shouldLogEvent { return }
         mixpanelInstance.identify(distinctId: userId)
@@ -50,7 +49,6 @@ public class AnalyticsHelper {
 
     // MARK: - Event Logging
     public func logEvent(_ event: String) {
-        if !shouldLogEvent { return }
         amplitudeInstance.logEvent(event)
         if !shouldLogEvent { return }
         mixpanelInstance.track(event: event)
