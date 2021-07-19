@@ -152,8 +152,13 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         // *** DO NOT DELETE - for introductory screen
         
         pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
-        let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withIntroDiscount: false, withDurationSuffix: true)
-        pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
+        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+            pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
+            pricingBottomLabel.text = "for lifetime".localized.localizedCapitalized
+        } else {
+            let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withIntroDiscount: true, withDurationSuffix: true)
+            pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
+        }
     }
     
     private func _configureFeatureLabel() {

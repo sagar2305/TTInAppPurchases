@@ -36,13 +36,13 @@ public class AnalyticsHelper {
     public func createAlias(_ userId: String) {
        
         amplitudeInstance.setUserId(userId, startNewSession: false)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         mixpanelInstance.createAlias(userId, distinctId: mixpanelInstance.distinctId)
     }
     
     public func setUserId(_ userId: String) {
         amplitudeInstance.setUserId(userId, startNewSession: false)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         mixpanelInstance.identify(distinctId: userId)
 //        AppsFlyerLib.shared().customerUserID = userId
     }
@@ -50,21 +50,21 @@ public class AnalyticsHelper {
     // MARK: - Event Logging
     public func logEvent(_ event: String) {
         amplitudeInstance.logEvent(event)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         mixpanelInstance.track(event: event)
 //        AppsFlyerHelper.shared.logEvent(event: event, properties: nil)
     }
     
     public func logEvent(_ type: Constants.AnalyticsEvent) {
         amplitudeInstance.logEvent(type.rawValue)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         mixpanelInstance.track(event: type.rawValue)
 //        AppsFlyerHelper.shared.logEvent(event: type.rawValue, properties: nil)
     }
     
     public func logEvent(_ type: Constants.AnalyticsEvent, properties: [Constants.AnalyticsEventProperties: Any]) {
         amplitudeInstance.logEvent(type.rawValue, withEventProperties: properties)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         let mixpanelProperties = properties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
             var propertiesSoFar = propertiesSoFar
@@ -87,7 +87,7 @@ public class AnalyticsHelper {
         }
         print(userProperties)
         amplitudeInstance.setUserProperties(userProperties)
-        if !shouldLogEvent { return }
+        if !shouldLogMixPanelEvents { return }
         let mixpanelProperties = userProperties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
             var propertiesSoFar = propertiesSoFar
