@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WeeklyAndAnnualReducedViewController" customModule="TTInAppPurchases" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundImageOverlayView" destination="CTt-TN-bmw" id="j6U-gD-hfo"/>
+                <outlet property="backgroundImageView" destination="9am-pp-FYk" id="ARV-WV-4eF"/>
                 <outlet property="cancelButton" destination="bbs-eX-mKX" id="nNW-lP-oXc"/>
                 <outlet property="continueButton" destination="j1H-jU-v7R" id="XXh-TI-voK"/>
                 <outlet property="feature1Label" destination="sMG-uF-Fky" id="uYx-RL-qvn"/>

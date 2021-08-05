@@ -1,23 +1,20 @@
 //
-//  MonthlyAndAnnualViewController.swift
-//  CallRecorder
+//  WeeklyMonthlyAndAnnualViewController.swift
+//  TTInAppPurchases
 //
-//  Created by Sandesh on 27/07/20.
-//  Copyright © 2020 Smart Apps. All rights reserved.
+//  Created by Sandesh on 04/08/21.
 //
 
 import UIKit
 import LGButton
 import NVActivityIndicatorView
-import Lottie
 
-
-class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
-    var hideCloseButton: Bool = false
-    var giftOffer = false
-    weak var delegate: SubscriptionViewControllerDelegate?
-    weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
+    public var hideCloseButton: Bool = false
+    public var giftOffer = false
+    public weak var delegate: SubscriptionViewControllerDelegate?
+    public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
+    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
 
     private var _selectedIndex = 1 {
         didSet {
@@ -33,6 +30,7 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
         }
     }
     
+    @IBOutlet weak var backgroundImagView: UIImageView!
     @IBOutlet weak var backgroundImageOverlayView: UIView!
     @IBOutlet weak var scrollViewContentHeaderOffset: NSLayoutConstraint!
     
@@ -48,6 +46,11 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
     @IBOutlet weak var secondSubscriptionCheckedImage: UIImageView!
     @IBOutlet weak var secondSubscriptionTitleLabel: UILabel!
     @IBOutlet weak var secondSubscriptionPriceLabel: UILabel!
+    
+    @IBOutlet weak var thirdSubscriptionButton: LGButton!
+    @IBOutlet weak var thirdSubscriptionCheckedImage: UIImageView!
+    @IBOutlet weak var thirdSubscriptionTitleLabel: UILabel!
+    @IBOutlet weak var thirdSubscriptionPriceLabel: UILabel!
     @IBOutlet weak var trialInfoLabel: UILabel!
     
     @IBOutlet weak var restorePurchasesButton: UIButton!
@@ -59,11 +62,7 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         _selectedIndex = 1
@@ -86,12 +85,12 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.viewDidAppear(self)
     }
@@ -106,6 +105,7 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
     }
     
     private func _configureUI() {
+        backgroundImagView.image = UIImage(named: "caller")
         headerMessageLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
         firstSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
         firstSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
@@ -170,6 +170,16 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
         
         secondSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
         secondSubscriptionPriceLabel.text = uiProviderDelegate?.introductoryPrice(for: 1, withDurationSuffix: true)
+        
+        secondSubscriptionButton.borderColor = UIColor.buttonTextColor
+    }
+    
+    private func _configureThirdSubscriptionButton() {
+        thirdSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
+        thirdSubscriptionTitleLabel.text = uiProviderDelegate?.subscriptionTitle(for: 1)
+        
+        thirdSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
+        thirdSubscriptionPriceLabel.text = uiProviderDelegate?.introductoryPrice(for: 1, withDurationSuffix: true)
         
         trialInfoLabel.configure(with: UIFont.font(.sofiaProLight, style: .footnote))
         trialInfoLabel.text = "7 days free trial, then".localized
@@ -287,18 +297,34 @@ class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewCo
     
     // MARK: - Helper
     private func _button(at index: Int) -> LGButton {
-        return index == 0 ? firstSubscriptionButton : secondSubscriptionButton
+        switch index {
+        case 0: return firstSubscriptionButton
+        case 1: return secondSubscriptionButton
+        default: return thirdSubscriptionButton
+        }
     }
 
     private func _checkedImage(at index: Int) -> UIImageView {
-        return index == 0 ? firstSubscriptionCheckedImage : secondSubscriptionCheckedImage
+        switch index {
+        case 0: return firstSubscriptionCheckedImage
+        case 1: return secondSubscriptionCheckedImage
+        default: return thirdSubscriptionCheckedImage
+        }
     }
 
     private func _titleLabel(at index: Int) -> UILabel {
-        return index == 0 ? firstSubscriptionTitleLabel : secondSubscriptionTitleLabel
+        switch index {
+        case 0: return firstSubscriptionTitleLabel
+        case 1: return secondSubscriptionTitleLabel
+        default: return thirdSubscriptionTitleLabel
+        }
     }
 
     private func _priceLabel(at index: Int) -> UILabel {
-        return index == 0 ? firstSubscriptionPriceLabel : secondSubscriptionPriceLabel
+        switch index {
+        case 0: return firstSubscriptionPriceLabel
+        case 1: return secondSubscriptionPriceLabel
+        default: return thirdSubscriptionPriceLabel
+        }
     }
 }

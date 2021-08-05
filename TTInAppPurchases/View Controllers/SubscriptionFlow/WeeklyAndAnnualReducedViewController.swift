@@ -10,12 +10,12 @@ import UIKit
 import LGButton
 import NVActivityIndicatorView
 
-class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewControllerProtocol {
-    var hideCloseButton: Bool = false
-    var giftOffer = false
-    weak var delegate: SubscriptionViewControllerDelegate?
-    weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+public class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewControllerProtocol {
+    public var hideCloseButton: Bool = false
+    public var giftOffer = false
+    public weak var delegate: SubscriptionViewControllerDelegate?
+    public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
+    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
 
     private var _selectedIndex = 1 {
         didSet {
@@ -31,6 +31,7 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
         }
     }
     
+    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var backgroundImageOverlayView: UIView!
     @IBOutlet weak var scrollViewContentHeaderOffset: NSLayoutConstraint!
     
@@ -61,7 +62,7 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         _selectedIndex = 1
@@ -84,12 +85,12 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.viewDidAppear(self)
     }
@@ -104,6 +105,7 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
     }
     
     private func _configureUI() {
+        backgroundImageView.image = UIImage(named: "caller")
         headerMessageLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
         firstSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
         firstSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
@@ -188,13 +190,13 @@ class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewCo
     
     private func _configureFeatureLabel() {
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
+        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
+        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
+        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
        
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
         feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")

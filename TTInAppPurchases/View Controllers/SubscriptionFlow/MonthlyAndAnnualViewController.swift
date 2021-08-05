@@ -30,12 +30,12 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
 
 }
 
-class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
-    var hideCloseButton: Bool = false
-    var giftOffer = false
-    weak var delegate: SubscriptionViewControllerDelegate?
-    weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+public class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
+    public var hideCloseButton: Bool = false
+    public var giftOffer = false
+    public weak var delegate: SubscriptionViewControllerDelegate?
+    public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
+    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
 
     private var _selectedIndex = 1 {
         didSet {
@@ -81,7 +81,7 @@ class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControll
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         _selectedIndex = 1
@@ -104,12 +104,12 @@ class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControll
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         delegate?.viewDidAppear(self)
     }
