@@ -157,6 +157,9 @@
                                                     <exclude reference="UGc-S8-orz"/>
                                                 </mask>
                                             </variation>
+                                            <connections>
+                                                <action selector="selectedFirstSubscription:" destination="-1" eventType="touchUpInside" id="OBG-q3-U00"/>
+                                            </connections>
                                         </view>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYN-bO-7rj" customClass="LGButton" customModule="LGButton">
                                             <rect key="frame" x="0.0" y="58" width="382" height="50"/>
@@ -214,6 +217,9 @@
                                                     <exclude reference="gQn-sf-pN3"/>
                                                 </mask>
                                             </variation>
+                                            <connections>
+                                                <action selector="selectedSecondSubscription:" destination="-1" eventType="touchUpInside" id="IHa-Ya-sfO"/>
+                                            </connections>
                                         </view>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jdu-9p-jeO" customClass="LGButton" customModule="LGButton">
                                             <rect key="frame" x="0.0" y="116" width="382" height="50"/>
@@ -273,6 +279,9 @@
                                                     <real key="value" value="22"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="selectedThirdSubscriptionButton:" destination="-1" eventType="touchUpInside" id="wfv-8D-Ypq"/>
+                                            </connections>
                                         </view>
                                     </subviews>
                                 </stackView>
@@ -292,6 +301,9 @@
                                             </fragment>
                                         </attributedString>
                                     </state>
+                                    <connections>
+                                        <action selector="restorePurchases:" destination="-1" eventType="touchUpInside" id="zTm-Pn-WDk"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcP-qj-DCb">
                                     <rect key="frame" x="16" y="637" width="382" height="54"/>
@@ -308,6 +320,9 @@
                                             <real key="value" value="22"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="didTapContinueButton:" destination="-1" eventType="touchUpInside" id="EV4-hc-Fpi"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4l-Wk-M7w">
                                     <rect key="frame" x="16" y="707" width="382" height="50"/>
@@ -375,6 +390,9 @@
                             <real key="value" value="15"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="didTapCancelButton:" destination="-1" eventType="touchUpInside" id="3GH-cr-lha"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="anU-S4-1gr"/>

@@ -19,12 +19,19 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private var _selectedIndex = 1 {
         didSet {
             if isViewLoaded {
-                if _selectedIndex == 0 {
+                switch _selectedIndex {
+                case 0:
                     _highlight(buttonAt: 0)
                     _unhighlight(buttonAt: 1)
-                } else {
+                    _unhighlight(buttonAt: 2)
+                case 1:
                     _highlight(buttonAt: 1)
                     _unhighlight(buttonAt: 0)
+                    _unhighlight(buttonAt: 2)
+                default:
+                    _highlight(buttonAt: 2)
+                    _unhighlight(buttonAt: 0)
+                    _unhighlight(buttonAt: 1)
                 }
             }
         }
@@ -65,7 +72,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        _selectedIndex = 1
+        _selectedIndex = 2
 
         _configureUI()
         _setScrollViewContentHeaderOffset()
@@ -101,6 +108,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureHeaderMessageLabel()
         _configureFirstSubscriptionButton()
         _configureSecondSubscriptionButton()
+        _configureThirdSubscriptionButton()
         _configureContinueButton()
     }
     
@@ -111,6 +119,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         firstSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
         secondSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
         secondSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
+        thirdSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
+        thirdSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
         trialInfoLabel.configure(with: UIFont.font(.sofiaProLight, style: .footnote))
         continueButton.backgroundColor = .systemGreen
         continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title3))
@@ -169,21 +179,21 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         secondSubscriptionTitleLabel.text = uiProviderDelegate?.subscriptionTitle(for: 1)
         
         secondSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
-        secondSubscriptionPriceLabel.text = uiProviderDelegate?.introductoryPrice(for: 1, withDurationSuffix: true)
+        secondSubscriptionPriceLabel.text = uiProviderDelegate?.subscriptionPrice(for: 1, withDurationSuffix: true)
         
         secondSubscriptionButton.borderColor = UIColor.buttonTextColor
     }
     
     private func _configureThirdSubscriptionButton() {
         thirdSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
-        thirdSubscriptionTitleLabel.text = uiProviderDelegate?.subscriptionTitle(for: 1)
+        thirdSubscriptionTitleLabel.text = uiProviderDelegate?.subscriptionTitle(for: 2)
         
         thirdSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
-        thirdSubscriptionPriceLabel.text = uiProviderDelegate?.introductoryPrice(for: 1, withDurationSuffix: true)
+        thirdSubscriptionPriceLabel.text = uiProviderDelegate?.subscriptionPrice(for: 2, withDurationSuffix: true)
         
         trialInfoLabel.configure(with: UIFont.font(.sofiaProLight, style: .footnote))
         trialInfoLabel.text = "7 days free trial, then".localized
-        trialInfoLabel.isHidden = !uiProviderDelegate!.offersFreeTrial(for: 1)
+        trialInfoLabel.isHidden = !uiProviderDelegate!.offersFreeTrial(for: 2)
         
         secondSubscriptionButton.borderColor = UIColor.buttonTextColor
     }
@@ -282,6 +292,13 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     
     @IBAction func selectedSecondSubscription(_ sender: LGButton) {
         _selectedIndex = 1
+        _configureHeaderMessageLabel()
+        _configureContinueButton()
+        didTapContinueButton(nil)
+    }
+    
+    @IBAction func selectedThirdSubscriptionButton(_ sender: LGButton) {
+        _selectedIndex = 2
         _configureHeaderMessageLabel()
         _configureContinueButton()
         didTapContinueButton(nil)
