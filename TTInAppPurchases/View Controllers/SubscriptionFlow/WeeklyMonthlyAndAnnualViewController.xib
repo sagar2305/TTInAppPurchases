@@ -45,7 +45,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="572" image="caller" translatesAutoresizingMaskIntoConstraints="NO" id="WLx-R0-O61">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="572" image="backdground" translatesAutoresizingMaskIntoConstraints="NO" id="WLx-R0-O61">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="448"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mea-Wu-u3o">
@@ -416,8 +416,19 @@
             <point key="canvasLocation" x="131.8840579710145" y="147.99107142857142"/>
         </view>
     </objects>
+    <designables>
+        <designable name="Jdu-9p-jeO">
+            <size key="intrinsicContentSize" width="10" height="10"/>
+        </designable>
+        <designable name="cYN-bO-7rj">
+            <size key="intrinsicContentSize" width="10" height="10"/>
+        </designable>
+        <designable name="qUZ-vu-izu">
+            <size key="intrinsicContentSize" width="10" height="10"/>
+        </designable>
+    </designables>
     <resources>
-        <image name="caller" width="6720" height="4480"/>
+        <image name="backdground" width="6720" height="4480"/>
         <namedColor name="buttonTextColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
