@@ -105,7 +105,7 @@ public class WeeklyAndAnnualReducedViewController: UIViewController, Subscriptio
     }
     
     private func _configureUI() {
-        backgroundImageView.image = UIImage(named: "caller")
+        backgroundImageView.image = UIImage(named: "background", in: nibBundle, compatibleWith: nil)!
         headerMessageLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
         firstSubscriptionTitleLabel.configure(with: UIFont.font(.sofiaProMedium, style: .body))
         firstSubscriptionPriceLabel.configure(with: UIFont.font(.sofiaProBold, style: .body))
@@ -246,7 +246,7 @@ public class WeeklyAndAnnualReducedViewController: UIViewController, Subscriptio
     private func _highlight(buttonAt index: Int) {
         _button(at: index).backgroundColor = .primaryColor
         _button(at: index).borderWidth = 0
-        _checkedImage(at: index).image = UIImage(named: "checked_circle")!
+        _checkedImage(at: index).image = UIImage(named: "checked_circle", in: nibBundle, compatibleWith: nil)!
         _titleLabel(at: index).textColor = .buttonTextColor
         _priceLabel(at: index).textColor = .buttonTextColor
     }
@@ -254,7 +254,7 @@ public class WeeklyAndAnnualReducedViewController: UIViewController, Subscriptio
     private func _unhighlight(buttonAt index: Int) {
         _button(at: index).backgroundColor = .clear
         _button(at: index).borderWidth = 2
-        _checkedImage(at: index).image = UIImage(named: "unchecked_circle")!
+        _checkedImage(at: index).image = UIImage(named: "unchecked_circle", in: nibBundle, compatibleWith: nil)!
         _titleLabel(at: index).textColor = .buttonTextColor
         _priceLabel(at: index).textColor = .buttonTextColor
     }
