@@ -73,6 +73,14 @@ public struct AlertMessageHelper {
         ).present()
     }
     
+    //TODO: - Localize
+    public func presentRestorationSuccessAlert(onCompletion: @escaping () -> Void) {
+        UIAlertView(title: "Success".localized.localized,
+                    description: "Your purchases have been restored.".localized,
+                    actions: UIAlertView.Action(title: "Ok".localized, onSelect: onCompletion)
+        ).present()
+    }
+    
     public func presentRestorationFailedAlert(onRetry: @escaping () -> Void, onCancel: @escaping () -> Void) {
         UIAlertView(title: "Something went wrong!".localized,
                     description: "Unable to restore your purchase, please try again".localized,
