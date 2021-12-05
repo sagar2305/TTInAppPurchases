@@ -142,8 +142,9 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         // *** DO NOT DELETE - for introductory screen
         
         pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
-        let price = specialOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: false, withDurationSuffix: true)
-        pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
+        if let price = specialOfferUIProviderDelegate?.monthlyComputedDiscountPrice(withIntroDiscount: false, withDurationSuffix: true) {
+            pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
+        }
     }
     
     private func _configureFeatureLabel() {

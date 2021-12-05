@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import PhoneNumberKit
+
 /// Use this class to extract commao alerts application
 public struct AlertMessageHelper {
     
@@ -111,4 +113,20 @@ public struct AlertMessageHelper {
                     })
         ).present()
     }
+    
+    public func presentLocalAccessNumberAvailableMessage(_ accessNumber: PhoneNumber, onCompletion: @escaping (() -> Void)) {
+            let country = PhoneNumberHelper.shared.countryName(from: accessNumber)
+            let title = String(format: "%@ Access Number Available".localized, country ?? "")
+            let message = String(format: "Would you like to use the access number from %@ to save on carrier fees?".localized, country ?? "")
+            UIAlertView(title: title,
+                        description: message,
+                        actions: UIAlertView.Action(title: "Cancel".localized, onSelect: {
+                            onCompletion()
+                        }),
+                        UIAlertView.Action(title: "YES".localized, onSelect: {
+                            PhoneNumberHelper.shared.setAccessNumber(accessNumber)
+                            onCompletion()
+                        })
+            ).present()
+        }
 }

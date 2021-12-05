@@ -37,7 +37,7 @@ public struct Constants {
 //        public static let onlyAnnualDiscountedNoTrialRecordingScreen = "onlyannualdiscounted_notrial_recordingscreen"
 //        public static let weeklyAndAnnualReduced = "weeklyandannualreduced"
 //        public static let annualReducedSpecialOffer = "annualreduced"
-        public static let annualFullPriceAndSpecialOffer = "annualfullpriceandspecialoffer"
+        public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
     }
     
