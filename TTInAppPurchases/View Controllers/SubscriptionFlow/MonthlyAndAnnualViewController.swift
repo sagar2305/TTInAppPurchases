@@ -19,7 +19,6 @@ public protocol UpgradeUIProviderDelegate: class {
     func offersFreeTrial(for index: Int) -> Bool
     func introductoryPrice(for index: Int, withDurationSuffix: Bool) -> String
 }
-
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
     var hideCloseButton: Bool = false
     var giftOffer = false

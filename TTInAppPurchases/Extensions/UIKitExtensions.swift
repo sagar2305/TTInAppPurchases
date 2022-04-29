@@ -79,6 +79,7 @@ public extension UIColor {
     class var buttonTextColor: UIColor {
         return UIColor(named: "buttonTextColor", in: bundle(), compatibleWith: nil)!
     }
+
     
     func lighter(by percentage: CGFloat = 30.0) -> UIColor {
         return self.adjust(by: abs(percentage) ) ?? self

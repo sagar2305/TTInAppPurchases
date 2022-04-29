@@ -39,6 +39,7 @@ public struct Constants {
 //        public static let annualReducedSpecialOffer = "annualreduced"
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
+        public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
     }
     
     public struct CallRecorder {
