@@ -111,10 +111,9 @@
                                                             <color key="tintColor" name="inverseBackgroundColor"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                             <state key="normal">
-                                                                <string key="title">Try
-3
-days
-free trial</string>
+                                                                <string key="title">1
+week pack
+at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
                                                             <userDefinedRuntimeAttributes>
@@ -132,7 +131,7 @@ free trial</string>
                                                                 <action selector="selectedFirstSubscription:" destination="-1" eventType="touchUpInside" id="H6a-nN-HfN"/>
                                                             </connections>
                                                         </button>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="7jZ-Ub-enp">
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="7jZ-Ub-enp">
                                                             <rect key="frame" x="85" y="12" width="25" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="BTD-ZJ-gEz"/>
@@ -175,7 +174,7 @@ free trial</string>
                                                             <state key="normal">
                                                                 <string key="title">1
 month pack
-at $20</string>
+at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
                                                             <userDefinedRuntimeAttributes>
@@ -190,7 +189,7 @@ at $20</string>
                                                                 <action selector="selectedSecondSubscription:" destination="-1" eventType="touchUpInside" id="Ju8-Nn-2Tf"/>
                                                             </connections>
                                                         </button>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="iag-Ya-dcT">
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="iag-Ya-dcT">
                                                             <rect key="frame" x="94" y="3" width="25" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="J14-1K-Kzv"/>
@@ -232,7 +231,7 @@ at $20</string>
                                                             <state key="normal">
                                                                 <string key="title">12
 month pack
-at $90</string>
+at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
                                                             <userDefinedRuntimeAttributes>
@@ -247,7 +246,7 @@ at $90</string>
                                                                 <action selector="selectedThirdSubscription:" destination="-1" eventType="touchUpInside" id="CN1-W0-TI6"/>
                                                             </connections>
                                                         </button>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="xap-zY-gy9">
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tickmark" translatesAutoresizingMaskIntoConstraints="NO" id="xap-zY-gy9">
                                                             <rect key="frame" x="85" y="12" width="25" height="25"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="E56-zx-AIs"/>
