@@ -44,7 +44,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public var hideCloseButton: Bool = false
     
     //MARK: Internal Parameters
-    private let lottieView = AnimationView(name: "HelloAnimation")
+    private let lottieView = AnimationView(name: "BlueAnimation")
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
     
@@ -77,6 +77,15 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configurePriceButton()
         _configureSubscribeButton()
         _configureFreeTrialLabel()
+        _configurePriceButtonTitle()
+        
+        lottieView.frame = animationView.bounds
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopMode = .loop
+        lottieView.animationSpeed = 1.0
+        let xOffset: CGFloat = bounds.width >= 400 ? -18 : -40
+        lottieView.frame = lottieView.frame.offsetBy(dx: xOffset, dy: 0)
+        animationView.addSubview(lottieView)
         
         if uiProviderDelegate!.productsFetched() {
             setupSubscriptionButtons(notification: nil)
@@ -91,6 +100,11 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.viewWillAppear(self)
+        lottieView.play()
+    }
+    
+    public override var prefersStatusBarHidden: Bool {
+         return true
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -101,9 +115,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @objc func setupSubscriptionButtons(notification: Notification?) {
         NVActivityIndicatorView.stop()
 
-        _configureFirstSubscriptionButton()
-        _configureSecondSubscriptionButton()
-        _configureThirdSubscriptionButton()
+        _configurePriceButtonTitle()
     }
 
     //MARK: - Configure UI
@@ -142,6 +154,12 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
             // all the rest
             featureLabelTextStyle = .body
         }
+    }
+    
+    private func _configurePriceButtonTitle() {
+        _configureFirstSubscriptionButton()
+        _configureSecondSubscriptionButton()
+        _configureThirdSubscriptionButton()
     }
     
     private func _configureHeaderLabels() {
