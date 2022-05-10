@@ -82,6 +82,7 @@ public struct Constants {
         public static let lastFetchedDateiCloudRecordIDKey = "LastFetchedDateiCloudRecordID"
         public static let subscribedToCallRecordChangesKey = "subscribedToCallRecordChangesKey"
         public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
+        public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
     }
     
     public struct SettingsDefaults {
