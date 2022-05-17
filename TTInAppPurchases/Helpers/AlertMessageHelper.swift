@@ -83,6 +83,13 @@ public struct AlertMessageHelper {
         ).present()
     }
     
+    public func presentRestorationSuccessAlert(_ completion: @escaping () -> Void) {
+        UIAlertView(title: "Success".localized,
+                    description: "You are already a pro user with access to all the app features".localized,
+                    actions: UIAlertView.Action(title: "OK".localized, onSelect: completion)
+        ).present()
+    }
+    
     public func presentAlreadyProAlert(_ completion: @escaping () -> Void) {
         UIAlertView(title: "Success".localized,
                     description: "You are already a pro user with access to all the app features".localized,
@@ -92,7 +99,7 @@ public struct AlertMessageHelper {
     
     public func presentTranscriptionNotAvailableAlert() {
         UIAlertView(title: "Not Available".localized,
-                    description: "Transcription service is not availabel for selected langauage at present, please try after some time".localized,
+                    description: "Transcription service is not available for selected language at present, please try after some time".localized,
                     actions: UIAlertView.Action(title: "OK".localized, onSelect: {})
         ).present()
     }
