@@ -108,13 +108,12 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Unk-oO-0IZ" userLabel="week View">
                                                     <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hi8-nT-paY" userLabel="Try     3   days free trial">
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hi8-nT-paY" userLabel="Try     3   days free trial">
                                                             <rect key="frame" x="9" y="9" width="104" height="104"/>
                                                             <color key="backgroundColor" name="priceBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="hi8-nT-paY" secondAttribute="height" multiplier="1:1" id="CiT-w9-QSY"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="tintColor" name="inverseBackgroundColor"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                             <state key="normal">
@@ -123,6 +122,11 @@ week pack
 at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
+                                                            <buttonConfiguration key="configuration" style="plain">
+                                                                <string key="title">1
+week pack
+at</string>
+                                                            </buttonConfiguration>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
                                                                     <real key="value" value="0.5"/>
@@ -169,13 +173,12 @@ at</string>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bBM-4w-ny3" userLabel="month view">
                                                     <rect key="frame" x="126" y="0.0" width="122" height="122"/>
                                                     <subviews>
-                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pe9-t1-sQQ">
+                                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pe9-t1-sQQ">
                                                             <rect key="frame" x="0.0" y="0.0" width="122" height="122"/>
                                                             <color key="backgroundColor" name="priceBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="pe9-t1-sQQ" secondAttribute="height" multiplier="1:1" id="3Qd-aL-QYQ"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="LucidaGrande" family="Lucida Grande" pointSize="16"/>
                                                             <color key="tintColor" name="inverseBackgroundColor"/>
                                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                             <state key="normal">
@@ -184,6 +187,11 @@ month pack
 at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
+                                                            <buttonConfiguration key="configuration" style="plain">
+                                                                <string key="title">1
+month pack
+at</string>
+                                                            </buttonConfiguration>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
                                                                     <real key="value" value="7"/>
@@ -227,7 +235,7 @@ at</string>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ttw-vD-91R" userLabel="Annual View">
                                                     <rect key="frame" x="252" y="0.0" width="122" height="122"/>
                                                     <subviews>
-                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="1cT-5F-GCO">
+                                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="1cT-5F-GCO">
                                                             <rect key="frame" x="9" y="9" width="104" height="104"/>
                                                             <color key="backgroundColor" name="priceBackgroundColor"/>
                                                             <constraints>
@@ -241,6 +249,11 @@ month pack
 at</string>
                                                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.31" colorSpace="custom" customColorSpace="displayP3"/>
                                                             </state>
+                                                            <buttonConfiguration key="configuration" style="plain">
+                                                                <string key="title">12
+month pack
+at</string>
+                                                            </buttonConfiguration>
                                                             <userDefinedRuntimeAttributes>
                                                                 <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
                                                                     <real key="value" value="7"/>
