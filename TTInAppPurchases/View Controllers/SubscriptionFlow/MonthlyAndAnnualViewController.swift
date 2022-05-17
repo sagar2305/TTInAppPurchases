@@ -9,8 +9,9 @@
 import UIKit
 import LGButton
 import NVActivityIndicatorView
+import Lottie
 
-public protocol UpgradeUIProviderDelegate: class {
+public protocol UpgradeUIProviderDelegate: AnyObject {
     func productsFetched() -> Bool
     func headerMessage(for index: Int) -> String
     func subscriptionTitle(for index: Int) -> String
@@ -18,6 +19,15 @@ public protocol UpgradeUIProviderDelegate: class {
     func continueButtonTitle(for index: Int) -> String
     func offersFreeTrial(for index: Int) -> Bool
     func introductoryPrice(for index: Int, withDurationSuffix: Bool) -> String
+    func monthlyBreakdownOfPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
+    /// provide Lottie animating view for subscription page
+    /// and whether to shift the xOffSet (Only For EZTAPE)
+    func animatingAnimationView() -> (view: AnimationView,offsetBy: CGFloat?)
+    func featureOne() -> String
+    func featureTwo() -> String
+    func featureThree() -> String
+    func featureFour() -> String
+
 }
 
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
@@ -198,16 +208,16 @@ class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControll
     
     private func _configureFeatureLabel() {
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature1Label.text = SubscriptionHelper.attributedFeatureText("Automatic call recordings".localized)
+        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature2Label.text = SubscriptionHelper.attributedFeatureText("Unlimited recordings".localized)
+        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature3Label.text = SubscriptionHelper.attributedFeatureText("No per minute fees".localized)
+        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
        
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: .callout))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText("Cancel at any time".localized)
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
 
     private func _configureContinueButton() {

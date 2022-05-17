@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol SpecialOfferViewControllerDelegate: class {
+public protocol SpecialOfferViewControllerDelegate: AnyObject {
     func viewDidLoad(_ controller: SpecialOfferViewController)
     func viewWillAppear(_ controller: SpecialOfferViewController)
     func restorePurchases(_ controller: SpecialOfferViewController)
@@ -19,18 +19,23 @@ public protocol SpecialOfferViewControllerDelegate: class {
     func purchaseOffer(_ controller: SpecialOfferViewController)
 }
 
-public protocol SpecialOfferUIProviderDelegate: class {
+public protocol SpecialOfferUIProviderDelegate: AnyObject {
     func productsFetched() -> Bool
     func originalPrice() -> String
     func discountedPrice() -> String
     func percentDiscount() -> String
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
+    func featureOne() -> String
+    func featureTwo() -> String
+    func featureThree() -> String
+    func featureFour() -> String
 }
 
 public class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerProtocol {
     
+    
     public weak var delegate: SpecialOfferViewControllerDelegate?
-    public weak var uiProviderDelegate: SpecialOfferUIProviderDelegate?
+    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
 
     private var borderLayer: CALayer!
     private var lastBounds: CGRect!
@@ -79,7 +84,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
-        print("**********uiProviderDelegate!.productsFetched() else ")
+        print("**********specialOfferUIProviderDelegate!.productsFetched() else ")
         
         NotificationCenter.default.addObserver(self, selector:
                                                 #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
@@ -176,7 +181,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
             savingPercentageLabel.font = UIFont.font(.sofiaProBold, style: .largeTitle)
             savingPercentageLabel.adjustsFontForContentSizeCategory = true
             savingPercentageLabel.adjustsFontSizeToFitWidth = true
-            savingPercentageLabel.text = "\(uiProviderDelegate!.percentDiscount())%"
+            savingPercentageLabel.text = "\(specialOfferUIProviderDelegate!.percentDiscount())%"
         }
     }
     
@@ -188,7 +193,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
             let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.strikethroughStyle: 1,
                                                              NSAttributedString.Key.strikethroughColor: UIColor.buttonTextColor
             ]
-            let attributedActualPrice = NSAttributedString(string: uiProviderDelegate!.originalPrice(), attributes: attributes)
+            let attributedActualPrice = NSAttributedString(string: specialOfferUIProviderDelegate!.originalPrice(), attributes: attributes)
             actualPriceLabel.attributedText = attributedActualPrice
         }
     }
@@ -199,10 +204,10 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .largeTitle)
-            discountedPriceLabel.text = uiProviderDelegate!.originalPrice()
+            discountedPriceLabel.text = specialOfferUIProviderDelegate!.originalPrice()
         } else {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .title2)
-            discountedPriceLabel.text = "NOW".localized + "\(uiProviderDelegate!.discountedPrice())"
+            discountedPriceLabel.text = "NOW".localized + "\(specialOfferUIProviderDelegate!.discountedPrice())"
         }
     }
     
@@ -222,7 +227,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         } else {
             let attributedString = NSMutableAttributedString(string: "For 1 year\n".localized)
             let attributedString1 = NSMutableAttributedString(string: "only".localized)
-            let attributedString2 = NSMutableAttributedString(string: "\(uiProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
+            let attributedString2 = NSMutableAttributedString(string: "\(specialOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
                                                               attributes: [NSAttributedString.Key.font: blackFont])
             let attributedString3 = NSMutableAttributedString(string: "month".localized, attributes: [NSAttributedString.Key.font: blackFont])
             
@@ -240,16 +245,16 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         let style: UIFont.TextStyle = bounds.height > 812 ? .title3 : .callout
         
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature1Label.text = "Automatic call recordings".localized
+        feature1Label.text = specialOfferUIProviderDelegate?.featureOne() ?? ""
          
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature2Label.text = "Unlimited recordings".localized
+        feature2Label.text = specialOfferUIProviderDelegate?.featureTwo() ?? ""
 
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature3Label.text = "No per minute fees".localized
+        feature3Label.text = specialOfferUIProviderDelegate?.featureThree() ?? ""
 
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature4Label.text = "Cancel at any time".localized
+        feature4Label.text = specialOfferUIProviderDelegate?.featureFour() ?? ""
     }
     
     private func _configureContinueButton() {

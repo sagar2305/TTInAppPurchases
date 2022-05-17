@@ -63,6 +63,7 @@ public class SubscriptionHelper {
             
             if purchaserInfo?.entitlements["pro"]?.isActive == true {
                 self.isProUser = true
+                TTInAppPurchases.AnalyticsHelper.shared.logEvent(.restorationSuccessful)
                 completionHandler(true, nil)
             } else {
                 completionHandler(false, nil)

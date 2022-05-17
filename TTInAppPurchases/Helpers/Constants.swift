@@ -182,6 +182,7 @@ public struct Constants {
         case cancelledOfferScreen = "Subscription - Cancelled Offer Screen"
         case initiatesPurchase = "Subscription - Purchase Initiation"
         case restoredPurchase = "Subscription - Restore Purchases"
+        case restorationSuccessful = "Subscription - Purchase Restoration Successful"
         case restorationFailure = "Subscription - Purchase Restoration Failed"
         case purchaseFailure = "Subscription - Purchase Failed"
         case userCancelledPurchase = "Subscription - Cancelled Purchases"
