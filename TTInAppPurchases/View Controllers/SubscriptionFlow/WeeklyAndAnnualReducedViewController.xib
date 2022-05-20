@@ -351,14 +351,6 @@
             <point key="canvasLocation" x="131.8840579710145" y="147.99107142857142"/>
         </view>
     </objects>
-    <designables>
-        <designable name="OT0-vJ-jGY">
-            <size key="intrinsicContentSize" width="10" height="10"/>
-        </designable>
-        <designable name="pNY-iw-JPM">
-            <size key="intrinsicContentSize" width="10" height="10"/>
-        </designable>
-    </designables>
     <resources>
         <image name="caller" width="6720" height="4480"/>
         <namedColor name="buttonTextColor">

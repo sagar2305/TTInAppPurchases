@@ -24,6 +24,8 @@
                 <outlet property="firstSubscriptionButton" destination="hi8-nT-paY" id="Bsk-Xa-4Dn"/>
                 <outlet property="freeTrialLabel" destination="9H5-as-DWO" id="uhJ-Ew-VpU"/>
                 <outlet property="primaryHeaderLabel" destination="8yG-Va-0Dl" id="Rgg-s4-eyA"/>
+                <outlet property="privacyAndTermsOfLawLabel" destination="6Of-P1-JGD" id="tHI-I5-cl5"/>
+                <outlet property="restorePurchasesButton" destination="D2T-5j-4OS" id="rA9-EG-jxH"/>
                 <outlet property="secondSubscriptionButton" destination="pe9-t1-sQQ" id="fvU-KU-dkN"/>
                 <outlet property="stackViewHeightConstraint" destination="JUP-FE-6PL" id="iWs-Fs-hsi"/>
                 <outlet property="subscribeButton" destination="bvu-Kg-1Io" id="fmc-ja-tIE"/>
@@ -56,7 +58,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q96-gI-MXK" userLabel="Content View">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1058"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1113.5"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="saU-wa-Ai5">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="103.5"/>
@@ -296,6 +298,12 @@ at</string>
                                                 </view>
                                             </subviews>
                                         </stackView>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-as-DWO" userLabel="Free trial">
+                                            <rect key="frame" x="20" y="675" width="374" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="YdM-e8-1sj">
                                             <rect key="frame" x="20" y="707" width="374" height="36"/>
                                             <subviews>
@@ -403,8 +411,16 @@ at</string>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D2T-5j-4OS" userLabel="Restore Purchase">
+                                            <rect key="frame" x="173.5" y="972" width="67" height="31"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                            <connections>
+                                                <action selector="didTapRestorePurchase:" destination="-1" eventType="touchUpInside" id="hzw-Dw-WdZ"/>
+                                            </connections>
+                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-Kg-1Io">
-                                            <rect key="frame" x="20" y="978" width="374" height="50"/>
+                                            <rect key="frame" x="20" y="1015" width="374" height="50"/>
                                             <color key="backgroundColor" name="primaryColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="0AO-jI-mAV"/>
@@ -421,8 +437,8 @@ at</string>
                                                 <action selector="didTapSubscribeNowButton:" destination="-1" eventType="touchUpInside" id="KbY-2J-eIl"/>
                                             </connections>
                                         </button>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-as-DWO" userLabel="Free trial">
-                                            <rect key="frame" x="20" y="675" width="374" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Of-P1-JGD" userLabel="Terms&amp;Conditions">
+                                            <rect key="frame" x="0.0" y="1081" width="414" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -435,10 +451,11 @@ at</string>
                                         <constraint firstItem="Yj9-T1-2mn" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" constant="20" id="647-Z1-VyG"/>
                                         <constraint firstItem="8I0-ok-kRh" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" id="6ZS-MJ-nAo"/>
                                         <constraint firstAttribute="trailing" secondItem="bvu-Kg-1Io" secondAttribute="trailing" constant="20" id="70X-8B-qTY"/>
+                                        <constraint firstItem="6Of-P1-JGD" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" id="AX0-0f-BQq"/>
                                         <constraint firstItem="YdM-e8-1sj" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" constant="20" id="CGi-M9-h8M"/>
                                         <constraint firstAttribute="trailing" secondItem="saU-wa-Ai5" secondAttribute="trailing" id="FKM-L6-zzB"/>
                                         <constraint firstItem="p8e-Qc-ctG" firstAttribute="top" secondItem="YdM-e8-1sj" secondAttribute="bottom" constant="30" id="FvZ-8l-06U"/>
-                                        <constraint firstItem="bvu-Kg-1Io" firstAttribute="top" secondItem="9DB-b1-MJl" secondAttribute="bottom" constant="30" id="JCC-nN-WvY"/>
+                                        <constraint firstItem="D2T-5j-4OS" firstAttribute="centerX" secondItem="q96-gI-MXK" secondAttribute="centerX" id="HyI-hh-nDw"/>
                                         <constraint firstAttribute="trailing" secondItem="9H5-as-DWO" secondAttribute="trailing" constant="20" id="NLL-RM-Vpj"/>
                                         <constraint firstItem="YdM-e8-1sj" firstAttribute="top" secondItem="Yj9-T1-2mn" secondAttribute="bottom" constant="40" id="OjY-if-6CI"/>
                                         <constraint firstAttribute="trailing" secondItem="9DB-b1-MJl" secondAttribute="trailing" constant="20" id="PLg-JI-wfh"/>
@@ -447,19 +464,23 @@ at</string>
                                         <constraint firstItem="8yG-Va-0Dl" firstAttribute="top" secondItem="8I0-ok-kRh" secondAttribute="bottom" constant="12" id="RjD-ZD-Mnl"/>
                                         <constraint firstItem="Yj9-T1-2mn" firstAttribute="top" secondItem="z56-pv-NWG" secondAttribute="bottom" constant="40" id="TFL-FX-gSg"/>
                                         <constraint firstAttribute="trailing" secondItem="p8e-Qc-ctG" secondAttribute="trailing" constant="20" id="UIr-fl-q70"/>
+                                        <constraint firstItem="6Of-P1-JGD" firstAttribute="top" secondItem="bvu-Kg-1Io" secondAttribute="bottom" constant="16" id="VjD-F3-HcO"/>
+                                        <constraint firstAttribute="bottom" secondItem="6Of-P1-JGD" secondAttribute="bottom" constant="12" id="X6S-Ns-FHO"/>
                                         <constraint firstAttribute="trailing" secondItem="z56-pv-NWG" secondAttribute="trailing" constant="20" id="Xvn-Hj-wZJ"/>
+                                        <constraint firstItem="D2T-5j-4OS" firstAttribute="top" secondItem="9DB-b1-MJl" secondAttribute="bottom" constant="24" id="Ykd-TT-cj2"/>
                                         <constraint firstItem="bvu-Kg-1Io" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" constant="20" id="a2Y-sb-0nA"/>
                                         <constraint firstItem="9DB-b1-MJl" firstAttribute="top" secondItem="p8e-Qc-ctG" secondAttribute="bottom" constant="12" id="dqG-hn-w0C"/>
                                         <constraint firstItem="saU-wa-Ai5" firstAttribute="top" secondItem="q96-gI-MXK" secondAttribute="top" id="esb-4B-jRh"/>
                                         <constraint firstAttribute="trailing" secondItem="Yj9-T1-2mn" secondAttribute="trailing" constant="20" id="l5D-5j-UBr"/>
-                                        <constraint firstAttribute="bottom" secondItem="bvu-Kg-1Io" secondAttribute="bottom" constant="30" id="mmL-ZU-I6u"/>
                                         <constraint firstAttribute="trailing" secondItem="YdM-e8-1sj" secondAttribute="trailing" constant="20" id="oRX-Eh-4z3"/>
                                         <constraint firstItem="8I0-ok-kRh" firstAttribute="top" secondItem="saU-wa-Ai5" secondAttribute="bottom" id="oTd-dX-HrU"/>
                                         <constraint firstItem="9DB-b1-MJl" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" constant="20" id="pC5-xC-rxS"/>
                                         <constraint firstItem="p8e-Qc-ctG" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" constant="20" id="pPx-NZ-vzO"/>
                                         <constraint firstAttribute="trailing" secondItem="8I0-ok-kRh" secondAttribute="trailing" id="qBm-Nt-LnV"/>
                                         <constraint firstItem="saU-wa-Ai5" firstAttribute="leading" secondItem="q96-gI-MXK" secondAttribute="leading" id="tVu-ET-uhO"/>
+                                        <constraint firstItem="bvu-Kg-1Io" firstAttribute="top" secondItem="D2T-5j-4OS" secondAttribute="bottom" constant="12" id="vQ8-2M-HCg"/>
                                         <constraint firstItem="8yG-Va-0Dl" firstAttribute="centerX" secondItem="q96-gI-MXK" secondAttribute="centerX" id="x0y-he-O5X"/>
+                                        <constraint firstAttribute="trailing" secondItem="6Of-P1-JGD" secondAttribute="trailing" id="zFE-n9-CJO"/>
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O54-UD-4Ve" userLabel="Cancel">

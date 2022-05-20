@@ -35,18 +35,20 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     //MARK: IBOutlet Collections
     @IBOutlet var priceButtonsZoomedHeight: [NSLayoutConstraint]!
     @IBOutlet var priceButtonStandardHeight: [NSLayoutConstraint]!
+    @IBOutlet weak var restorePurchasesButton: UIButton!
+    @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
     public var giftOffer: Bool = false
     public var hideCloseButton: Bool = false
     
     //MARK: Internal Parameters
-    private let lottieView = AnimationView(name: "BlueAnimation")
+    private var lottieView: AnimationView!
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
+    private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     
     private var _selectedIndex = 1 {
         didSet {
@@ -78,14 +80,23 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureSubscribeButton()
         _configureFreeTrialLabel()
         _configurePriceButtonTitle()
+        _configureRestorePurchasesButton()
+        _configurePrivacyAndTermsOfLawLabel()
         
+        lottieView = uiProviderDelegate?.animatingAnimationView().view
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.addSubview(lottieView)
+        let xOffset: CGFloat = uiProviderDelegate?.animatingAnimationView().offsetBy ?? 0
+        NSLayoutConstraint.activate( [
+            lottieView.topAnchor.constraint(equalTo: animationView.topAnchor,constant: xOffset),
+            lottieView.rightAnchor.constraint(equalTo: animationView.rightAnchor),
+            lottieView.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
+            lottieView.leftAnchor.constraint(equalTo: animationView.leftAnchor)
+        ])
         lottieView.frame = animationView.bounds
         lottieView.contentMode = .scaleAspectFit
         lottieView.loopMode = .loop
         lottieView.animationSpeed = 1.0
-        let xOffset: CGFloat = bounds.width >= 400 ? -18 : -40
-        lottieView.frame = lottieView.frame.offsetBy(dx: xOffset, dy: 0)
-        animationView.addSubview(lottieView)
         
         if uiProviderDelegate!.productsFetched() {
             setupSubscriptionButtons(notification: nil)
@@ -163,33 +174,33 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     }
     
     private func _configureHeaderLabels() {
-        primaryHeaderLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
+        primaryHeaderLabel.configure(with: UIFont.font(.sofiaProBlack, style: .title2))
         primaryHeaderLabel.text = "Upgrade To Premium".localized
         
-        bottomHeaderLabel.configure(with: UIFont.font(.sofiaProSemibold, style: .subheadline))
+        bottomHeaderLabel.configure(with: UIFont.font(.sofiaProSemibold, style: .headline))
         bottomHeaderLabel.text = "Download, Try and Test the App".localized
     }
     
     private func _configureDescriptionLabels() {
-        topDescriptionLabel.configure(with: UIFont.font(.sofiaProLight, style: .caption2))
+        topDescriptionLabel.configure(with: UIFont.font(.sofiaProLight, style: .subheadline))
         topDescriptionLabel.text = "EZTape Call Recorder is the simplest and most seamless recording app on the app store. This business app allows you to record your incoming and outgoing phone calls.".localized
         
-        bottomDescriptionLabel.configure(with: UIFont.font(.sofiaProRegular, style: .caption1))
+        bottomDescriptionLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
         bottomDescriptionLabel.text = "Call recordings like never before on your iOS device. Call, Record*, Store and Share the call with your teammates. *We are supporting the online and outdoor call recording where you don’t have anything to write the important stuff. We are not breaching anyone’s privacy policy.".localized
     }
     
     private func _configureFeatureLabel() {
-        feature1Label.configure(with: UIFont.font(.sofiaProMedium, style: .caption2))
-        feature1Label.text = "Automatic call recordings".localized
+        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature1Label.text = uiProviderDelegate?.featureOne() ?? ""
         
-        feature2Label.configure(with: UIFont.font(.sofiaProMedium, style: .caption2))
-        feature2Label.text = "Unlimited recordings".localized
+        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature2Label.text = uiProviderDelegate?.featureTwo() ?? ""
         
-        feature3Label.configure(with: UIFont.font(.sofiaProMedium, style: .caption2))
-        feature3Label.text = "No per minute fees".localized
+        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature3Label.text = uiProviderDelegate?.featureThree() ?? ""
         
-        feature4Label.configure(with: UIFont.font(.sofiaProMedium, style: .caption2))
-        feature4Label.text = "Cancel at any time".localized
+        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature4Label.text = uiProviderDelegate?.featureFour() ?? ""
     }
     
     private func _configureFreeTrialLabel() {
@@ -253,6 +264,16 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private func _configureSubscribeButton() {
         subscribeButton.titleLabel?.configure(with: UIFont.font(.sofiaProMedium, style: .title3))
     }
+    
+    private func _configureRestorePurchasesButton() {
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.underlineStyle: 1,
+            NSAttributedString.Key.foregroundColor: UIColor.secondaryTextColor,
+            NSAttributedString.Key.font: UIFont.font(.sofiaProRegular, style: restoreButtonTextStyle)
+        ]
+        let attributedHeader = NSAttributedString(string: "Restore Purchase".localized, attributes: attributes)
+        restorePurchasesButton.setAttributedTitle(attributedHeader, for: .normal)
+    }
 
     private func _configureCancelButton() {
         cancelButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title2))
@@ -294,6 +315,41 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
+    private func _configurePrivacyAndTermsOfLawLabel() {
+        let text = "Terms of law".localized + " " + "and".localized + " " + "Privacy policy".localized
+        let attributedString = NSMutableAttributedString(string: text)
+        let range1 = (text as NSString).range(of: "Terms of law".localized)
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: range1)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.primaryColor, range: range1)
+        let range2 = (text as NSString).range(of: "Privacy policy".localized)
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: range2)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.primaryColor, range: range2)
+        
+        privacyAndTermsOfLawLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+        privacyAndTermsOfLawLabel.attributedText = attributedString
+        
+        //Adding Tap gesture
+        privacyAndTermsOfLawLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.numberOfTouchesRequired = 1
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.addTarget(self, action: #selector(didTapLabel(_:)))
+        privacyAndTermsOfLawLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func didTapLabel(_ tapGesture: UITapGestureRecognizer) {
+        let labelString = privacyAndTermsOfLawLabel.text! as NSString
+        
+        let termsOfLaw = labelString.range(of: "Terms of law".localized)
+        let privacyPolicyRange = labelString.range(of: "Privacy policy".localized)
+        
+        if tapGesture.didTapAttributedTextInLabel(label: privacyAndTermsOfLawLabel, inRange: termsOfLaw) {
+            delegate?.showTermsOfLaw(self)
+        } else  if tapGesture.didTapAttributedTextInLabel(label: privacyAndTermsOfLawLabel, inRange: privacyPolicyRange) {
+            delegate?.showPrivacyPolicy(self)
+        }
+    }
+    
     //MARK: - IBActions
     
     @IBAction func selectedFirstSubscription(_ sender: UIButton) {
@@ -315,5 +371,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBAction func didTapCancelButton(_ sender: UIButton) {
         delegate?.exit(self)
     }
+    
+    @IBAction func didTapRestorePurchase(_ sender: Any) {
+        delegate?.restorePurchases(self)
+    }
+    
 
 }
