@@ -27,8 +27,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var secondSubscriptionButton: UIButton!
     @IBOutlet weak var thirdSubscriptionButton: UIButton!
     @IBOutlet weak var topDescriptionLabel: UILabel!
-    @IBOutlet weak var bottomHeaderLabel: UILabel!
-    @IBOutlet weak var bottomDescriptionLabel: UILabel!
     @IBOutlet var priceButtons: [UIButton]!
     @IBOutlet var tickMarkImageViews: [UIImageView]!
     
@@ -37,6 +35,17 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet var priceButtonStandardHeight: [NSLayoutConstraint]!
     @IBOutlet weak var restorePurchasesButton: UIButton!
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
+    
+    @IBOutlet weak var firstButtonDurationLabel: UILabel!
+    @IBOutlet weak var firstButtonWeekLabel: UILabel!
+    @IBOutlet weak var firstButtonPriceLabel: UILabel!
+    @IBOutlet weak var secondButtonDurationLabel: UILabel!
+    @IBOutlet weak var secondButtonMonthLabel: UILabel!
+    @IBOutlet weak var secondButtonPriceLabel: UILabel!
+    @IBOutlet weak var thirdButtonDurationLabel: UILabel!
+    @IBOutlet weak var thirdButtonMonthLabel: UILabel!
+    @IBOutlet weak var thirdButtonPriceLabel: UILabel!
+    
     
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
@@ -176,89 +185,73 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private func _configureHeaderLabels() {
         primaryHeaderLabel.configure(with: UIFont.font(.sofiaProBlack, style: .title2))
         primaryHeaderLabel.text = "Upgrade To Premium".localized
-        
-        bottomHeaderLabel.configure(with: UIFont.font(.sofiaProSemibold, style: .headline))
-        bottomHeaderLabel.text = "Download, Try and Test the App".localized
     }
-    
+
     private func _configureDescriptionLabels() {
-        topDescriptionLabel.configure(with: UIFont.font(.sofiaProLight, style: .subheadline))
-        topDescriptionLabel.text = "EZTape Call Recorder is the simplest and most seamless recording app on the app store. This business app allows you to record your incoming and outgoing phone calls.".localized
-        
-        bottomDescriptionLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
-        bottomDescriptionLabel.text = "Call recordings like never before on your iOS device. Call, Record*, Store and Share the call with your teammates. *We are supporting the online and outdoor call recording where you don’t have anything to write the important stuff. We are not breaching anyone’s privacy policy.".localized
+        topDescriptionLabel.configure(with: UIFont.font(.sofiaProLight, style: .body))
+        topDescriptionLabel.text = "Unlock premium and record calls now".localized
     }
     
     private func _configureFeatureLabel() {
         feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature1Label.text = uiProviderDelegate?.featureOne() ?? ""
+        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
         feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature2Label.text = uiProviderDelegate?.featureTwo() ?? ""
+        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
         feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature3Label.text = uiProviderDelegate?.featureThree() ?? ""
+        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
         
         feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature4Label.text = uiProviderDelegate?.featureFour() ?? ""
+        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
     
     private func _configureFreeTrialLabel() {
         let title = "Try 7 days Free Trial".localized
-        let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font:  UIFont(name: Constants.Fonts.sofiaProBold.rawValue, size: 11) ?? UIFont.systemFont(ofSize: 11)])
+        let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)])
         freeTrialLabel.attributedText = attributedString
     }
     
     private func _configurePriceButton() {
         for button in priceButtons {
             button.layer.cornerRadius = 6
-            button.titleLabel?.textAlignment = .center
         }
     }
     
-    private let boldAttribute = [NSAttributedString.Key.font:  UIFont(name: Constants.Fonts.sofiaProBold.rawValue, size: 30) ?? UIFont.systemFont(ofSize: 30)]
-    private let regularAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProRegular, style: .footnote)]
-    private let semiBoldAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)]
+    private let regularAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProRegular, style: .subheadline)]
+    private let semiBoldAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .subheadline)]
     private let priceAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .headline)]
-    private let newLine = NSMutableAttributedString(string: "\n")
     
     private func _configureFirstSubscriptionButton() {
         let price = uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-"
-        let attributedString = NSMutableAttributedString(string: "1\n", attributes: boldAttribute)
-        let partone = NSMutableAttributedString(string: "week pack".localized, attributes: regularAttribute)
-        let partTwo = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
+        let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
         let pricePart = NSMutableAttributedString(string: " \(price)", attributes: priceAttribute)
-        attributedString.append(partone)
-        attributedString.append(newLine)
-        attributedString.append(partTwo)
         attributedString.append(pricePart)
-        firstSubscriptionButton.setAttributedTitle(attributedString, for: .normal)
+        firstButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
+        firstButtonWeekLabel.attributedText = NSMutableAttributedString(string: "week pack".localized, attributes: regularAttribute)
+        firstButtonPriceLabel.attributedText = attributedString
     }
     
     private func _configureSecondSubscriptionButton() {
         let price = uiProviderDelegate?.subscriptionPrice(for: 1, withDurationSuffix: false) ?? "-"
-        let attributedString = NSMutableAttributedString(string: "1\n", attributes: boldAttribute)
-        let partone = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
-        let partTwo = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
+        let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
         let pricePart = NSMutableAttributedString(string: " \(price)", attributes: priceAttribute)
-        attributedString.append(partone)
-        attributedString.append(newLine)
-        attributedString.append(partTwo)
         attributedString.append(pricePart)
-        secondSubscriptionButton.setAttributedTitle(attributedString, for: .normal)
+        
+        secondButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
+        secondButtonMonthLabel.attributedText = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
+        secondButtonPriceLabel.attributedText = attributedString
     }
     
     private func _configureThirdSubscriptionButton() {
         let price = uiProviderDelegate?.subscriptionPrice(for: 2, withDurationSuffix: false) ?? "-"
-        let attributedString = NSMutableAttributedString(string: "12\n", attributes: boldAttribute)
-        let partone = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
-        let partTwo = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
+        let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
         let pricePart = NSMutableAttributedString(string: " \(price)", attributes: priceAttribute)
-        attributedString.append(partone)
-        attributedString.append(newLine)
-        attributedString.append(partTwo)
         attributedString.append(pricePart)
-        thirdSubscriptionButton.setAttributedTitle(attributedString, for: .normal)
+        
+        thirdButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
+        thirdButtonMonthLabel.attributedText = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
+        thirdButtonPriceLabel.attributedText = attributedString
     }
     
     private func _configureSubscribeButton() {
