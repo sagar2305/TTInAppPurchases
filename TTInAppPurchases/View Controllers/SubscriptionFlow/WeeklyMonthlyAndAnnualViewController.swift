@@ -8,6 +8,7 @@
 import UIKit
 import Lottie
 import NVActivityIndicatorView
+import SwiftUI
 
 public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
       
@@ -31,8 +32,11 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet var tickMarkImageViews: [UIImageView]!
     
     //MARK: IBOutlet Collections
-    @IBOutlet var priceButtonsZoomedHeight: [NSLayoutConstraint]!
-    @IBOutlet var priceButtonStandardHeight: [NSLayoutConstraint]!
+    
+    @IBOutlet var priceButtonStandardWidth: [NSLayoutConstraint]!
+    @IBOutlet var priceButtonZoomedWidth: [NSLayoutConstraint]!
+    
+    @IBOutlet var priceButtonHeight: [NSLayoutConstraint]!
     @IBOutlet weak var restorePurchasesButton: UIButton!
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     
@@ -42,9 +46,13 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var secondButtonDurationLabel: UILabel!
     @IBOutlet weak var secondButtonMonthLabel: UILabel!
     @IBOutlet weak var secondButtonPriceLabel: UILabel!
+    @IBOutlet weak var secondButtonSaveLabel: UILabel!
     @IBOutlet weak var thirdButtonDurationLabel: UILabel!
     @IBOutlet weak var thirdButtonMonthLabel: UILabel!
     @IBOutlet weak var thirdButtonPriceLabel: UILabel!
+    @IBOutlet weak var thirdButtonSaveLabel: UILabel!
+    @IBOutlet weak var thirdButtonPackTypeLabel: UILabel!
+    @IBOutlet weak var secondButtonPackTypeLabel: UILabel!
     
     
     //MARK: External Parameters
@@ -58,6 +66,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
+    private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
     private var _selectedIndex = 1 {
         didSet {
@@ -89,6 +98,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureSubscribeButton()
         _configureFreeTrialLabel()
         _configurePriceButtonTitle()
+        _configureSecondButtonPackTitle()
+        _configureThirdButtonPackTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
         
@@ -241,6 +252,18 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         secondButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
         secondButtonMonthLabel.attributedText = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
         secondButtonPriceLabel.attributedText = attributedString
+        
+        secondButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
+        
+        let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
+            .joined()
+        let monthlyPrice = price.components(separatedBy: characterSet)
+            .joined()
+        
+        if let weeklyValue = Float(weeklyPrice), let monthlyValue = Float(monthlyPrice) {
+            let save = (weeklyValue - (monthlyValue / 4))/weeklyValue * 100
+            secondButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
+        }
     }
     
     private func _configureThirdSubscriptionButton() {
@@ -252,6 +275,47 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         thirdButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
         thirdButtonMonthLabel.attributedText = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
         thirdButtonPriceLabel.attributedText = attributedString
+        
+        thirdButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
+        
+        let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
+            .joined()
+        let yearlyPrice = price.components(separatedBy: characterSet)
+            .joined()
+        
+        if let weeklyValue = Float(weeklyPrice), let yearlyValue = Float(yearlyPrice) {
+            let save = (weeklyValue - (yearlyValue / 52))/weeklyValue * 100
+            thirdButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
+        }
+        
+    }
+    
+    private func _configureSecondButtonPackTitle()  {
+        secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+        secondButtonPackTypeLabel.clipsToBounds = true
+        secondButtonPackTypeLabel.layer.cornerRadius = 7
+        secondButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        if PhoneNumberHelper.shared.isIndianUser {
+            secondButtonPackTypeLabel.isHidden = true
+            tickMarkImageViews[1].image = UIImage.blueTickImage
+        } else {
+            secondButtonPackTypeLabel.text = "Popular".localized
+        }
+    }
+    
+    private func _configureThirdButtonPackTitle() {
+        thirdButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+        thirdButtonPackTypeLabel.clipsToBounds = true
+        thirdButtonPackTypeLabel.layer.cornerRadius = 7
+        thirdButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        if PhoneNumberHelper.shared.isIndianUser {
+            thirdButtonPackTypeLabel.text = "Popular".localized
+        } else {
+            thirdButtonPackTypeLabel.text = "Best Value".localized
+        }
+        
     }
     
     private func _configureSubscribeButton() {
@@ -283,8 +347,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         let tickImage = tickMarkImageViews[index]
         tickImage.isHidden = false
         
-        priceButtonStandardHeight[index].priority = UILayoutPriority(rawValue: 250)
-        priceButtonsZoomedHeight[index].priority = UILayoutPriority(rawValue: 750)
+        priceButtonStandardWidth[index].priority = UILayoutPriority(rawValue: 250)
+        priceButtonZoomedWidth[index].priority = UILayoutPriority(rawValue: 750)
+        
+        priceButtonHeight[index].constant = 150
     }
     
     private func unhighlightButton(at index: Int) {
@@ -294,8 +360,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         let tickImage = tickMarkImageViews[index]
         tickImage.isHidden = true
         
-        priceButtonsZoomedHeight[index].priority = UILayoutPriority(rawValue: 250)
-        priceButtonStandardHeight[index].priority = UILayoutPriority(rawValue: 750)
+        priceButtonZoomedWidth[index].priority = UILayoutPriority(rawValue: 250)
+        priceButtonStandardWidth[index].priority = UILayoutPriority(rawValue: 750)
+        
+        priceButtonHeight[index].constant = 135
     }
     
     private func checkFreeOfferTrialStatus(for index: Int) {
