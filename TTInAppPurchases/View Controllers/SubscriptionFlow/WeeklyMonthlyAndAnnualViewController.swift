@@ -372,6 +372,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
             freeTrialLabel.isHidden = false
             subscribeButton.setTitle("Start Free Trial".localized, for: .normal)
         } else {
+            freeTrialLabel.isHidden = true
             subscribeButton.setTitle("Subscribe Now".localized, for: .normal)
         }
     }
