@@ -101,6 +101,17 @@ public extension UIColor {
     }
 }
 
+public extension UIImage {
+    class func bundle() -> Bundle {
+        let bundle = Bundle(for: SubscriptionHelper.self)
+        return bundle
+    }
+    
+    class var blueTickImage: UIImage {
+        return UIImage(named: "ic_blueTick", in: bundle(), compatibleWith: nil)!
+    }
+}
+
 public extension UIView {
     func shake(duration: CFTimeInterval) {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))

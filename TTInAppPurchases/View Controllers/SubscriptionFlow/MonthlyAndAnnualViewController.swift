@@ -29,14 +29,12 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func featureFour() -> String
 
 }
-
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
     var hideCloseButton: Bool = false
     var giftOffer = false
     weak var delegate: SubscriptionViewControllerDelegate?
     weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
-
+    
     private var _selectedIndex = 1 {
         didSet {
             if isViewLoaded {
