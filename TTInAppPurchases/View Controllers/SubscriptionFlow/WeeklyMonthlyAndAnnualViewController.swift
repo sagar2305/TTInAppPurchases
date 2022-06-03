@@ -68,7 +68,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = 1 {
+    private var _selectedIndex = 2 {
         didSet {
             if isViewLoaded {
                 checkFreeOfferTrialStatus(for: _selectedIndex)
@@ -86,7 +86,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        _selectedIndex = 1
+        _selectedIndex = 2
 
         _drawShape()
         _configureUI()
@@ -204,16 +204,16 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     }
     
     private func _configureFeatureLabel() {
-        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature1Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
-        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature2Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
-        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature3Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
         
-        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature4Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
     
