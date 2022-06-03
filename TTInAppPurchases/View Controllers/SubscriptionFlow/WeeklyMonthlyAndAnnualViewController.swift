@@ -68,7 +68,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = 1 {
+    private var _selectedIndex = 2 {
         didSet {
             if isViewLoaded {
                 checkFreeOfferTrialStatus(for: _selectedIndex)
@@ -86,7 +86,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        _selectedIndex = 1
+        _selectedIndex = 2
 
         _drawShape()
         _configureUI()
