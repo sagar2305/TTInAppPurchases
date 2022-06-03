@@ -204,16 +204,16 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     }
     
     private func _configureFeatureLabel() {
-        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature1Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
         
-        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature2Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
         
-        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature3Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
         
-        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+        feature4Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
     }
     
