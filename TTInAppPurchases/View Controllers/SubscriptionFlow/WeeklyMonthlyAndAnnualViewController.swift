@@ -197,7 +197,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private func _configureSubscriptionViews() {
         subscriptionViews[0].isHidden = true
         subscriptionViews[1].isHidden = true
-        
+        thirdButtonSaveLabel.isHidden = true
     }
     
     private func _configurePriceButtonTitle() {
