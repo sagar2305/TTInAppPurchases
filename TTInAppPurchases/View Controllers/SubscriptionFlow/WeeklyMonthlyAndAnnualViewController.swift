@@ -37,6 +37,9 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet var priceButtonZoomedWidth: [NSLayoutConstraint]!
     
     @IBOutlet var priceButtonHeight: [NSLayoutConstraint]!
+    @IBOutlet var subscriptionViews: [UIView]!
+    
+    @IBOutlet weak var subscriptionStackView: UIStackView!
     @IBOutlet weak var restorePurchasesButton: UIButton!
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     
@@ -103,6 +106,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
         
+        if PhoneNumberHelper.shared.isIndianUser {
+            _configureSubscriptionViews()
+        }
+
         lottieView = uiProviderDelegate?.animatingAnimationView().view
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         animationView.addSubview(lottieView)
@@ -187,10 +194,17 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
+    private func _configureSubscriptionViews() {
+        subscriptionViews[0].isHidden = true
+        subscriptionViews[1].isHidden = true
+        
+    }
+    
     private func _configurePriceButtonTitle() {
         _configureFirstSubscriptionButton()
         _configureSecondSubscriptionButton()
         _configureThirdSubscriptionButton()
+        _selectedIndex = 2
     }
     
     private func _configureHeaderLabels() {
