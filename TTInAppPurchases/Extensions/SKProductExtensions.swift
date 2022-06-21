@@ -10,7 +10,7 @@ import StoreKit
 
 public extension SKProduct.PeriodUnit {
     func description(capitalizeFirstLetter: Bool = false, numberOfUnits: Int? = nil) -> String {
-        let period: String = {
+        var period: String = {
             switch self {
             case .day: return "day".localized
             case .week: return "week".localized
@@ -25,7 +25,8 @@ public extension SKProduct.PeriodUnit {
         if let numberOfUnits = numberOfUnits {
             numUnits = "\(numberOfUnits) " // Add space for formatting
             plural = numberOfUnits > 1 ? "s" : ""
+            period = period + plural
         }
-        return "\(numUnits)\(capitalizeFirstLetter ? period.capitalized : period)\(plural.localized)"
+        return "\(numUnits)\(capitalizeFirstLetter ? period.capitalized : period.localized)"
     }
 }
