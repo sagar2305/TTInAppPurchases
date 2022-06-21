@@ -9,6 +9,7 @@ import UIKit
 import Lottie
 import NVActivityIndicatorView
 import SwiftUI
+import StoreKit
 
 public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
       
@@ -81,6 +82,15 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
+    @available(iOS 13.0, *)
+    private var countryCode: String? {
+        if let storefront = SKPaymentQueue.default().storefront {
+            let countryCode = storefront.countryCode
+            return countryCode
+        }
+        return nil
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -99,15 +109,16 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureCancelButton()
         _configurePriceButton()
         _configureSubscribeButton()
-        _configureFreeTrialLabel()
         _configurePriceButtonTitle()
         _configureSecondButtonPackTitle()
         _configureThirdButtonPackTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
         
-        if PhoneNumberHelper.shared.isIndianUser {
-            _configureSubscriptionViews()
+        if #available(iOS 13.0, *) {
+            if countryCode == "IND" {
+                _configureSubscriptionViewsForIndia()
+            }
         }
 
         lottieView = uiProviderDelegate?.animatingAnimationView().view
@@ -194,10 +205,15 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
-    private func _configureSubscriptionViews() {
+    private func _configureSubscriptionViewsForIndia() {
         subscriptionViews[0].isHidden = true
         subscriptionViews[1].isHidden = true
         thirdButtonSaveLabel.isHidden = true
+        
+        thirdButtonPackTypeLabel.text = "Popular".localized
+        
+        secondButtonPackTypeLabel.isHidden = true
+        tickMarkImageViews[1].image = UIImage.blueTickImage
     }
     
     private func _configurePriceButtonTitle() {
@@ -214,7 +230,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
 
     private func _configureDescriptionLabels() {
         topDescriptionLabel.configure(with: UIFont.font(.sofiaProLight, style: .body))
-        topDescriptionLabel.text = "Unlock premium and record calls now".localized
+        topDescriptionLabel.text = uiProviderDelegate?.headerMessage(for: 0) ?? ""
     }
     
     private func _configureFeatureLabel() {
@@ -229,12 +245,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         
         feature4Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
         feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
-    }
-    
-    private func _configureFreeTrialLabel() {
-        let title = "Try 7 days Free Trial".localized
-        let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)])
-        freeTrialLabel.attributedText = attributedString
     }
     
     private func _configurePriceButton() {
@@ -310,12 +320,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         secondButtonPackTypeLabel.layer.cornerRadius = 7
         secondButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
-        if PhoneNumberHelper.shared.isIndianUser {
-            secondButtonPackTypeLabel.isHidden = true
-            tickMarkImageViews[1].image = UIImage.blueTickImage
-        } else {
-            secondButtonPackTypeLabel.text = "Popular".localized
-        }
+        secondButtonPackTypeLabel.text = "Popular".localized
     }
     
     private func _configureThirdButtonPackTitle() {
@@ -324,12 +329,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         thirdButtonPackTypeLabel.layer.cornerRadius = 7
         thirdButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
-        if PhoneNumberHelper.shared.isIndianUser {
-            thirdButtonPackTypeLabel.text = "Popular".localized
-        } else {
-            thirdButtonPackTypeLabel.text = "Best Value".localized
-        }
-        
+        thirdButtonPackTypeLabel.text = "Best Value".localized
     }
     
     private func _configureSubscribeButton() {
@@ -384,6 +384,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         let offersFreeTrial = uiProviderDelegate!.offersFreeTrial(for: index)
         if offersFreeTrial {
             freeTrialLabel.isHidden = false
+            let freeTrialDuration = uiProviderDelegate?.freeTrialDuration(for: index) ?? ""
+            let title = "Try".localized + " " + freeTrialDuration + " " + "Free Trial".localized
+            let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)])
+            freeTrialLabel.attributedText = attributedString
             subscribeButton.setTitle("Start Free Trial".localized, for: .normal)
         } else {
             freeTrialLabel.isHidden = true
