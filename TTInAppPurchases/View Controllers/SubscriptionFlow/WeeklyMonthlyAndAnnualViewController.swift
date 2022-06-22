@@ -30,7 +30,9 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var thirdSubscriptionButton: UIButton!
     @IBOutlet weak var topDescriptionLabel: UILabel!
     @IBOutlet var priceButtons: [UIButton]!
-    @IBOutlet var tickMarkImageViews: [UIImageView]!
+  
+    
+    @IBOutlet var tickMarkViews: [UIView]!
     
     //MARK: IBOutlet Collections
     
@@ -213,7 +215,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         thirdButtonPackTypeLabel.text = "Popular".localized
         
         secondButtonPackTypeLabel.isHidden = true
-        tickMarkImageViews[1].image = UIImage.blueTickImage
+      //  tickMarkImageViews[1].image = UIImage.blueTickImage
     }
     
     private func _configurePriceButtonTitle() {
@@ -316,19 +318,11 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     
     private func _configureSecondButtonPackTitle()  {
         secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
-        secondButtonPackTypeLabel.clipsToBounds = true
-        secondButtonPackTypeLabel.layer.cornerRadius = 7
-        secondButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
         secondButtonPackTypeLabel.text = "Popular".localized
     }
     
     private func _configureThirdButtonPackTitle() {
         thirdButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
-        thirdButtonPackTypeLabel.clipsToBounds = true
-        thirdButtonPackTypeLabel.layer.cornerRadius = 7
-        thirdButtonPackTypeLabel.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
         thirdButtonPackTypeLabel.text = "Best Value".localized
     }
     
@@ -358,7 +352,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         button.layer.borderWidth = 3
         button.layer.borderColor = UIColor.primaryColor.cgColor
         
-        let tickImage = tickMarkImageViews[index]
+        let tickImage = tickMarkViews[index]
         tickImage.isHidden = false
         
         priceButtonStandardWidth[index].priority = UILayoutPriority(rawValue: 250)
@@ -371,7 +365,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         let button = priceButtons[index]
         button.layer.borderWidth = 0
         
-        let tickImage = tickMarkImageViews[index]
+        let tickImage = tickMarkViews[index]
         tickImage.isHidden = true
         
         priceButtonZoomedWidth[index].priority = UILayoutPriority(rawValue: 250)

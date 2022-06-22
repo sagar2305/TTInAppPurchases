@@ -12,10 +12,10 @@ public extension SKProduct.PeriodUnit {
     func description(capitalizeFirstLetter: Bool = false, numberOfUnits: Int? = nil) -> String {
         var period: String = {
             switch self {
-            case .day: return "day".localized
-            case .week: return "week".localized
-            case .month: return "month".localized
-            case .year: return "year".localized
+            case .day: return "day"
+            case .week: return "week"
+            case .month: return "month"
+            case .year: return "year"
             @unknown default: return "N/A"
             }
         }()
@@ -27,6 +27,7 @@ public extension SKProduct.PeriodUnit {
             plural = numberOfUnits > 1 ? "s" : ""
             period = period + plural
         }
-        return "\(numUnits)\(capitalizeFirstLetter ? period.capitalized : period.localized)"
+        print("Period: \(period)")
+        return "\(numUnits)\(capitalizeFirstLetter ? period.capitalized.localized : period.localized)"
     }
 }
