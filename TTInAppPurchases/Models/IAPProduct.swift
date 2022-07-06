@@ -17,6 +17,7 @@ public struct IAPProduct {
     public let   offersFreeTrial: Bool
     public let   packageType: Purchases.PackageType
     public let   package: Purchases.Package
+    public let freeTrialDuration: String?
     
     private var _durationSuffix: String {
         switch packageType {
@@ -71,6 +72,11 @@ public struct IAPProduct {
         packageType = package.packageType
         offersFreeTrial = package.product.introductoryPrice?.paymentMode == .freeTrial
         identifier = package.identifier
+        if let period = package.product.introductoryPrice?.subscriptionPeriod {
+            freeTrialDuration = period.unit.description(capitalizeFirstLetter: false, numberOfUnits: period.numberOfUnits)
+        } else {
+            freeTrialDuration = nil
+        }
         self.package = package
     }
 }

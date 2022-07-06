@@ -27,6 +27,7 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func featureTwo() -> String
     func featureThree() -> String
     func featureFour() -> String
+    func freeTrialDuration(for index: Int) -> String
 
 }
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
