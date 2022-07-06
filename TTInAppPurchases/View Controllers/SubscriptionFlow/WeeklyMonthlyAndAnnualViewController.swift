@@ -103,7 +103,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         
         _selectedIndex = 2
 
-        _drawShape()
+       // _drawShape()
         _configureUI()
         _configureHeaderLabels()
         _configureDescriptionLabels()
