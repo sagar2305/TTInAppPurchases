@@ -141,10 +141,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         if uiProviderDelegate!.productsFetched() {
             setupSubscriptionButtons(notification: nil)
         } else {
-            NotificationCenter.default.addObserver(self, selector:
-                #selector(setupSubscriptionButtons(notification:)), name:
-            Notification.Name.iapProductsFetchedNotification,
-                object: nil)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(setupSubscriptionButtons(notification:)),
+                                                   name: Notification.Name.iapProductsFetchedNotification,
+                                                   object: nil)
         }
     }
     
