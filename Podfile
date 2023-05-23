@@ -7,7 +7,6 @@ target 'TTInAppPurchases' do
 #  use_modular_headers!
 
   pod 'LGButton'
-  pod 'PhoneNumberKit'
   pod 'lottie-ios'
   pod 'Purchases'
   pod 'NVActivityIndicatorView', '~> 4.8.0'
