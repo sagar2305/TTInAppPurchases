@@ -2,13 +2,13 @@ Pod::Spec.new do |s|
 
 # 1
 s.platform = :ios
-s.ios.deployment_target = '12.0'
+s.ios.deployment_target = '13.0'
 s.name = "TTInAppPurchases"
 s.summary = "InAppPurchase helper pod"
 s.requires_arc = true
 
 # 2
-s.version = "0.1.0"
+s.version = "0.1.1"
 
 # 3
 s.license = { :type => "MIT", :file => "LICENSE" }
@@ -25,7 +25,7 @@ s.source = { :git => "https://github.com/sagar2305/TTInAppPurchases.git",
 
 # 7
 s.framework = "UIKit"
-s.dependency 'PhoneNumberKit'
+s.dependency 'PhoneNumberKit', '~> 3.6'
 s.dependency 'LGButton'
 s.dependency 'lottie-ios'
 s.dependency 'Purchases'

@@ -14,7 +14,7 @@ target 'TTInAppPurchases' do
   pod 'SwiftDate'
   pod 'Mixpanel-swift'
   pod 'SwiftEntryKit'
-  pod 'PhoneNumberKit', :git => 'https://github.com/marmelroy/PhoneNumberKit.git', :commit => '6edd6e38a30aec087cb97f7377edf876c29a427e'
+  pod 'PhoneNumberKit'
 
   # Pods for TTInAppPurchases
 
