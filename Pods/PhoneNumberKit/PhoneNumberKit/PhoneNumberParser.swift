@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 26/09/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -97,13 +97,10 @@ final class PhoneNumberParser {
             }
             startPosition = 1
         }
-        for i in 1...numberLength {
-            if i > maxCountryCode {
-                break
-            }
+        for i in 1...min(numberLength - startPosition, maxCountryCode) {
             let stringRange = NSRange(location: startPosition, length: i)
             let subNumber = nsFullNumber.substring(with: stringRange)
-            if let potentialCountryCode = UInt64(subNumber), metadata.territoriesByCode[potentialCountryCode] != nil {
+            if let potentialCountryCode = UInt64(subNumber), metadata.filterTerritories(byCode: potentialCountryCode) != nil {
                 nationalNumber = nsFullNumber.substring(from: i)
                 return potentialCountryCode
             }
@@ -267,7 +264,12 @@ final class PhoneNumberParser {
         guard let possibleNationalPrefix = metadata.nationalPrefixForParsing else {
             return
         }
+        #if canImport(ObjectiveC)
         let prefixPattern = String(format: "^(?:%@)", possibleNationalPrefix)
+        #else
+        // FIX: String format with %@ doesn't work without ObjectiveC (e.g. Linux)
+        let prefixPattern = "^(?:\(possibleNationalPrefix))"
+        #endif
         do {
             let matches = try regex.regexMatches(prefixPattern, string: number)
             if let firstMatch = matches.first {

@@ -3,14 +3,14 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 02/11/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
 
 /**
  MetadataTerritory object
- - Parameter codeID: ISO 639 compliant region code
+ - Parameter codeID: ISO 3166 compliant region code
  - Parameter countryCode: International country code
  - Parameter internationalPrefix: International prefix. Optional.
  - Parameter mainCountryForCode: Whether the current metadata is the main country for its country code.

@@ -3,12 +3,12 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 03/10/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
-#if os(iOS)
-import CoreTelephony
+#if canImport(Contacts)
+import Contacts
 #endif
 
 public typealias MetadataCallback = (() throws -> Data?)
@@ -32,7 +32,7 @@ public final class PhoneNumberKit: NSObject {
     ///
     /// - Parameters:
     ///   - numberString: the raw number string.
-    ///   - region: ISO 639 compliant region code.
+    ///   - region: ISO 3166 compliant region code.
     ///   - ignoreType: Avoids number type checking for faster performance.
     /// - Returns: PhoneNumber object.
     public func parse(_ numberString: String, withRegion region: String = PhoneNumberKit.defaultRegionCode(), ignoreType: Bool = false) throws -> PhoneNumber {
@@ -52,7 +52,7 @@ public final class PhoneNumberKit: NSObject {
     /// Parses an array of number strings. Optimised for performance. Invalid numbers are ignored in the resulting array
     ///
     /// - parameter numberStrings:               array of raw number strings.
-    /// - parameter region:                      ISO 639 compliant region code.
+    /// - parameter region:                      ISO 3166 compliant region code.
     /// - parameter ignoreType:   Avoids number type checking for faster performance.
     ///
     /// - returns: array of PhoneNumber objects.
@@ -66,7 +66,7 @@ public final class PhoneNumberKit: NSObject {
     ///
     /// - Parameters:
     ///   - numberString: the raw number string.
-    ///   - region: ISO 639 compliant region code.
+    ///   - region: ISO 3166 compliant region code.
     ///   - ignoreType: Avoids number type checking for faster performance.
     /// - Returns: Bool
     public func isValidPhoneNumber(_ numberString: String, withRegion region: String = PhoneNumberKit.defaultRegionCode(), ignoreType: Bool = false) -> Bool {
@@ -75,7 +75,7 @@ public final class PhoneNumberKit: NSObject {
 
     // MARK: Formatting
 
-    /// Formats a PhoneNumber object for dispaly.
+    /// Formats a PhoneNumber object for display.
     ///
     /// - parameter phoneNumber: PhoneNumber object.
     /// - parameter formatType:  PhoneNumberFormat enum.
@@ -91,7 +91,7 @@ public final class PhoneNumberKit: NSObject {
             return "+\(phoneNumber.countryCode)\(formattedNationalNumber)"
         } else {
             let formatter = Formatter(phoneNumberKit: self)
-            let regionMetadata = self.metadataManager.mainTerritoryByCode[phoneNumber.countryCode]
+            let regionMetadata = self.metadataManager.mainTerritory(forCode: phoneNumber.countryCode)
             let formattedNationalNumber = formatter.format(phoneNumber: phoneNumber, formatType: formatType, regionMetadata: regionMetadata)
             if formatType == .international, prefix == true {
                 return "+\(phoneNumber.countryCode) \(formattedNationalNumber)"
@@ -105,35 +105,35 @@ public final class PhoneNumberKit: NSObject {
 
     /// Get a list of all the countries in the metadata database
     ///
-    /// - returns: An array of ISO 639 compliant region codes.
+    /// - returns: An array of ISO 3166 compliant region codes.
     public func allCountries() -> [String] {
         let results = self.metadataManager.territories.map { $0.codeID }
         return results
     }
 
-    /// Get an array of ISO 639 compliant region codes corresponding to a given country code.
+    /// Get an array of ISO 3166 compliant region codes corresponding to a given country code.
     ///
     /// - parameter countryCode: international country code (e.g 44 for the UK).
     ///
-    /// - returns: optional array of ISO 639 compliant region codes.
+    /// - returns: optional array of ISO 3166 compliant region codes.
     public func countries(withCode countryCode: UInt64) -> [String]? {
         let results = self.metadataManager.filterTerritories(byCode: countryCode)?.map { $0.codeID }
         return results
     }
 
-    /// Get an main ISO 639 compliant region code for a given country code.
+    /// Get an main ISO 3166 compliant region code for a given country code.
     ///
     /// - parameter countryCode: international country code (e.g 1 for the US).
     ///
-    /// - returns: ISO 639 compliant region code string.
+    /// - returns: ISO 3166 compliant region code string.
     public func mainCountry(forCode countryCode: UInt64) -> String? {
         let country = self.metadataManager.mainTerritory(forCode: countryCode)
         return country?.codeID
     }
 
-    /// Get an international country code for an ISO 639 compliant region code
+    /// Get an international country code for an ISO 3166 compliant region code
     ///
-    /// - parameter country: ISO 639 compliant region code.
+    /// - parameter country: ISO 3166 compliant region code.
     ///
     /// - returns: international country code (e.g. 33 for France).
     public func countryCode(for country: String) -> UInt64? {
@@ -141,9 +141,9 @@ public final class PhoneNumberKit: NSObject {
         return results
     }
 
-    /// Get leading digits for an ISO 639 compliant region code.
+    /// Get leading digits for an ISO 3166 compliant region code.
     ///
-    /// - parameter country: ISO 639 compliant region code.
+    /// - parameter country: ISO 3166 compliant region code.
     ///
     /// - returns: leading digits (e.g. 876 for Jamaica).
     public func leadingDigits(for country: String) -> String? {
@@ -160,9 +160,9 @@ public final class PhoneNumberKit: NSObject {
         return self.parseManager.getRegionCode(of: phoneNumber.nationalNumber, countryCode: phoneNumber.countryCode, leadingZero: phoneNumber.leadingZero)
     }
 
-    /// Get an example phone number for an ISO 639 compliant region code.
+    /// Get an example phone number for an ISO 3166 compliant region code.
     ///
-    /// - parameter countryCode: ISO 639 compliant region code.
+    /// - parameter countryCode: ISO 3166 compliant region code.
     /// - parameter type: The `PhoneNumberType` desired. default: `.mobile`
     ///
     /// - returns: An example phone number
@@ -192,9 +192,9 @@ public final class PhoneNumberKit: NSObject {
         }
     }
 
-    /// Get a formatted example phone number for an ISO 639 compliant region code.
+    /// Get a formatted example phone number for an ISO 3166 compliant region code.
     ///
-    /// - parameter countryCode: ISO 639 compliant region code.
+    /// - parameter countryCode: ISO 3166 compliant region code.
     /// - parameter type: `PhoneNumberType` desired. default: `.mobile`
     /// - parameter format: `PhoneNumberFormat` to use for formatting. default: `.international`
     /// - parameter prefix: Whether or not to include the prefix.
@@ -208,9 +208,9 @@ public final class PhoneNumberKit: NSObject {
             .flatMap { self.format($0, toType: format, withPrefix: prefix) }
     }
 
-    /// Get the MetadataTerritory objects for an ISO 639 compliant region code.
+    /// Get the MetadataTerritory objects for an ISO 3166 compliant region code.
     ///
-    /// - parameter country: ISO 639 compliant region code (e.g "GB" for the UK).
+    /// - parameter country: ISO 3166 compliant region code (e.g "GB" for the UK).
     ///
     /// - returns: A MetadataTerritory object, or nil if no metadata was found for the country code
     public func metadata(for country: String) -> MetadataTerritory? {
@@ -226,7 +226,7 @@ public final class PhoneNumberKit: NSObject {
 
     /// Get an array of possible phone number lengths for the country, as specified by the parameters.
     ///
-    /// - parameter country: ISO 639 compliant region code.
+    /// - parameter country: ISO 3166 compliant region code.
     /// - parameter phoneNumberType: PhoneNumberType enum.
     /// - parameter lengthType: PossibleLengthType enum.
     ///
@@ -294,33 +294,51 @@ public final class PhoneNumberKit: NSObject {
     ///
     /// - returns: A computed value for the user's current region - based on the iPhone's carrier and if not available, the device region.
     public class func defaultRegionCode() -> String {
-#if os(iOS) && !targetEnvironment(simulator) && !targetEnvironment(macCatalyst)
-        let networkInfo = CTTelephonyNetworkInfo()
-        let carrier = networkInfo.subscriberCellularProvider
-        if let isoCountryCode = carrier?.isoCountryCode {
-            return isoCountryCode.uppercased()
+        #if canImport(Contacts)
+        if #available(iOS 9, macOS 10.11, macCatalyst 13.1, watchOS 2.0, *) {
+            // macCatalyst OS bug if language is set to Korean
+            //CNContactsUserDefaults.shared().countryCode will return ko instead of kr
+            // Failed parsing any phone number.
+            let countryCode = CNContactsUserDefaults.shared().countryCode.uppercased()
+            #if targetEnvironment(macCatalyst)
+                if "ko".caseInsensitiveCompare(countryCode) == .orderedSame {
+                    return "KR"
+                }
+            #endif
+            return countryCode
+            
         }
-#endif
+        #endif
+        
         let currentLocale = Locale.current
-        if #available(iOS 10.0, *), let countryCode = currentLocale.regionCode {
+        if let countryCode = (currentLocale as NSLocale).object(forKey: .countryCode) as? String {
             return countryCode.uppercased()
-        } else {
-            if let countryCode = (currentLocale as NSLocale).object(forKey: .countryCode) as? String {
-                return countryCode.uppercased()
-            }
         }
         return PhoneNumberConstants.defaultCountry
     }
+    
+    
 
-    /// Default metadta callback, reads metadata from PhoneNumberMetadata.json file in bundle
+    /// Default metadata callback, reads metadata from PhoneNumberMetadata.json file in bundle
     ///
     /// - returns: an optional Data representation of the metadata.
     public static func defaultMetadataCallback() throws -> Data? {
-        let frameworkBundle = Bundle.module
-        guard let jsonPath = frameworkBundle.path(forResource: "PhoneNumberMetadata", ofType: "json") else {
+        let frameworkBundle = Bundle.phoneNumberKit
+        guard
+            let jsonPath = frameworkBundle.path(forResource: "PhoneNumberMetadata", ofType: "json"),
+            let handle = FileHandle(forReadingAtPath: jsonPath) else {
             throw PhoneNumberError.metadataNotFound
         }
-        let data = try Data(contentsOf: URL(fileURLWithPath: jsonPath))
+        
+        defer {
+            if #available(iOS 13.0, macOS 10.15, macCatalyst 13.1, tvOS 13.0, watchOS 6.0, *) {
+                try? handle.close()
+            } else {
+                handle.closeFile()
+            }
+        }
+        
+        let data = handle.readDataToEndOfFile()
         return data
     }
 }

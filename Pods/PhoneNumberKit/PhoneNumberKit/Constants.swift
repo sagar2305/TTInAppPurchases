@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 25/10/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -29,8 +29,9 @@ enum PhoneNumberCountryCodeSource {
  - TooShort: The string provided is too short to be a valid number
  - Deprecated: The method used was deprecated
  - metadataNotFound: PhoneNumberKit was unable to read the included metadata
+ - ambiguousNumber: The string could not be resolved to a single valid number
  */
-public enum PhoneNumberError: Error {
+public enum PhoneNumberError: Error, Equatable {
     case generalError
     case invalidCountryCode
     case notANumber
@@ -39,6 +40,7 @@ public enum PhoneNumberError: Error {
     case tooShort
     case deprecated
     case metadataNotFound
+    case ambiguousNumber(phoneNumbers: [PhoneNumber])
 }
 
 extension PhoneNumberError: LocalizedError {
@@ -52,6 +54,7 @@ extension PhoneNumberError: LocalizedError {
         case .tooShort: return NSLocalizedString("The number provided is too short.", comment: "")
         case .deprecated: return NSLocalizedString("This function is deprecated.", comment: "")
         case .metadataNotFound: return NSLocalizedString("Valid metadata is missing.", comment: "")
+        case .ambiguousNumber: return NSLocalizedString("Phone number is ambiguous.", comment: "")
         }
     }
 }

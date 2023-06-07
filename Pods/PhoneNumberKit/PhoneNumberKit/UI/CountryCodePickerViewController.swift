@@ -1,17 +1,25 @@
 
-#if canImport(UIKit)
+#if os(iOS)
 
 import UIKit
 
 @available(iOS 11.0, *)
-protocol CountryCodePickerDelegate: class {
+public protocol CountryCodePickerDelegate: AnyObject {
     func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country)
 }
 
 @available(iOS 11.0, *)
 public class CountryCodePickerViewController: UITableViewController {
 
-    lazy var searchController = UISearchController(searchResultsController: nil)
+    lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = NSLocalizedString(
+            "PhoneNumberKit.CountryCodePicker.SearchBarPlaceholder",
+            value: "Search Country Codes",
+            comment: "Placeholder for country code search field")
+
+        return searchController
+    }()
 
     public let phoneNumberKit: PhoneNumberKit
 
@@ -25,7 +33,7 @@ public class CountryCodePickerViewController: UITableViewController {
     lazy var allCountries = phoneNumberKit
         .allCountries()
         .compactMap({ Country(for: $0, with: self.phoneNumberKit) })
-        .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
+        .sorted(by: { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending })
 
     lazy var countries: [[Country]] = {
         let countries = allCountries
@@ -59,7 +67,7 @@ public class CountryCodePickerViewController: UITableViewController {
 
     var filteredCountries: [Country] = []
 
-    weak var delegate: CountryCodePickerDelegate?
+    public weak var delegate: CountryCodePickerDelegate?
 
     lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissAnimated))
 
@@ -93,7 +101,11 @@ public class CountryCodePickerViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.backgroundColor = .clear
+      
+        #if os(iOS) || os(macOS) || os(watchOS)
         navigationItem.searchController = searchController
+        #endif
+
         definesPresentationContext = true
     }
 
@@ -206,15 +218,15 @@ extension CountryCodePickerViewController: UISearchResultsUpdating {
 // MARK: Types
 
 @available(iOS 11.0, *)
-internal extension CountryCodePickerViewController {
+public extension CountryCodePickerViewController {
 
     struct Country {
-        var code: String
-        var flag: String
-        var name: String
-        var prefix: String
+        public var code: String
+        public var flag: String
+        public var name: String
+        public var prefix: String
 
-        init?(for countryCode: String, with phoneNumberKit: PhoneNumberKit) {
+        public init?(for countryCode: String, with phoneNumberKit: PhoneNumberKit) {
             let flagBase = UnicodeScalar("🇦").value - UnicodeScalar("A").value
             guard
                 let name = (Locale.current as NSLocale).localizedString(forCountryCode: countryCode),

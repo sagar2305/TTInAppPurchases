@@ -157,4 +157,24 @@ public class SubscriptionHelper {
             }
         }
     }
+    
+    public func handlePurchaseInfo(_ purchaserInfo: Purchases.PurchaserInfo?, for transaction: SKPaymentTransaction) {
+        if purchaserInfo?.entitlements["pro"]?.isActive == true {
+            self.isProUser = true
+            let revenue = AMPRevenue()
+            revenue.setProductIdentifier(purchaserInfo?.entitlements["pro"]?.productIdentifier)
+            revenue.setEventProperties([
+                "Transaction Date": transaction.transactionDate ?? "--",
+                "Transaction Identifier": transaction.transactionIdentifier ?? "--"
+            ])
+            AnalyticsHelper.shared.logRevenue(revenue)
+//                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
+            User.shared.saveUserProperty(.dateOfSubScription, value: Date().toFormat("yyyy-MM-dd HH:mm"))
+            if let productIdentifier =  purchaserInfo?.entitlements["pro"]?.productIdentifier {
+                print("--------Subscription Identifier: \(productIdentifier)")
+                User.shared.saveUserProperty(.userPlan, value: productIdentifier)
+            }
+        }
+    }
 }
+

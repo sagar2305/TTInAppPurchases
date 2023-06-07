@@ -8,11 +8,11 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
-  - PhoneNumberKit (3.3.0):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.0)
-    - PhoneNumberKit/UIKit (= 3.3.0)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.0)
-  - PhoneNumberKit/UIKit (3.3.0):
+  - PhoneNumberKit (3.5.9):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.5.9)
+    - PhoneNumberKit/UIKit (= 3.5.9)
+  - PhoneNumberKit/PhoneNumberKitCore (3.5.9)
+  - PhoneNumberKit/UIKit (3.5.9):
     - PhoneNumberKit/PhoneNumberKitCore
   - Purchases (3.7.1):
     - PurchasesCoreSwift (= 3.7.1)
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - lottie-ios
   - Mixpanel-swift
   - NVActivityIndicatorView (~> 4.8.0)
-  - PhoneNumberKit
+  - PhoneNumberKit (from `https://github.com/marmelroy/PhoneNumberKit.git`, commit `6edd6e38a30aec087cb97f7377edf876c29a427e`)
   - Purchases
   - SwiftDate
   - SwiftEntryKit
@@ -40,12 +40,21 @@ SPEC REPOS:
     - lottie-ios
     - Mixpanel-swift
     - NVActivityIndicatorView
-    - PhoneNumberKit
     - Purchases
     - PurchasesCoreSwift
     - QuickLayout
     - SwiftDate
     - SwiftEntryKit
+
+EXTERNAL SOURCES:
+  PhoneNumberKit:
+    :commit: 6edd6e38a30aec087cb97f7377edf876c29a427e
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
+
+CHECKOUT OPTIONS:
+  PhoneNumberKit:
+    :commit: 6edd6e38a30aec087cb97f7377edf876c29a427e
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
 
 SPEC CHECKSUMS:
   Amplitude: 31a9038dca905b78294418ed277da9c2e07658ad
@@ -53,13 +62,13 @@ SPEC CHECKSUMS:
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
-  PhoneNumberKit: edd7d55c9bcf5b00cb7675c045b24c698a43c874
+  PhoneNumberKit: 6f68ac7df1ef75396b2020932cbfc971bfad80eb
   Purchases: 81efbd7dc9164247a0885ad12ddf6b043a58c1db
   PurchasesCoreSwift: eca892b2a0eff34d55d70e7c3349c1eb4c7659f5
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: bc20676940abb6f8759f1824c5f8175111b9f14b
+PODFILE CHECKSUM: d27af47262213340711f480e1cde78890e350acb
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.12.1

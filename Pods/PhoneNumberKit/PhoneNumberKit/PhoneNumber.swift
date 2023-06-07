@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 26/09/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -18,7 +18,7 @@ import Foundation
  - numberExtension: Extension if available. String. Optional
  - type: Computed phone number type on access. Returns from an enumeration - PNPhoneNumberType.
  */
-public struct PhoneNumber: Codable {
+public struct PhoneNumber {
     public let numberString: String
     public let countryCode: UInt64
     public let leadingZero: Bool
@@ -58,6 +58,14 @@ extension PhoneNumber {
     public func notParsed() -> Bool {
         return self.type == .notParsed
     }
+    
+    /**
+     Get a callable URL from the number.
+     - Returns: A callable URL.
+     */
+    public var url: URL? {
+        return URL(string: "tel://" + numberString)
+    }
 }
 
 /// In past versions of PhoneNumberKit you were able to initialize a PhoneNumber object to parse a String. Please use a PhoneNumberKit object's methods.
@@ -77,10 +85,11 @@ public extension PhoneNumber {
      DEPRECATED.
      Parse a string into a phone number object using custom region. Can throw.
      - Parameter rawNumber: String to be parsed to phone number struct.
-     - Parameter region: ISO 639 compliant region code.
+     - Parameter region: ISO 3166 compliant region code.
      */
     @available(*, unavailable, message: "use PhoneNumberKit instead to produce PhoneNumbers")
     init(rawNumber: String, region: String) throws {
         throw PhoneNumberError.deprecated
     }
 }
+

@@ -3,9 +3,10 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 29/11/2015.
-//  Copyright © 2020 Roy Marmelstein. All rights reserved.
+//  Copyright © 2021 Roy Marmelstein. All rights reserved.
 //
 
+#if canImport(ObjectiveC)
 import Foundation
 
 /// Partial formatter
@@ -41,7 +42,7 @@ public final class PartialFormatter {
 
     func updateMetadataForDefaultRegion() {
         guard let metadataManager = metadataManager else { return }
-        if let regionMetadata = metadataManager.territoriesByCountry[defaultRegion] {
+        if let regionMetadata = metadataManager.filterTerritories(byCountry: defaultRegion) {
             self.defaultMetadata = metadataManager.mainTerritory(forCode: regionMetadata.countryCode)
         } else {
             self.defaultMetadata = nil
@@ -396,3 +397,4 @@ public final class PartialFormatter {
         return rebuiltString
     }
 }
+#endif
