@@ -8,6 +8,12 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
+  - PhoneNumberKit (3.5.9):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.5.9)
+    - PhoneNumberKit/UIKit (= 3.5.9)
+  - PhoneNumberKit/PhoneNumberKitCore (3.5.9)
+  - PhoneNumberKit/UIKit (3.5.9):
+    - PhoneNumberKit/PhoneNumberKitCore
   - Purchases (3.7.1):
     - PurchasesCoreSwift (= 3.7.1)
   - PurchasesCoreSwift (3.7.1)
@@ -22,6 +28,7 @@ DEPENDENCIES:
   - lottie-ios
   - Mixpanel-swift
   - NVActivityIndicatorView (~> 4.8.0)
+  - PhoneNumberKit (from `https://github.com/marmelroy/PhoneNumberKit.git`, commit `6edd6e38a30aec087cb97f7377edf876c29a427e`)
   - Purchases
   - SwiftDate
   - SwiftEntryKit
@@ -39,18 +46,29 @@ SPEC REPOS:
     - SwiftDate
     - SwiftEntryKit
 
+EXTERNAL SOURCES:
+  PhoneNumberKit:
+    :commit: 6edd6e38a30aec087cb97f7377edf876c29a427e
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
+
+CHECKOUT OPTIONS:
+  PhoneNumberKit:
+    :commit: 6edd6e38a30aec087cb97f7377edf876c29a427e
+    :git: https://github.com/marmelroy/PhoneNumberKit.git
+
 SPEC CHECKSUMS:
   Amplitude: 31a9038dca905b78294418ed277da9c2e07658ad
   LGButton: 9f0a7f9d3030e3f504108342f6b66d64a429371b
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  PhoneNumberKit: 6f68ac7df1ef75396b2020932cbfc971bfad80eb
   Purchases: 81efbd7dc9164247a0885ad12ddf6b043a58c1db
   PurchasesCoreSwift: eca892b2a0eff34d55d70e7c3349c1eb4c7659f5
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: 596a34eaa1ea0d37469defc3a95604ff953ad3c5
+PODFILE CHECKSUM: 39faf0d38877ca6343d0f1471f60ac6eb950e71f
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
