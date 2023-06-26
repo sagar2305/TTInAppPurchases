@@ -8,11 +8,11 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
-  - PhoneNumberKit (3.3.4):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.3.4)
-    - PhoneNumberKit/UIKit (= 3.3.4)
-  - PhoneNumberKit/PhoneNumberKitCore (3.3.4)
-  - PhoneNumberKit/UIKit (3.3.4):
+  - PhoneNumberKit (3.6.3):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.3)
+    - PhoneNumberKit/UIKit (= 3.6.3)
+  - PhoneNumberKit/PhoneNumberKitCore (3.6.3)
+  - PhoneNumberKit/UIKit (3.6.3):
     - PhoneNumberKit/PhoneNumberKitCore
   - Purchases (3.7.1):
     - PurchasesCoreSwift (= 3.7.1)
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - lottie-ios
   - Mixpanel-swift
   - NVActivityIndicatorView (~> 4.8.0)
-  - PhoneNumberKit
+  - PhoneNumberKit (~> 3.6)
   - Purchases
   - SwiftDate
   - SwiftEntryKit
@@ -53,13 +53,13 @@ SPEC CHECKSUMS:
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
-  PhoneNumberKit: 441e8b26ec88d598e3591de9061eff18f5dd12e8
+  PhoneNumberKit: bdfa83dbfbd0d537eb56605133a8310b256b126e
   Purchases: 81efbd7dc9164247a0885ad12ddf6b043a58c1db
   PurchasesCoreSwift: eca892b2a0eff34d55d70e7c3349c1eb4c7659f5
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
   SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: f96416e5c71690db3ca5705875683f503adaf68b
+PODFILE CHECKSUM: f6320af60a4127fd85a2785b2ac0184d2f118189
 
 COCOAPODS: 1.12.1

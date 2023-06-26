@@ -14,7 +14,7 @@ target 'TTInAppPurchases' do
   pod 'SwiftDate'
   pod 'Mixpanel-swift'
   pod 'SwiftEntryKit'
-  pod 'PhoneNumberKit'
+  pod 'PhoneNumberKit', '~> 3.6'
 
   # Pods for TTInAppPurchases
 

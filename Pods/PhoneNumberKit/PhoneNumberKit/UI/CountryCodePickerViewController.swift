@@ -1,5 +1,5 @@
 
-#if canImport(UIKit)
+#if os(iOS)
 
 import UIKit
 
@@ -11,7 +11,15 @@ public protocol CountryCodePickerDelegate: AnyObject {
 @available(iOS 11.0, *)
 public class CountryCodePickerViewController: UITableViewController {
 
-    lazy var searchController = UISearchController(searchResultsController: nil)
+    lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = NSLocalizedString(
+            "PhoneNumberKit.CountryCodePicker.SearchBarPlaceholder",
+            value: "Search Country Codes",
+            comment: "Placeholder for country code search field")
+
+        return searchController
+    }()
 
     public let phoneNumberKit: PhoneNumberKit
 
