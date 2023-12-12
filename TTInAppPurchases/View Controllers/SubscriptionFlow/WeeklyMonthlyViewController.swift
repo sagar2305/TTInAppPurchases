@@ -1,19 +1,16 @@
 //
-//  WeeklyMonthlyAndAnnualViewController.swift
+//  WeeklyMonthlyViewController.swift
 //  TTInAppPurchases
 //
-//  Created by Revathi on 18/04/22.
+//  Created by Revathi on 30/06/23.
 //
 
 import UIKit
 import Lottie
 import NVActivityIndicatorView
-import SwiftUI
-import StoreKit
 
-public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
-      
-    //MARK: - IBOutlets
+public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewControllerProtocol {
+    
     @IBOutlet weak var animationView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var cancelButton: UIButton!
@@ -27,12 +24,9 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var freeTrialLabel: UILabel!
     @IBOutlet weak var firstSubscriptionButton: UIButton!
     @IBOutlet weak var secondSubscriptionButton: UIButton!
-    @IBOutlet weak var thirdSubscriptionButton: UIButton!
     @IBOutlet weak var topDescriptionLabel: UILabel!
     @IBOutlet var priceButtons: [UIButton]!
     @IBOutlet var tickMarkViews: [UIView]!
-    
-    //MARK: IBOutlet Collections
     
     @IBOutlet var priceButtonStandardWidth: [NSLayoutConstraint]!
     @IBOutlet var priceButtonZoomedWidth: [NSLayoutConstraint]!
@@ -45,19 +39,13 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     
     @IBOutlet weak var firstButtonDurationLabel: UILabel!
-    @IBOutlet weak var firstButtonWeekLabel: UILabel!
+    @IBOutlet weak var firstButtonMonthLabel: UILabel!
     @IBOutlet weak var firstButtonPriceLabel: UILabel!
     @IBOutlet weak var secondButtonDurationLabel: UILabel!
     @IBOutlet weak var secondButtonMonthLabel: UILabel!
     @IBOutlet weak var secondButtonPriceLabel: UILabel!
     @IBOutlet weak var secondButtonSaveLabel: UILabel!
-    @IBOutlet weak var thirdButtonDurationLabel: UILabel!
-    @IBOutlet weak var thirdButtonMonthLabel: UILabel!
-    @IBOutlet weak var thirdButtonPriceLabel: UILabel!
-    @IBOutlet weak var thirdButtonSaveLabel: UILabel!
-    @IBOutlet weak var thirdButtonPackTypeLabel: UILabel!
     @IBOutlet weak var secondButtonPackTypeLabel: UILabel!
-    
     
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
@@ -72,7 +60,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = 2 {
+
+    private var _selectedIndex = 1 {
         didSet {
             if isViewLoaded {
                 checkFreeOfferTrialStatus(for: _selectedIndex)
@@ -80,15 +69,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
                 highlightButton(at: _selectedIndex)
             }
         }
-    }
-
-    @available(iOS 13.0, *)
-    private var countryCode: String? {
-        if let storefront = SKPaymentQueue.default().storefront {
-            let countryCode = storefront.countryCode
-            return countryCode
-        }
-        return nil
     }
     
     deinit {
@@ -99,7 +79,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        _selectedIndex = 2
+        _selectedIndex = 1
 
        // _drawShape()
         _configureUI()
@@ -110,16 +90,10 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configurePriceButton()
         _configureSubscribeButton()
         _configurePriceButtonTitle()
+      //  _configureFirstButtonPackTitle()
         _configureSecondButtonPackTitle()
-        _configureThirdButtonPackTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
-        
-        if #available(iOS 13.0, *) {
-            if countryCode == "IND" {
-                _configureSubscriptionViewsForIndia()
-            }
-        }
 
         lottieView = uiProviderDelegate?.animatingAnimationView().view
         lottieView.translatesAutoresizingMaskIntoConstraints = false
@@ -205,22 +179,11 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
-    private func _configureSubscriptionViewsForIndia() {
-        subscriptionViews[0].isHidden = true
-        subscriptionViews[1].isHidden = true
-        thirdButtonSaveLabel.isHidden = true
-        
-        thirdButtonPackTypeLabel.text = "Popular".localized
-        
-        secondButtonPackTypeLabel.isHidden = true
-      //  tickMarkImageViews[1].image = UIImage.blueTickImage
-    }
-    
     private func _configurePriceButtonTitle() {
         _configureFirstSubscriptionButton()
+        _configureFirstSubscriptionButton()
         _configureSecondSubscriptionButton()
-        _configureThirdSubscriptionButton()
-        _selectedIndex = 2
+        _selectedIndex = 1
     }
     
     private func _configureHeaderLabels() {
@@ -262,9 +225,22 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
         let pricePart = NSMutableAttributedString(string: " \(price)", attributes: priceAttribute)
         attributedString.append(pricePart)
+        
         firstButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
-        firstButtonWeekLabel.attributedText = NSMutableAttributedString(string: "week pack".localized, attributes: regularAttribute)
+        firstButtonMonthLabel.attributedText = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
         firstButtonPriceLabel.attributedText = attributedString
+        
+        //firstButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
+        
+        let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
+            .joined()
+        let monthlyPrice = price.components(separatedBy: characterSet)
+            .joined()
+        
+       /* if let weeklyValue = Float(weeklyPrice), let monthlyValue = Float(monthlyPrice) {
+            let save = (weeklyValue - (monthlyValue / 4))/weeklyValue * 100
+            firstButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
+        }*/
     }
     
     private func _configureSecondSubscriptionButton() {
@@ -274,54 +250,31 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         attributedString.append(pricePart)
         
         secondButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
-        secondButtonMonthLabel.attributedText = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
+        secondButtonMonthLabel.attributedText = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
         secondButtonPriceLabel.attributedText = attributedString
         
-        secondButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
+       // secondButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
         
-        let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
-            .joined()
-        let monthlyPrice = price.components(separatedBy: characterSet)
-            .joined()
-        
-        if let weeklyValue = Float(weeklyPrice), let monthlyValue = Float(monthlyPrice) {
-            let save = (weeklyValue - (monthlyValue / 4))/weeklyValue * 100
-            secondButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
-        }
-    }
-    
-    private func _configureThirdSubscriptionButton() {
-        let price = uiProviderDelegate?.subscriptionPrice(for: 2, withDurationSuffix: false) ?? "-"
-        let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
-        let pricePart = NSMutableAttributedString(string: " \(price)", attributes: priceAttribute)
-        attributedString.append(pricePart)
-        
-        thirdButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
-        thirdButtonMonthLabel.attributedText = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
-        thirdButtonPriceLabel.attributedText = attributedString
-        
-        thirdButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
-        
-        let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
+       /* let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
             .joined()
         let yearlyPrice = price.components(separatedBy: characterSet)
             .joined()
         
         if let weeklyValue = Float(weeklyPrice), let yearlyValue = Float(yearlyPrice) {
             let save = (weeklyValue - (yearlyValue / 52))/weeklyValue * 100
-            thirdButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
-        }
+            secondButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
+        }*/
         
     }
     
-    private func _configureSecondButtonPackTitle()  {
-        secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
-        secondButtonPackTypeLabel.text = "Popular".localized
-    }
+    /*private func _configureFirstButtonPackTitle()  {
+        firstButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+        firstButtonPackTypeLabel.text = "Popular".localized
+    }*/
     
-    private func _configureThirdButtonPackTitle() {
-        thirdButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
-        thirdButtonPackTypeLabel.text = "Best Value".localized
+    private func _configureSecondButtonPackTitle() {
+      //  secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+      //  secondButtonPackTypeLabel.text = "Best Value".localized
     }
     
     private func _configureSubscribeButton() {
@@ -430,10 +383,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     
     @IBAction func selectedSecondSubscription(_ sender: UIButton) {
         _selectedIndex = sender.tag // 1
-    }
-    
-    @IBAction func selectedThirdSubscription(_ sender: UIButton) {
-        _selectedIndex = sender.tag // 2
     }
     
     @IBAction func didTapSubscribeNowButton(_ sender: UIButton) {

@@ -19,4 +19,5 @@ public extension Notification.Name {
     static let didFetchedServerFetchDate = Notification.Name("LastFetchedServerDate")
     static let didChangesCLTypingLabelString =  Notification.Name("CLTypingLabelStringChanged")
     static let callsGotUpdatedInBackground = Notification.Name("CallsGotUpdatedInBackground")
+    static let creditsFetchedNotification = Notification.Name("CreditsFetchedNotification")
 }

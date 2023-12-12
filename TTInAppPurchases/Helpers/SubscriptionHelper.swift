@@ -10,6 +10,27 @@ import UIKit
 import Purchases
 import Amplitude
 
+enum OfferingIdentifier: String, CaseIterable {
+    case firstNumber = "firstnumber"
+    case secondNumber = "secondnumber"
+    case thirdNumber = "thirdnumber"
+    case fourthNumber = "fourthnumber"
+
+    var entitlement: String {
+        switch self {
+        case .firstNumber:
+            return "firstNumberPro"
+        case .secondNumber:
+            return "secondNumberPro"
+        case .thirdNumber:
+            return "thirdNumberPro"
+        case .fourthNumber:
+            return "fourthNumberPro"
+        }
+    }
+}
+
+
 public class SubscriptionHelper {
     
     public enum InAppPurchaseError: Error {
@@ -111,6 +132,45 @@ public class SubscriptionHelper {
         }
     }
     
+    public func purchasePackage(_ package: IAPProduct, offeringIdentifier: String, _ completionHandler: @escaping PurchaseCompletion) {
+        Purchases.shared.purchasePackage(package.package) { (transaction, purchaserInfo, error, userCancelled) in
+            if userCancelled {
+                AnalyticsHelper.shared.logEvent(.userCancelledPurchase,
+                                                         properties: [
+                                                            .productId: package.product.productIdentifier
+                ])
+                completionHandler(!userCancelled, .userCancelledPurchase)
+                return
+            }
+            
+            guard error == nil else {
+                completionHandler(false, .purchasedFailed)
+                return
+            }
+            
+            guard let transaction = transaction else {
+                completionHandler(false, nil)
+                return
+            }
+            
+            if let entitlement = OfferingIdentifier(rawValue: offeringIdentifier)?.entitlement, purchaserInfo?.entitlements[entitlement]?.isActive == true {
+                let revenue = AMPRevenue()
+                revenue.setProductIdentifier(package.product.productIdentifier)
+                revenue.setEventProperties([
+                    "Transaction Date": transaction.transactionDate ?? "--",
+                    "Transaction Identifier": transaction.transactionIdentifier ?? "--"
+                ])
+                AnalyticsHelper.shared.logRevenue(revenue)
+//                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
+                User.shared.saveUserProperty(.dateOfSubScription, value: Date().toFormat("yyyy-MM-dd HH:mm"))
+                User.shared.saveUserProperty(.userPlan, value: package.product.productIdentifier)
+                completionHandler(true, nil)
+            } else {
+                completionHandler(false, nil)
+            }
+        }
+    }
+    
     public func purchasePackage(_ package: IAPProduct, _ completionHandler: @escaping PurchaseCompletion) {
         AnalyticsHelper.shared.logEvent(.initiatesPurchase,
                                                  properties: [
@@ -119,7 +179,6 @@ public class SubscriptionHelper {
         ])
         
         Purchases.shared.purchasePackage(package.package) { (transaction, purchaserInfo, error, userCancelled) in
-            
             if userCancelled {
                 AnalyticsHelper.shared.logEvent(.userCancelledPurchase,
                                                          properties: [
