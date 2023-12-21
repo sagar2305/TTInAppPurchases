@@ -121,18 +121,19 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
 
     private var _withDefaultPickerUI: Bool = false {
         didSet {
-            if #available(iOS 11.0, *), flagButton.actions(forTarget: self, forControlEvent: .touchUpInside) == nil {
+            if flagButton.actions(forTarget: self, forControlEvent: .touchUpInside) == nil {
                 flagButton.addTarget(self, action: #selector(didPressFlagButton), for: .touchUpInside)
             }
         }
     }
 
-    @available(iOS 11.0, *)
     public var withDefaultPickerUI: Bool {
         get { _withDefaultPickerUI }
         set { _withDefaultPickerUI = newValue }
     }
-    
+
+    public var withDefaultPickerUIOptions: CountryCodePickerOptions = CountryCodePickerOptions()
+
     public var modalPresentationStyle: UIModalPresentationStyle?
 
     public var isPartialFormatterEnabled = true
@@ -210,6 +211,10 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         }
         super.layoutSubviews()
     }
+    
+    // MARK: - Insets
+    private var insets: UIEdgeInsets?
+    private var clearButtonPadding: CGFloat?
 
     // MARK: Lifecycle
 
@@ -249,6 +254,30 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     public override init(frame: CGRect) {
         self.phoneNumberKit = PhoneNumberKit()
         super.init(frame: frame)
+        self.setup()
+    }
+    
+   
+    /**
+     Initialize an instance with specific insets and clear button padding.
+
+     This initializer creates an instance of the class with custom UIEdgeInsets and padding for the clear button.
+     Both of these parameters are used to customize the appearance of the text field and its clear button within the class.
+     
+     - Parameters:
+       - insets: The UIEdgeInsets to be applied to the text field's bounding rectangle. These insets define the padding
+         that is applied within the text field's bounding rectangle. A UIEdgeInsets value contains insets for
+         each of the four directions (top, bottom, left, right). Positive values move the content toward the center of the
+         text field, and negative values move the content toward the edges of the text field.
+       - clearButtonPadding: The padding to be applied to the clear button. This value defines the space between the clear
+         button and the edges of the text field. A positive value increases the distance between the clear button and the
+         text field's edges, and a negative value decreases this distance.
+    */
+    public init(insets: UIEdgeInsets, clearButtonPadding: CGFloat) {
+        self.phoneNumberKit = PhoneNumberKit()
+        self.insets = insets
+        self.clearButtonPadding = clearButtonPadding
+        super.init(frame: .zero)
         self.setup()
     }
 
@@ -336,10 +365,10 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         self.attributedPlaceholder = ph
     }
 
-    @available(iOS 11.0, *)
     @objc func didPressFlagButton() {
         guard withDefaultPickerUI else { return }
-        let vc = CountryCodePickerViewController(phoneNumberKit: phoneNumberKit)
+        let vc = CountryCodePickerViewController(phoneNumberKit: phoneNumberKit,
+                                                 options: withDefaultPickerUIOptions)
         vc.delegate = self
         if let nav = containingViewController?.navigationController, !PhoneNumberKit.CountryCodePicker.forceModalPresentation {
             nav.pushViewController(vc, animated: true)
@@ -421,11 +450,6 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     }
 
     open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // This allows for the case when a user autocompletes a phone number:
-        if range == NSRange(location: 0, length: 0) && string.isBlank {
-            return true
-        }
-
         guard let text = text else {
             return false
         }
@@ -435,6 +459,11 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
             return false
         }
         guard self.isPartialFormatterEnabled else {
+            return true
+        }
+        
+        // This allows for the case when a user autocompletes a phone number:
+        if range == NSRange(location: 0, length: 0) && string.isBlank {
             return true
         }
 
@@ -499,7 +528,6 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
         self._delegate?.textFieldDidEndEditing?(textField)
     }
 
-    @available (iOS 10.0, tvOS 10.0, *)
     open func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         updateTextFieldDidEndEditing(textField)
         if let _delegate = _delegate {
@@ -536,7 +564,6 @@ open class PhoneNumberTextField: UITextField, UITextFieldDelegate {
     }
 }
 
-@available(iOS 11.0, *)
 extension PhoneNumberTextField: CountryCodePickerDelegate {
 
     public func countryCodePickerViewControllerDidPickCountry(_ country: CountryCodePickerViewController.Country) {
@@ -553,6 +580,38 @@ extension PhoneNumberTextField: CountryCodePickerDelegate {
         }
     }
 }
+
+// MARK: - Insets
+
+extension PhoneNumberTextField {
+    
+    open override func textRect(forBounds bounds: CGRect) -> CGRect {
+        if let insets = self.insets {
+            return super.textRect(forBounds: bounds.inset(by: insets))
+        } else {
+            return super.textRect(forBounds: bounds)
+        }
+    }
+    
+    open override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        if let insets = self.insets {
+            return super.editingRect(forBounds: bounds
+                .inset(by: insets))
+        } else {
+            return super.editingRect(forBounds: bounds)
+        }
+    }
+    
+    open override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        if let insets = self.insets,
+           let clearButtonPadding = self.clearButtonPadding {
+            return super.clearButtonRect(forBounds: bounds.insetBy(dx: insets.left - clearButtonPadding, dy: 0))
+        } else {
+            return super.clearButtonRect(forBounds: bounds)
+        }
+    }
+}
+
 
 extension String {
   var isBlank: Bool {

@@ -3,10 +3,10 @@ PODS:
     - AnalyticsConnector (~> 1.0.0)
   - AnalyticsConnector (1.0.3)
   - LGButton (1.1.6)
-  - lottie-ios (4.3.3)
-  - Mixpanel-swift (4.2.0):
-    - Mixpanel-swift/Complete (= 4.2.0)
-  - Mixpanel-swift/Complete (4.2.0)
+  - lottie-ios (3.3.0)
+  - Mixpanel-swift (3.2.6):
+    - Mixpanel-swift/Complete (= 3.2.6)
+  - Mixpanel-swift/Complete (3.2.6)
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
@@ -16,22 +16,22 @@ PODS:
   - PhoneNumberKit/PhoneNumberKitCore (3.7.5)
   - PhoneNumberKit/UIKit (3.7.5):
     - PhoneNumberKit/PhoneNumberKitCore
-  - Purchases (3.14.4):
-    - PurchasesCoreSwift (= 3.14.4)
-  - PurchasesCoreSwift (3.14.4)
-  - SwiftDate (7.0.0)
-  - SwiftEntryKit (2.0.0)
+  - QuickLayout (3.0.0)
+  - RevenueCat (4.25.10)
+  - SwiftDate (6.2.0)
+  - SwiftEntryKit (1.2.7):
+    - QuickLayout (= 3.0.0)
 
 DEPENDENCIES:
   - Amplitude
   - LGButton
-  - lottie-ios
-  - Mixpanel-swift
+  - lottie-ios (~> 3.3.0)
+  - Mixpanel-swift (~> 3.2.0)
   - NVActivityIndicatorView (~> 4.8.0)
   - PhoneNumberKit (~> 3.6)
-  - Purchases
-  - SwiftDate
-  - SwiftEntryKit
+  - RevenueCat (~> 4.25.2)
+  - SwiftDate (~> 6.2.0)
+  - SwiftEntryKit (~> 1.2.7)
 
 SPEC REPOS:
   trunk:
@@ -42,8 +42,8 @@ SPEC REPOS:
     - Mixpanel-swift
     - NVActivityIndicatorView
     - PhoneNumberKit
-    - Purchases
-    - PurchasesCoreSwift
+    - QuickLayout
+    - RevenueCat
     - SwiftDate
     - SwiftEntryKit
 
@@ -51,15 +51,15 @@ SPEC CHECKSUMS:
   Amplitude: 0485db1968c10d13dc40b7980fb9f83c4e3036ab
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   LGButton: 9f0a7f9d3030e3f504108342f6b66d64a429371b
-  lottie-ios: 25e7b2675dad5c3ddad369ac9baab03560c5bfdd
-  Mixpanel-swift: e5dd85295923e6a875acf17ccbab8d2ecb10ea65
+  lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
+  Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   PhoneNumberKit: f3980e01b84615524dd496adee6a1b5ced87d3f4
-  Purchases: 2c326c3a0a93445db8fe194d4938fc001e2cec1c
-  PurchasesCoreSwift: 00f41d415f3fb701a5c4bc9909bcbbcf1b1c4b05
-  SwiftDate: bbc26e26fc8c0c33fbee8c140c5e8a68293a148a
-  SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a
+  QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
+  RevenueCat: c9d0c84ec1db32858fea1881e3aff91da2013442
+  SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
+  SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: 2ada953a79924a541d4c1b3a76c735080e470658
+PODFILE CHECKSUM: 120f12f7279e55d2c463878f80c02d9984f992e9
 
 COCOAPODS: 1.12.1

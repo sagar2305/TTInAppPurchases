@@ -44,7 +44,7 @@
 
 
 
-+ (BOOL)setupSSLPinsUsingDictionnary:(NSDictionary*)domainsAndCertificates {
++ (BOOL)setupSSLPinsUsingDictionnary:(NSDictionary *)domainsAndCertificates {
     if (domainsAndCertificates == nil) {
         return NO;
     }
@@ -73,7 +73,7 @@
 }
 
 
-+ (BOOL)verifyPinnedCertificateForTrust:(SecTrustRef)trust andDomain:(NSString*)domain {
++ (BOOL)verifyPinnedCertificateForTrust:(SecTrustRef)trust andDomain:(NSString *)domain {
     if ((trust == NULL) || (domain == nil)) {
         return NO;
     }
@@ -99,10 +99,16 @@
         // Unfortunately the anchor/CA certificate cannot be accessed this way
         CFIndex certsNb = SecTrustGetCertificateCount(trust);
         for(int i=0;i<certsNb;i++) {
-
+            SecCertificateRef certificate = nil;
             // Extract the certificate
-            SecCertificateRef certificate = SecTrustGetCertificateAtIndex(trust, i);
-            NSData* DERCertificate = (__bridge NSData*) SecCertificateCopyData(certificate);
+            if (@available(macOS 12.0, iOS 15.0, *)) {
+                CFArrayRef certs = SecTrustCopyCertificateChain(trust);
+                certificate = (SecCertificateRef)CFArrayGetValueAtIndex(certs, i);
+            } else {
+                certificate = SecTrustGetCertificateAtIndex(trust, i);
+            }
+            
+            NSData *DERCertificate = (__bridge NSData *)SecCertificateCopyData(certificate);
 
             // Compare the two certificates
             if ([pinnedCertificate isEqualToData:DERCertificate]) {
@@ -126,9 +132,17 @@
         }
         SecTrustSetAnchorCertificates(trust, NULL);
 
-        SecTrustResultType trustResult;
-        SecTrustEvaluate(trust, &trustResult);
-        if (trustResult == kSecTrustResultUnspecified) {
+        BOOL isTrusted = false;
+        if (@available(iOS 12.0, macos 10.14, *)) {
+            CFErrorRef error;
+            isTrusted = SecTrustEvaluateWithError(trust, &error);
+        } else {
+            SecTrustResultType trustResult;
+            SecTrustEvaluate(trust, &trustResult);
+            isTrusted = trustResult == kSecTrustResultUnspecified;
+        }
+
+        if (isTrusted) {
             // The anchor certificate was pinned
             CFRelease(anchorCertificate);
             return YES;

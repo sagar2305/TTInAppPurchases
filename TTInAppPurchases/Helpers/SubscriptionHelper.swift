@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Purchases
+import RevenueCat
 import Amplitude
+import StoreKit
 
 enum OfferingIdentifier: String, CaseIterable {
     case firstNumber = "firstnumber"
@@ -49,7 +50,7 @@ public class SubscriptionHelper {
     
     private(set) public var isProUser: Bool = false
     
-    private func _process(purchaserInfo: Purchases.PurchaserInfo?) {
+    private func _process(purchaserInfo: CustomerInfo?) {
         guard let purchaserInfo = purchaserInfo else {
             return
         }
@@ -62,7 +63,7 @@ public class SubscriptionHelper {
     }
     
     public func refreshPurchaseInfo() {
-        Purchases.shared.purchaserInfo { (purchaserInfo, _) in
+        Purchases.shared.getCustomerInfo { (purchaserInfo, _) in
             self._process(purchaserInfo: purchaserInfo)
         }
     }
@@ -72,7 +73,7 @@ public class SubscriptionHelper {
     }
 
     public func restorePurchases(_ completionHandler: @escaping PurchaseCompletion) {
-        Purchases.shared.restoreTransactions { (purchaserInfo, error) in
+        Purchases.shared.restorePurchases { (purchaserInfo, error) in
             guard error == nil else {
                 AnalyticsHelper.shared.logEvent(.restorationFailure,
                                                          properties: [
@@ -109,7 +110,7 @@ public class SubscriptionHelper {
     
     public func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping CompletionHandler) {
         var availableProducts: [IAPProduct]?
-        Purchases.shared.offerings { (offerings, _) in
+        Purchases.shared.getOfferings { (offerings, _) in
             if let offerings = offerings {
                 
                 if offeringIdentifier == nil {
@@ -133,7 +134,8 @@ public class SubscriptionHelper {
     }
     
     public func purchasePackage(_ package: IAPProduct, offeringIdentifier: String, _ completionHandler: @escaping PurchaseCompletion) {
-        Purchases.shared.purchasePackage(package.package) { (transaction, purchaserInfo, error, userCancelled) in
+        
+        Purchases.shared.purchase(package: package.package) { (transaction, purchaserInfo, error, userCancelled) in
             if userCancelled {
                 AnalyticsHelper.shared.logEvent(.userCancelledPurchase,
                                                          properties: [
@@ -157,8 +159,8 @@ public class SubscriptionHelper {
                 let revenue = AMPRevenue()
                 revenue.setProductIdentifier(package.product.productIdentifier)
                 revenue.setEventProperties([
-                    "Transaction Date": transaction.transactionDate ?? "--",
-                    "Transaction Identifier": transaction.transactionIdentifier ?? "--"
+                    "Transaction Date": transaction.sk1Transaction?.transactionDate ,
+                    "Transaction Identifier": transaction.transactionIdentifier 
                 ])
                 AnalyticsHelper.shared.logRevenue(revenue)
 //                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
@@ -178,7 +180,7 @@ public class SubscriptionHelper {
                                                     .price: package.price
         ])
         
-        Purchases.shared.purchasePackage(package.package) { (transaction, purchaserInfo, error, userCancelled) in
+        Purchases.shared.purchase(package: package.package) { (transaction, purchaserInfo, error, userCancelled) in
             if userCancelled {
                 AnalyticsHelper.shared.logEvent(.userCancelledPurchase,
                                                          properties: [
@@ -203,8 +205,8 @@ public class SubscriptionHelper {
                 let revenue = AMPRevenue()
                 revenue.setProductIdentifier(package.product.productIdentifier)
                 revenue.setEventProperties([
-                    "Transaction Date": transaction.transactionDate ?? "--",
-                    "Transaction Identifier": transaction.transactionIdentifier ?? "--"
+                    "Transaction Date": transaction.sk1Transaction?.transactionDate,
+                    "Transaction Identifier": transaction.transactionIdentifier
                 ])
                 AnalyticsHelper.shared.logRevenue(revenue)
 //                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)
@@ -217,14 +219,14 @@ public class SubscriptionHelper {
         }
     }
     
-    public func handlePurchaseInfo(_ purchaserInfo: Purchases.PurchaserInfo?, for transaction: SKPaymentTransaction) {
+    public func handlePurchaseInfo(_ purchaserInfo: CustomerInfo?, for transaction: StoreTransaction) {
         if purchaserInfo?.entitlements["pro"]?.isActive == true {
             self.isProUser = true
             let revenue = AMPRevenue()
             revenue.setProductIdentifier(purchaserInfo?.entitlements["pro"]?.productIdentifier)
             revenue.setEventProperties([
-                "Transaction Date": transaction.transactionDate ?? "--",
-                "Transaction Identifier": transaction.transactionIdentifier ?? "--"
+                "Transaction Date": transaction.sk1Transaction?.transactionDate ?? "--",
+                "Transaction Identifier": transaction.transactionIdentifier
             ])
             AnalyticsHelper.shared.logRevenue(revenue)
 //                AppsFlyerHelper.shared.logRevenue(for: package, transaction: transaction)

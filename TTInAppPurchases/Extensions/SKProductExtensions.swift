@@ -5,29 +5,29 @@
 //  Created by Revathi on 20/06/22.
 //
 
-import Foundation
 import StoreKit
+import RevenueCat
 
-public extension SKProduct.PeriodUnit {
+
+extension SubscriptionPeriod.Unit {
     func description(capitalizeFirstLetter: Bool = false, numberOfUnits: Int? = nil) -> String {
-        var period: String = {
-            switch self {
-            case .day: return "day"
-            case .week: return "week"
-            case .month: return "month"
-            case .year: return "year"
-            @unknown default: return "N/A"
-            }
-        }()
+        var unitString = String(describing: self)
         
-        var numUnits = ""
-        var plural = ""
-        if let numberOfUnits = numberOfUnits {
-            numUnits = "\(numberOfUnits) " // Add space for formatting
-            plural = numberOfUnits > 1 ? "s" : ""
-            period = period + plural
+        // Pluralize the unit if the number of units is greater than 1
+        if let numberOfUnits = numberOfUnits, numberOfUnits > 1 {
+            unitString += "s"
         }
-        print("Period: \(period)")
-        return "\(numUnits)\(capitalizeFirstLetter ? period.capitalized.localized : period.localized)"
+
+        // Optionally capitalize the first letter
+        if capitalizeFirstLetter {
+            unitString = unitString.prefix(1).capitalized + unitString.dropFirst()
+        }
+
+        // Prepend the number of units, if available
+        if let numberOfUnits = numberOfUnits {
+            unitString = "\(numberOfUnits) " + unitString
+        }
+        
+        return unitString
     }
 }

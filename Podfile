@@ -7,13 +7,13 @@ target 'TTInAppPurchases' do
 #  use_modular_headers!
 
   pod 'LGButton'
-  pod 'lottie-ios'
-  pod 'Purchases'
+  pod 'lottie-ios', '~> 3.3.0'
+  pod 'RevenueCat', '~> 4.25.6'
   pod 'NVActivityIndicatorView', '~> 4.8.0'
   pod 'Amplitude'
-  pod 'SwiftDate'
-  pod 'Mixpanel-swift'
-  pod 'SwiftEntryKit'
+  pod 'SwiftDate', '~> 6.2.0'
+  pod 'Mixpanel-swift', '~> 3.2.0'
+  pod 'SwiftEntryKit', '~> 1.2.7'
   pod 'PhoneNumberKit', '~> 3.6'
 
   # Pods for TTInAppPurchases

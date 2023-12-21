@@ -7,16 +7,16 @@
 //
 
 import Foundation
-import Purchases
+import RevenueCat
 
 public struct IAPProduct {
     public let   identifier: String
     private let _price: String
     private let _introductoryPrice: String
-    public let   product: SKProduct
+    public let   product: StoreProduct
     public let   offersFreeTrial: Bool
-    public let   packageType: Purchases.PackageType
-    public let   package: Purchases.Package
+    public let   packageType: PackageType
+    public let   package: Package
     public let freeTrialDuration: String?
     
     private var _durationSuffix: String {
@@ -65,15 +65,15 @@ public struct IAPProduct {
         return _price + _durationSuffix
     }
     
-    init(package: Purchases.Package) {
+    init(package: Package) {
         _price = package.localizedPriceString
-        _introductoryPrice = package.localizedIntroductoryPriceString
-        product = package.product
+        _introductoryPrice = package.localizedIntroductoryPriceString ?? ""
+        product = package.storeProduct
         packageType = package.packageType
-        offersFreeTrial = package.product.introductoryPrice?.paymentMode == .freeTrial
+        offersFreeTrial = package.storeProduct.introductoryDiscount?.paymentMode == .freeTrial
         identifier = package.identifier
-        if let period = package.product.introductoryPrice?.subscriptionPeriod {
-            freeTrialDuration = period.unit.description(capitalizeFirstLetter: false, numberOfUnits: period.numberOfUnits)
+        if let period = package.storeProduct.introductoryDiscount?.subscriptionPeriod {
+            freeTrialDuration = period.unit.description(capitalizeFirstLetter: false, numberOfUnits: period.value)
         } else {
             freeTrialDuration = nil
         }

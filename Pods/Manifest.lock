@@ -1,23 +1,23 @@
 PODS:
-  - Amplitude (7.0.1)
+  - Amplitude (8.17.2):
+    - AnalyticsConnector (~> 1.0.0)
+  - AnalyticsConnector (1.0.3)
   - LGButton (1.1.6)
-  - lottie-ios (3.1.8)
-  - Mixpanel-swift (2.7.7):
-    - Mixpanel-swift/Complete (= 2.7.7)
-  - Mixpanel-swift/Complete (2.7.7)
+  - lottie-ios (3.3.0)
+  - Mixpanel-swift (3.2.6):
+    - Mixpanel-swift/Complete (= 3.2.6)
+  - Mixpanel-swift/Complete (3.2.6)
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
-  - PhoneNumberKit (3.6.3):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.6.3)
-    - PhoneNumberKit/UIKit (= 3.6.3)
-  - PhoneNumberKit/PhoneNumberKitCore (3.6.3)
-  - PhoneNumberKit/UIKit (3.6.3):
+  - PhoneNumberKit (3.7.5):
+    - PhoneNumberKit/PhoneNumberKitCore (= 3.7.5)
+    - PhoneNumberKit/UIKit (= 3.7.5)
+  - PhoneNumberKit/PhoneNumberKitCore (3.7.5)
+  - PhoneNumberKit/UIKit (3.7.5):
     - PhoneNumberKit/PhoneNumberKitCore
-  - Purchases (3.7.1):
-    - PurchasesCoreSwift (= 3.7.1)
-  - PurchasesCoreSwift (3.7.1)
   - QuickLayout (3.0.0)
+  - RevenueCat (4.25.10)
   - SwiftDate (6.2.0)
   - SwiftEntryKit (1.2.7):
     - QuickLayout (= 3.0.0)
@@ -25,41 +25,41 @@ PODS:
 DEPENDENCIES:
   - Amplitude
   - LGButton
-  - lottie-ios
-  - Mixpanel-swift
+  - lottie-ios (~> 3.3.0)
+  - Mixpanel-swift (~> 3.2.0)
   - NVActivityIndicatorView (~> 4.8.0)
   - PhoneNumberKit (~> 3.6)
-  - Purchases
-  - SwiftDate
-  - SwiftEntryKit
+  - RevenueCat (~> 4.25.2)
+  - SwiftDate (~> 6.2.0)
+  - SwiftEntryKit (~> 1.2.7)
 
 SPEC REPOS:
   trunk:
     - Amplitude
+    - AnalyticsConnector
     - LGButton
     - lottie-ios
     - Mixpanel-swift
     - NVActivityIndicatorView
     - PhoneNumberKit
-    - Purchases
-    - PurchasesCoreSwift
     - QuickLayout
+    - RevenueCat
     - SwiftDate
     - SwiftEntryKit
 
 SPEC CHECKSUMS:
-  Amplitude: 31a9038dca905b78294418ed277da9c2e07658ad
+  Amplitude: 0485db1968c10d13dc40b7980fb9f83c4e3036ab
+  AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   LGButton: 9f0a7f9d3030e3f504108342f6b66d64a429371b
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
+  lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
+  Mixpanel-swift: ce120e0d51dcb0d0bf5a25e1ee232fe89ad1136b
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
-  PhoneNumberKit: bdfa83dbfbd0d537eb56605133a8310b256b126e
-  Purchases: 81efbd7dc9164247a0885ad12ddf6b043a58c1db
-  PurchasesCoreSwift: eca892b2a0eff34d55d70e7c3349c1eb4c7659f5
+  PhoneNumberKit: f3980e01b84615524dd496adee6a1b5ced87d3f4
   QuickLayout: 07b45a72b10083fee3f095990cfed1c1e7b27f0a
+  RevenueCat: c9d0c84ec1db32858fea1881e3aff91da2013442
   SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: f6320af60a4127fd85a2785b2ac0184d2f118189
+PODFILE CHECKSUM: 120f12f7279e55d2c463878f80c02d9984f992e9
 
 COCOAPODS: 1.12.1
