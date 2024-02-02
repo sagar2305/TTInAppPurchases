@@ -28,7 +28,7 @@ s.framework = "UIKit"
 s.dependency 'PhoneNumberKit', '~> 3.6'
 s.dependency 'LGButton'
 s.dependency 'lottie-ios'
-s.dependency 'RevenueCat', '~> 4.25.4'
+s.dependency 'RevenueCat'
 s.dependency 'NVActivityIndicatorView', '~> 4.8.0'
 s.dependency 'Amplitude'
 s.dependency 'SwiftDate'

@@ -133,6 +133,7 @@ public class SubscriptionHelper {
         }
     }
     
+    /// Second number subscription purchase
     public func purchasePackage(_ package: IAPProduct, offeringIdentifier: String, _ completionHandler: @escaping PurchaseCompletion) {
         
         Purchases.shared.purchase(package: package.package) { (transaction, purchaserInfo, error, userCancelled) in
@@ -169,6 +170,25 @@ public class SubscriptionHelper {
                 completionHandler(true, nil)
             } else {
                 completionHandler(false, nil)
+            }
+        }
+    }
+    
+    ///SecondNumberConsumerPackagePurchase
+    public func purchaseConsumablePackage(_ package: IAPProduct, _ completionHandler: @escaping PurchaseCompletion) {
+        Purchases.shared.purchase(package: package.package) { (transaction, purchaserInfo, error, userCancelled) in
+            if userCancelled {
+                AnalyticsHelper.shared.logEvent(.userCancelledPurchase, properties: [.productId: package.product.productIdentifier])
+                completionHandler(false, .userCancelledPurchase)
+            } else if let error = error {
+                completionHandler(false, .purchasedFailed)
+                print("Purchase failed with error: \(error.localizedDescription)")
+            } else if let transaction = transaction {
+                // Purchase was successful, you can handle further processing here.
+                completionHandler(true, nil)
+            } else {
+                completionHandler(false, nil)
+                print("Unexpected error: No transaction or error received.")
             }
         }
     }
