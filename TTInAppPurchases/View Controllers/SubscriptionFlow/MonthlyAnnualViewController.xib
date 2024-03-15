@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WeeklyMonthlyViewController" customModule="TTInAppPurchases" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MonthlyAnnualViewController" customModule="TTInAppPurchases" customModuleProvider="target">
             <connections>
                 <outlet property="animationView" destination="LtU-62-Ok0" id="ocZ-i2-isA"/>
                 <outlet property="cancelButton" destination="Byr-MZ-kdU" id="2Kt-kt-v1e"/>
@@ -21,6 +21,7 @@
                 <outlet property="feature4Label" destination="eUS-XR-4KC" id="OgL-ra-Vm6"/>
                 <outlet property="firstButtonDurationLabel" destination="38i-WF-mqw" id="cAk-x9-HpR"/>
                 <outlet property="firstButtonMonthLabel" destination="Cbq-8f-naF" id="Olb-U8-ztU"/>
+                <outlet property="firstButtonPackTypeLabel" destination="ZNN-Va-58u" id="CLd-eR-K8u"/>
                 <outlet property="firstButtonPriceLabel" destination="VBe-Wq-cbQ" id="snR-Jy-zGO"/>
                 <outlet property="firstSubscriptionButton" destination="rwf-09-JKW" id="aLJ-NW-IYe"/>
                 <outlet property="freeTrialLabel" destination="MDN-dw-wa9" id="Qbo-1Q-WBc"/>
@@ -29,7 +30,9 @@
                 <outlet property="restorePurchasesButton" destination="s6a-bL-Yx2" id="AFy-MQ-BKb"/>
                 <outlet property="secondButtonDurationLabel" destination="npK-Ca-p3s" id="1ZR-Dw-TCI"/>
                 <outlet property="secondButtonMonthLabel" destination="jPN-SS-Q0x" id="EUT-C7-0K6"/>
+                <outlet property="secondButtonPackTypeLabel" destination="oJQ-SV-Qmx" id="z3z-4y-md8"/>
                 <outlet property="secondButtonPriceLabel" destination="hgr-fd-Nq4" id="e7a-iE-Fsi"/>
+                <outlet property="secondButtonSaveLabel" destination="fV4-2F-rhW" id="8zP-4y-aHJ"/>
                 <outlet property="secondSubscriptionButton" destination="UYt-Wo-yuP" id="JQj-ED-Q6K"/>
                 <outlet property="stackViewHeightConstraint" destination="oaI-7F-Y5V" id="NO6-uH-hLk"/>
                 <outlet property="subscribeButton" destination="RhW-mg-z9f" id="Xnw-b4-CYF"/>
@@ -202,10 +205,10 @@
                                                             <rect key="frame" x="9" y="2.3333333333333144" width="103" height="28"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Jsa-Th-csl">
-                                                                    <rect key="frame" x="19.666666666666671" y="0.0" width="64" height="28"/>
+                                                                    <rect key="frame" x="28.333333333333346" y="0.0" width="46.333333333333343" height="28"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Best Value" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNN-Va-58u" userLabel="Best Value">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="64" height="28"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNN-Va-58u" userLabel="Best Value">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="46.333333333333336" height="28"/>
                                                                             <color key="backgroundColor" name="primaryColor"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="28" id="oRb-8L-DnJ"/>
@@ -215,7 +218,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfw-zT-UgM">
-                                                                            <rect key="frame" x="50" y="0.0" width="14" height="28"/>
+                                                                            <rect key="frame" x="32.333333333333329" y="0.0" width="14" height="28"/>
                                                                             <subviews>
                                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_tick" translatesAutoresizingMaskIntoConstraints="NO" id="UVM-cc-tu1">
                                                                                     <rect key="frame" x="0.0" y="7.0000000000000568" width="14" height="14"/>
@@ -646,7 +649,7 @@
                 <constraint firstAttribute="bottom" secondItem="O6V-K2-Ft9" secondAttribute="bottom" id="djS-cS-IR0"/>
                 <constraint firstAttribute="trailing" secondItem="O6V-K2-Ft9" secondAttribute="trailing" id="tvd-7i-MXH"/>
             </constraints>
-            <point key="canvasLocation" x="65" y="20"/>
+            <point key="canvasLocation" x="64.885496183206101" y="19.718309859154932"/>
         </view>
     </objects>
     <resources>

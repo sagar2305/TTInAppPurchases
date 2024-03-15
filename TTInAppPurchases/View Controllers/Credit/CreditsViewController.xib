@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -12,6 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreditsViewController" customModule="TTInAppPurchases" customModuleProvider="target">
             <connections>
+                <outlet property="firstSubscriptionLabel" destination="40w-YJ-WWM" id="xtp-X8-kbp"/>
+                <outlet property="secondSubscriptionLabel" destination="20B-jx-pBK" id="wdb-Py-DJa"/>
+                <outlet property="thirdSubscriptionLabel" destination="4fJ-ji-4et" id="XDv-sV-5T5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="priceLabels" destination="qJ4-Io-HFd" collectionClass="NSMutableArray" id="2a8-MY-hbb"/>
                 <outletCollection property="priceLabels" destination="ERD-62-bhm" collectionClass="NSMutableArray" id="DZp-N9-3oQ"/>
@@ -19,6 +22,9 @@
                 <outletCollection property="titleLabel" destination="40w-YJ-WWM" collectionClass="NSMutableArray" id="kGU-Jc-acx"/>
                 <outletCollection property="titleLabel" destination="20B-jx-pBK" collectionClass="NSMutableArray" id="JSE-rt-raV"/>
                 <outletCollection property="titleLabel" destination="4fJ-ji-4et" collectionClass="NSMutableArray" id="Ob0-Qy-75Z"/>
+                <outletCollection property="getButtonCollection" destination="xdD-wU-sVR" collectionClass="NSMutableArray" id="KXV-fb-fHp"/>
+                <outletCollection property="getButtonCollection" destination="IXl-LY-def" collectionClass="NSMutableArray" id="Lby-HA-Usf"/>
+                <outletCollection property="getButtonCollection" destination="bLL-d0-hx1" collectionClass="NSMutableArray" id="wGS-d5-y3k"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -57,8 +63,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200 Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40w-YJ-WWM">
-                                            <rect key="frame" x="20.000000000000007" y="24" width="89.666666666666686" height="35"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200 Coins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40w-YJ-WWM">
+                                            <rect key="frame" x="20" y="24" width="78" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="tw0-VZ-5OG"/>
                                             </constraints>
@@ -75,6 +81,7 @@
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdD-wU-sVR">
                                             <rect key="frame" x="243" y="67" width="90" height="32"/>
+                                            <color key="backgroundColor" name="primaryColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="90" id="Nzc-xz-Q0c"/>
                                                 <constraint firstAttribute="height" constant="32" id="yrz-wX-ez6"/>
@@ -92,7 +99,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
+                                    <color key="backgroundColor" name="creditColor"/>
                                     <constraints>
                                         <constraint firstItem="40w-YJ-WWM" firstAttribute="leading" secondItem="WFU-26-YC0" secondAttribute="leading" constant="20" id="1or-O2-iP3"/>
                                         <constraint firstItem="xdD-wU-sVR" firstAttribute="trailing" secondItem="NCB-q2-OkH" secondAttribute="trailing" id="2s7-Mx-QyD"/>
@@ -149,8 +156,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20B-jx-pBK">
-                                            <rect key="frame" x="20.000000000000007" y="24" width="89.666666666666686" height="35"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500 Coins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20B-jx-pBK">
+                                            <rect key="frame" x="20" y="24" width="78.333333333333329" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="6JM-20-ZNx"/>
                                             </constraints>
@@ -167,6 +174,7 @@
                                         </view>
                                         <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IXl-LY-def">
                                             <rect key="frame" x="243" y="67" width="90" height="32"/>
+                                            <color key="backgroundColor" name="primaryColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="90" id="LeK-Uf-l0k"/>
                                                 <constraint firstAttribute="height" constant="32" id="MDD-H0-vxh"/>
@@ -184,7 +192,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
+                                    <color key="backgroundColor" name="creditColor"/>
                                     <constraints>
                                         <constraint firstItem="JAH-KN-4MN" firstAttribute="top" secondItem="UHP-cz-FPj" secondAttribute="top" constant="-16" id="6c3-aa-gRu"/>
                                         <constraint firstAttribute="trailing" secondItem="iKx-zA-2Q0" secondAttribute="trailing" constant="20" id="8f9-or-wWx"/>
@@ -241,8 +249,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 Credits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fJ-ji-4et">
-                                            <rect key="frame" x="19.999999999999993" y="24" width="97.333333333333314" height="35"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 Coins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fJ-ji-4et">
+                                            <rect key="frame" x="20" y="24" width="86" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="P2D-6U-V37"/>
                                             </constraints>
@@ -259,6 +267,7 @@
                                         </view>
                                         <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLL-d0-hx1">
                                             <rect key="frame" x="243" y="67" width="90" height="32"/>
+                                            <color key="backgroundColor" name="primaryColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="90" id="EFq-qI-Unz"/>
                                                 <constraint firstAttribute="height" constant="32" id="XKd-fZ-LLo"/>
@@ -276,7 +285,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
+                                    <color key="backgroundColor" name="creditColor"/>
                                     <constraints>
                                         <constraint firstItem="esP-1o-vZI" firstAttribute="top" secondItem="4fJ-ji-4et" secondAttribute="bottom" constant="4" id="1YD-53-Mna"/>
                                         <constraint firstItem="M6d-BD-dSL" firstAttribute="centerY" secondItem="bLL-d0-hx1" secondAttribute="centerY" id="6M9-7V-JHU"/>
@@ -321,17 +330,23 @@
     </objects>
     <resources>
         <image name="ic_credit" width="21.333333969116211" height="21.333333969116211"/>
+        <namedColor name="creditColor">
+            <color red="0.98000001907348633" green="0.98000001907348633" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="creditMainBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="creditSecondaryBackgroundColor">
-            <color red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.95300000905990601" green="0.95300000905990601" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.016000000759959221" green="0.49799999594688416" blue="0.88200002908706665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryTextColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

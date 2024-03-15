@@ -9,7 +9,7 @@ import UIKit
 import Lottie
 import NVActivityIndicatorView
 
-public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewControllerProtocol {
+public class MonthlyAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
     
     @IBOutlet weak var animationView: UIView!
     @IBOutlet weak var contentView: UIView!
@@ -46,6 +46,7 @@ public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewCont
     @IBOutlet weak var secondButtonPriceLabel: UILabel!
     @IBOutlet weak var secondButtonSaveLabel: UILabel!
     @IBOutlet weak var secondButtonPackTypeLabel: UILabel!
+    @IBOutlet weak var firstButtonPackTypeLabel: UILabel!
     
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
@@ -220,6 +221,7 @@ public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewCont
     private let semiBoldAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .subheadline)]
     private let priceAttribute = [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .headline)]
     
+    // monthly button
     private func _configureFirstSubscriptionButton() {
         let price = uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-"
         let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
@@ -229,20 +231,14 @@ public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewCont
         firstButtonDurationLabel.configure(with: UIFont.font(.sofiaProBold, style: .title2))
         firstButtonMonthLabel.attributedText = NSMutableAttributedString(string: "month pack".localized, attributes: regularAttribute)
         firstButtonPriceLabel.attributedText = attributedString
-        
-        //firstButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
-        
+
         let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
             .joined()
         let monthlyPrice = price.components(separatedBy: characterSet)
             .joined()
-        
-       /* if let weeklyValue = Float(weeklyPrice), let monthlyValue = Float(monthlyPrice) {
-            let save = (weeklyValue - (monthlyValue / 4))/weeklyValue * 100
-            firstButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
-        }*/
     }
     
+    //anual button
     private func _configureSecondSubscriptionButton() {
         let price = uiProviderDelegate?.subscriptionPrice(for: 1, withDurationSuffix: false) ?? "-"
         let attributedString = NSMutableAttributedString(string: "at".localized, attributes: semiBoldAttribute)
@@ -253,28 +249,28 @@ public class WeeklyMonthlyViewController: UIViewController, SubscriptionViewCont
         secondButtonMonthLabel.attributedText = NSMutableAttributedString(string: "months pack".localized, attributes: regularAttribute)
         secondButtonPriceLabel.attributedText = attributedString
         
-       // secondButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
+        secondButtonSaveLabel.configure(with: UIFont.font(.sofiaProMedium, style: .subheadline))
         
-       /* let weeklyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
+        let monthlyPrice = (uiProviderDelegate?.subscriptionPrice(for: 0, withDurationSuffix: false) ?? "-").components(separatedBy: characterSet)
             .joined()
         let yearlyPrice = price.components(separatedBy: characterSet)
             .joined()
         
-        if let weeklyValue = Float(weeklyPrice), let yearlyValue = Float(yearlyPrice) {
-            let save = (weeklyValue - (yearlyValue / 52))/weeklyValue * 100
+        if let monthlyValue = Float(monthlyPrice), let yearlyValue = Float(yearlyPrice) {
+            let save = (monthlyValue - (yearlyValue / 12))/monthlyValue * 100
             secondButtonSaveLabel.text = "Save".localized + String(format: " %.2f", save) + "%"
-        }*/
+        }
         
     }
     
-    /*private func _configureFirstButtonPackTitle()  {
+    private func _configureFirstButtonPackTitle()  {
         firstButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
         firstButtonPackTypeLabel.text = "Popular".localized
-    }*/
+    }
     
     private func _configureSecondButtonPackTitle() {
-      //  secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
-      //  secondButtonPackTypeLabel.text = "Best Value".localized
+        secondButtonPackTypeLabel.configure(with: UIFont.font(.sofiaProRegular, style: .footnote))
+        secondButtonPackTypeLabel.text = "Best Value".localized
     }
     
     private func _configureSubscribeButton() {

@@ -209,11 +209,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         subscriptionViews[0].isHidden = true
         subscriptionViews[1].isHidden = true
         thirdButtonSaveLabel.isHidden = true
-        
         thirdButtonPackTypeLabel.text = "Popular".localized
-        
         secondButtonPackTypeLabel.isHidden = true
-      //  tickMarkImageViews[1].image = UIImage.blueTickImage
     }
     
     private func _configurePriceButtonTitle() {

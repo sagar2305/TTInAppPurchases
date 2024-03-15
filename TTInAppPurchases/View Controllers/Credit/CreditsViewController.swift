@@ -28,14 +28,19 @@ public class CreditsViewController: UIViewController, CreditsVCProtocol {
     public weak var uiProviderDelegate: CreditsUIProviderDelegate?
     public weak var delegate: CreditsViewControllerDelegate?
 
-    @IBOutlet var priceLabels: [UILabel ]!
+    @IBOutlet var priceLabels: [UILabel]!
     @IBOutlet var titleLabel: [UILabel]!
+    @IBOutlet weak var firstSubscriptionLabel: UILabel!
+    @IBOutlet weak var secondSubscriptionLabel: UILabel!
+    @IBOutlet weak var thirdSubscriptionLabel: UILabel!
+    @IBOutlet var getButtonCollection: [UIButton]!
     
     
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Add Credits"
+        title = "Add Coins".localized
+        _configureUI()
         
         if uiProviderDelegate!.productsFetched() {
             setUpCreditsButton(notification: nil)
@@ -44,6 +49,26 @@ public class CreditsViewController: UIViewController, CreditsVCProtocol {
                                                    selector: #selector(setUpCreditsButton(notification:)),
                                                    name: Notification.Name.creditsFetchedNotification,
                                                    object: nil)
+        }
+    }
+    
+    private func _configureUI() {
+        firstSubscriptionLabel.text = "200" + " " + "Coins".localized
+        secondSubscriptionLabel.text = "500" + " " + "Coins".localized
+        thirdSubscriptionLabel.text = "1000" + " " + "Coins".localized
+        
+        firstSubscriptionLabel.configure(with: UIFont.font(.sofiaProMedium, style: .headline))
+        secondSubscriptionLabel.configure(with: UIFont.font(.sofiaProMedium, style: .headline))
+        thirdSubscriptionLabel.configure(with: UIFont.font(.sofiaProMedium, style: .headline))
+        for label in priceLabels {
+            label.configure(with: UIFont.font(.sofiaProMedium, style: .body))
+        }
+        
+        for button in getButtonCollection {
+            button.setTitle("Get".localized, for: .normal)
+            button.titleLabel?.configure(with: UIFont.font(.sofiaProMedium, style: .title3))
+            button.layer.cornerRadius = button.bounds.height/2
+            button.clipsToBounds = true
         }
     }
     
