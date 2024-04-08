@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -80,13 +80,19 @@
                                                         <constraint firstAttribute="width" secondItem="RQj-jw-aiA" secondAttribute="height" multiplier="30:23" id="Q5U-9O-prn"/>
                                                     </constraints>
                                                 </imageView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_secondNumberSubscription" translatesAutoresizingMaskIntoConstraints="NO" id="XGs-73-Rjk">
+                                                    <rect key="frame" x="20" y="20.000000000000014" width="353" height="217.33333333333337"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="XGs-73-Rjk" firstAttribute="top" secondItem="LtU-62-Ok0" secondAttribute="top" constant="20" id="ApY-kd-FMt"/>
                                                 <constraint firstItem="RQj-jw-aiA" firstAttribute="centerX" secondItem="LtU-62-Ok0" secondAttribute="centerX" id="OsX-y4-ZGf"/>
+                                                <constraint firstItem="XGs-73-Rjk" firstAttribute="leading" secondItem="LtU-62-Ok0" secondAttribute="leading" constant="20" id="Ozo-IG-OFN"/>
                                                 <constraint firstAttribute="height" constant="200" id="RCL-g0-thg"/>
                                                 <constraint firstItem="RQj-jw-aiA" firstAttribute="centerY" secondItem="LtU-62-Ok0" secondAttribute="centerY" id="StM-fU-reZ"/>
                                                 <constraint firstItem="RQj-jw-aiA" firstAttribute="top" secondItem="LtU-62-Ok0" secondAttribute="top" id="V4j-4R-CcX"/>
+                                                <constraint firstAttribute="trailing" secondItem="XGs-73-Rjk" secondAttribute="trailing" constant="20" id="l2C-4M-VpR"/>
                                                 <constraint firstAttribute="bottom" secondItem="RQj-jw-aiA" secondAttribute="bottom" id="sWc-cS-o0y"/>
                                             </constraints>
                                             <variation key="default">
@@ -653,6 +659,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_secondNumberSubscription" width="553.33331298828125" height="217.33332824707031"/>
         <image name="ic_tick" width="17.333333969116211" height="17.333333969116211"/>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

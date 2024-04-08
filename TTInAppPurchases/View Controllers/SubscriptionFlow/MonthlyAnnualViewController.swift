@@ -55,7 +55,6 @@ public class MonthlyAnnualViewController: UIViewController, SubscriptionViewCont
     public var hideCloseButton: Bool = false
     
     //MARK: Internal Parameters
-    private var lottieView: AnimationView!
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
@@ -95,22 +94,7 @@ public class MonthlyAnnualViewController: UIViewController, SubscriptionViewCont
         _configureSecondButtonPackTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
-
-        lottieView = uiProviderDelegate?.animatingAnimationView().view
-        lottieView.translatesAutoresizingMaskIntoConstraints = false
-        animationView.addSubview(lottieView)
-        let xOffset: CGFloat = uiProviderDelegate?.animatingAnimationView().offsetBy ?? 0
-        NSLayoutConstraint.activate( [
-            lottieView.topAnchor.constraint(equalTo: animationView.topAnchor,constant: xOffset),
-            lottieView.rightAnchor.constraint(equalTo: animationView.rightAnchor),
-            lottieView.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
-            lottieView.leftAnchor.constraint(equalTo: animationView.leftAnchor)
-        ])
-        lottieView.frame = animationView.bounds
-        lottieView.contentMode = .scaleAspectFit
-        lottieView.loopMode = .loop
-        lottieView.animationSpeed = 1.0
-        
+   
         if uiProviderDelegate!.productsFetched() {
             setupSubscriptionButtons(notification: nil)
         } else {
@@ -124,7 +108,6 @@ public class MonthlyAnnualViewController: UIViewController, SubscriptionViewCont
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate?.viewWillAppear(self)
-        lottieView.play()
     }
     
     public override var prefersStatusBarHidden: Bool {
@@ -189,7 +172,7 @@ public class MonthlyAnnualViewController: UIViewController, SubscriptionViewCont
     
     private func _configureHeaderLabels() {
         primaryHeaderLabel.configure(with: UIFont.font(.sofiaProBlack, style: .title2))
-        primaryHeaderLabel.text = "Upgrade To Premium".localized
+        primaryHeaderLabel.text = "Claim your new number".localized
     }
 
     private func _configureDescriptionLabels() {
