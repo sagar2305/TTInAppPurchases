@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -44,18 +44,17 @@
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xn1-5p-HmZ">
                                             <rect key="frame" x="20" y="-16" width="32" height="32"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_credit" translatesAutoresizingMaskIntoConstraints="NO" id="LWE-QS-VWV">
-                                                    <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_200Coins" translatesAutoresizingMaskIntoConstraints="NO" id="LWE-QS-VWV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="LWE-QS-VWV" secondAttribute="bottom" constant="2" id="3UM-9a-u7T"/>
-                                                <constraint firstItem="LWE-QS-VWV" firstAttribute="top" secondItem="Xn1-5p-HmZ" secondAttribute="top" constant="2" id="8bn-Nu-8Zy"/>
+                                                <constraint firstAttribute="bottom" secondItem="LWE-QS-VWV" secondAttribute="bottom" id="3UM-9a-u7T"/>
+                                                <constraint firstItem="LWE-QS-VWV" firstAttribute="top" secondItem="Xn1-5p-HmZ" secondAttribute="top" id="8bn-Nu-8Zy"/>
                                                 <constraint firstAttribute="width" constant="32" id="DEU-dx-2NQ"/>
-                                                <constraint firstAttribute="trailing" secondItem="LWE-QS-VWV" secondAttribute="trailing" constant="2" id="FAE-6o-t41"/>
+                                                <constraint firstAttribute="trailing" secondItem="LWE-QS-VWV" secondAttribute="trailing" id="FAE-6o-t41"/>
                                                 <constraint firstAttribute="height" constant="32" id="hLE-tI-Wsj"/>
-                                                <constraint firstItem="LWE-QS-VWV" firstAttribute="leading" secondItem="Xn1-5p-HmZ" secondAttribute="leading" constant="2" id="iN1-MP-faB"/>
+                                                <constraint firstItem="LWE-QS-VWV" firstAttribute="leading" secondItem="Xn1-5p-HmZ" secondAttribute="leading" id="iN1-MP-faB"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -137,18 +136,17 @@
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JAH-KN-4MN">
                                             <rect key="frame" x="20" y="-16" width="32" height="32"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_credit" translatesAutoresizingMaskIntoConstraints="NO" id="MRb-mv-wbx">
-                                                    <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_500Coins" translatesAutoresizingMaskIntoConstraints="NO" id="MRb-mv-wbx">
+                                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstItem="MRb-mv-wbx" firstAttribute="top" secondItem="JAH-KN-4MN" secondAttribute="top" constant="2" id="TvE-WY-B8e"/>
-                                                <constraint firstAttribute="trailing" secondItem="MRb-mv-wbx" secondAttribute="trailing" constant="2" id="cGg-uI-3TK"/>
+                                                <constraint firstItem="MRb-mv-wbx" firstAttribute="top" secondItem="JAH-KN-4MN" secondAttribute="top" id="TvE-WY-B8e"/>
+                                                <constraint firstAttribute="trailing" secondItem="MRb-mv-wbx" secondAttribute="trailing" id="cGg-uI-3TK"/>
                                                 <constraint firstAttribute="width" constant="32" id="hQ6-X1-AKV"/>
-                                                <constraint firstAttribute="bottom" secondItem="MRb-mv-wbx" secondAttribute="bottom" constant="2" id="rnb-o0-65V"/>
+                                                <constraint firstAttribute="bottom" secondItem="MRb-mv-wbx" secondAttribute="bottom" id="rnb-o0-65V"/>
                                                 <constraint firstAttribute="height" constant="32" id="sQK-cg-EVT"/>
-                                                <constraint firstItem="MRb-mv-wbx" firstAttribute="leading" secondItem="JAH-KN-4MN" secondAttribute="leading" constant="2" id="xe7-l6-bgE"/>
+                                                <constraint firstItem="MRb-mv-wbx" firstAttribute="leading" secondItem="JAH-KN-4MN" secondAttribute="leading" id="xe7-l6-bgE"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -230,18 +228,17 @@
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gsz-of-xBG">
                                             <rect key="frame" x="20" y="-16" width="32" height="32"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_credit" translatesAutoresizingMaskIntoConstraints="NO" id="JAA-S7-vSa">
-                                                    <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_1000Coins" translatesAutoresizingMaskIntoConstraints="NO" id="JAA-S7-vSa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" name="creditSecondaryBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstItem="JAA-S7-vSa" firstAttribute="leading" secondItem="gsz-of-xBG" secondAttribute="leading" constant="2" id="Qen-KS-WmG"/>
-                                                <constraint firstAttribute="bottom" secondItem="JAA-S7-vSa" secondAttribute="bottom" constant="2" id="Yjp-DY-1dF"/>
+                                                <constraint firstItem="JAA-S7-vSa" firstAttribute="leading" secondItem="gsz-of-xBG" secondAttribute="leading" id="Qen-KS-WmG"/>
+                                                <constraint firstAttribute="bottom" secondItem="JAA-S7-vSa" secondAttribute="bottom" id="Yjp-DY-1dF"/>
                                                 <constraint firstAttribute="height" constant="32" id="bev-9h-m4J"/>
-                                                <constraint firstAttribute="trailing" secondItem="JAA-S7-vSa" secondAttribute="trailing" constant="2" id="mwC-2O-BVz"/>
+                                                <constraint firstAttribute="trailing" secondItem="JAA-S7-vSa" secondAttribute="trailing" id="mwC-2O-BVz"/>
                                                 <constraint firstAttribute="width" constant="32" id="psR-AX-ncy"/>
-                                                <constraint firstItem="JAA-S7-vSa" firstAttribute="top" secondItem="gsz-of-xBG" secondAttribute="top" constant="2" id="vMs-1a-1ql"/>
+                                                <constraint firstItem="JAA-S7-vSa" firstAttribute="top" secondItem="gsz-of-xBG" secondAttribute="top" id="vMs-1a-1ql"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -329,15 +326,14 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_credit" width="21.333333969116211" height="21.333333969116211"/>
+        <image name="ic_1000Coins" width="1734.6666259765625" height="1734.6666259765625"/>
+        <image name="ic_200Coins" width="666.66668701171875" height="296"/>
+        <image name="ic_500Coins" width="666.66668701171875" height="350.66665649414062"/>
         <namedColor name="creditColor">
             <color red="0.98000001907348633" green="0.98000001907348633" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="creditMainBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="creditSecondaryBackgroundColor">
-            <color red="0.95300000905990601" green="0.95300000905990601" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryColor">
             <color red="0.016000000759959221" green="0.49799999594688416" blue="0.88200002908706665" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
