@@ -37,6 +37,7 @@
 #import "AMPDatabaseHelper.h"
 #import "AMPUtils.h"
 #import "AMPConstants.h"
+#import "AMPEventUtils.h"
 
 @implementation AMPDatabaseHelper {
     BOOL _databaseCreated;
@@ -49,6 +50,7 @@ static const void * const kDispatchQueueKey = &kDispatchQueueKey; // some unique
 
 static NSString *const EVENT_TABLE_NAME = @"events";
 static NSString *const IDENTIFY_TABLE_NAME = @"identifys";
+static NSString *const INTERCEPTED_IDENTIFY_TABLE_NAME = @"intercepted_identifys";
 static NSString *const ID_FIELD = @"id";
 static NSString *const EVENT_FIELD = @"event";
 
@@ -77,12 +79,13 @@ static NSString *const INSERT_OR_REPLACE_KEY_VALUE = @"INSERT OR REPLACE INTO %@
 static NSString *const DELETE_KEY = @"DELETE FROM %@ WHERE %@ = ?;";
 static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 
+static NSString *const SEQUENCE_NUMBER = @"sequence_number";
 
-+ (AMPDatabaseHelper*)getDatabaseHelper {
++ (AMPDatabaseHelper *)getDatabaseHelper {
     return [AMPDatabaseHelper getDatabaseHelper:nil];
 }
 
-+ (AMPDatabaseHelper*)getDatabaseHelper:(NSString*)instanceName {
++ (AMPDatabaseHelper *)getDatabaseHelper:(NSString *)instanceName {
     static NSMutableDictionary *_instances = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -109,7 +112,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return [self initWithInstanceName:nil];
 }
 
-- (instancetype)initWithInstanceName:(NSString*)instanceName {
+- (instancetype)initWithInstanceName:(NSString *)instanceName {
     if ([AMPUtils isEmptyString:instanceName]) {
         instanceName = kAMPDefaultInstance;
     }
@@ -150,10 +153,10 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
             AMPLITUDE_LOG(@"Should not call inDatabase in block passed to inDatabase");
             return NO;
         }
-        
+
         __block BOOL success = YES;
-        
-        dispatch_sync(_queue, ^() {
+
+        dispatch_sync(_queue, ^{
             if (sqlite3_open([self->_databasePath UTF8String], &self->_database) != SQLITE_OK) {
                 AMPLITUDE_LOG(@"Failed to open database");
                 sqlite3_close(self->_database);
@@ -163,7 +166,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
             block(self->_database);
             sqlite3_close(self->_database);
         });
-        
+
         return success;
     }
     @catch(NSException *e) {
@@ -177,7 +180,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
  * This version also handles preparing a statement from SQL string, and finalizing it as well.
  * Returns YES if successfully opened database and prepared statement, else NO.
  */
-- (BOOL)inDatabaseWithStatement:(NSString*)SQLString block:(void (^)(sqlite3_stmt *stmt))block
+- (BOOL)inDatabaseWithStatement:(NSString *)SQLString block:(void (^)(sqlite3_stmt *stmt))block
 {
     @try {
         // check that the block doesn't isn't calling inDatabase itself, which would lead to a deadlock
@@ -186,17 +189,17 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
             AMPLITUDE_LOG(@"Should not call inDatabase in block passed to inDatabase");
             return NO;
         }
-        
+
         __block BOOL success = YES;
-        
-        dispatch_sync(_queue, ^() {
+
+        dispatch_sync(_queue, ^{
             if (sqlite3_open([self->_databasePath UTF8String], &self->_database) != SQLITE_OK) {
                 AMPLITUDE_LOG(@"Failed to open database");
                 sqlite3_close(self->_database);
                 success = NO;
                 return;
             }
-            
+
             sqlite3_stmt *stmt;
             if (sqlite3_prepare_v2(self->_database, [SQLString UTF8String], -1, &stmt, NULL) != SQLITE_OK) {
                 AMPLITUDE_LOG(@"Failed to prepare statement for query %@", SQLString);
@@ -204,12 +207,12 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
                 success = NO;
                 return;
             }
-            
+
             block(stmt);
             sqlite3_finalize(stmt);
             sqlite3_close(self->_database);
         });
-        
+
         return success;
     }
     @catch(NSException *e) {
@@ -218,7 +221,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 }
 
 // Assumes db is already opened
-- (BOOL)execSQLString:(sqlite3*) db SQLString:(NSString*) SQLString {
+- (BOOL)execSQLString:(sqlite3 *)db SQLString:(NSString *)SQLString {
     @try {
         char *errMsg;
         if (sqlite3_exec(db, [SQLString UTF8String], NULL, NULL, &errMsg) != SQLITE_OK) {
@@ -241,6 +244,9 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 
         NSString *createIdentifysTable = [NSString stringWithFormat:CREATE_IDENTIFY_TABLE, IDENTIFY_TABLE_NAME, ID_FIELD, EVENT_FIELD];
         success &= [self execSQLString:db SQLString:createIdentifysTable];
+
+        NSString *createInterceptedIdentifysTable = [NSString stringWithFormat:CREATE_IDENTIFY_TABLE, INTERCEPTED_IDENTIFY_TABLE_NAME, ID_FIELD, EVENT_FIELD];
+        success &= [self execSQLString:db SQLString:createInterceptedIdentifysTable];
 
         NSString *createStoreTable = [NSString stringWithFormat:CREATE_STORE_TABLE, STORE_TABLE_NAME, KEY_FIELD, VALUE_FIELD];
         success &= [self execSQLString:db SQLString:createStoreTable];
@@ -270,9 +276,16 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
                 if (newVersion <= 2) break;
             }
             case 2: {
+                // Apply changes for v3
                 NSString *createIdentifysTable = [NSString stringWithFormat:CREATE_IDENTIFY_TABLE, IDENTIFY_TABLE_NAME, ID_FIELD, EVENT_FIELD];
                 success &= [self execSQLString:db SQLString:createIdentifysTable];
                 if (newVersion <= 3) break;
+            }
+            case 3: {
+                // Apply changes for v4
+                NSString *createInterceptedIdentifysTable = [NSString stringWithFormat:CREATE_IDENTIFY_TABLE, INTERCEPTED_IDENTIFY_TABLE_NAME, ID_FIELD, EVENT_FIELD];
+                success &= [self execSQLString:db SQLString:createInterceptedIdentifysTable];
+                if (newVersion <= 4) break;
             }
             default:
                 success = NO;
@@ -295,6 +308,9 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 
         NSString *dropIdentifyTableSQL = [NSString stringWithFormat:DROP_TABLE, IDENTIFY_TABLE_NAME];
         success &= [self execSQLString:db SQLString:dropIdentifyTableSQL];
+
+        NSString *dropInterceptedIdentifyTableSQL = [NSString stringWithFormat:DROP_TABLE, INTERCEPTED_IDENTIFY_TABLE_NAME];
+        success &= [self execSQLString:db SQLString:dropInterceptedIdentifyTableSQL];
 
         NSString *dropStoreTableSQL = [NSString stringWithFormat:DROP_TABLE, STORE_TABLE_NAME];
         success &= [self execSQLString:db SQLString:dropStoreTableSQL];
@@ -326,15 +342,19 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return YES;
 }
 
-- (BOOL)addEvent:(NSString*)event {
+- (BOOL)addEvent:(NSString *)event {
     return [self addEventToTable:EVENT_TABLE_NAME event:event];
 }
 
-- (BOOL)addIdentify:(NSString*)identifyEvent {
+- (BOOL)addIdentify:(NSString *)identifyEvent {
     return [self addEventToTable:IDENTIFY_TABLE_NAME event:identifyEvent];
 }
 
-- (BOOL)addEventToTable:(NSString*)table event:(NSString*)event {
+- (BOOL)addInterceptedIdentify:(NSString *)identifyEvent {
+    return [self addEventToTable:INTERCEPTED_IDENTIFY_TABLE_NAME event:identifyEvent];
+}
+
+- (BOOL)addEventToTable:(NSString *)table event:(NSString *)event {
     __block BOOL success = YES;
     NSString *insertSQL = [NSString stringWithFormat:INSERT_EVENT, table, EVENT_FIELD];
 
@@ -357,15 +377,19 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return success;
 }
 
-- (NSMutableArray*)getEvents:(long long)upToId limit:(long long)limit {
+- (NSMutableArray *)getEvents:(long long)upToId limit:(long long)limit {
     return [self getEventsFromTable:EVENT_TABLE_NAME upToId:upToId limit:limit];
 }
 
-- (NSMutableArray*)getIdentifys:(long long)upToId limit:(long long)limit {
+- (NSMutableArray *)getIdentifys:(long long)upToId limit:(long long)limit {
     return [self getEventsFromTable:IDENTIFY_TABLE_NAME upToId:upToId limit:limit];
 }
 
-- (NSMutableArray*)getEventsFromTable:(NSString*)table upToId:(long long)upToId limit:(long long)limit {
+- (NSMutableArray *)getInterceptedIdentifys:(long long)upToId limit:(long long)limit {
+    return [self getEventsFromTable:INTERCEPTED_IDENTIFY_TABLE_NAME upToId:upToId limit:limit];
+}
+
+- (NSMutableArray *)getEventsFromTable:(NSString *)table upToId:(long long)upToId limit:(long long)limit {
     __block NSMutableArray *events = [[NSMutableArray alloc] init];
     NSString *querySQL;
     if (upToId > 0 && limit > 0) {
@@ -383,7 +407,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
             long long eventId = sqlite3_column_int64(stmt, 0);
 
             // need to handle null events saved to database
-            const char *rawEventString = (const char*)sqlite3_column_text(stmt, 1);
+            const char *rawEventString = (const char *)sqlite3_column_text(stmt, 1);
             if (rawEventString == NULL) {
                 AMPLITUDE_LOG(@"Ignoring NULL event string for event id %lld from table %@", eventId, table);
                 continue;
@@ -411,17 +435,17 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return events;
 }
 
-- (BOOL)insertOrReplaceKeyValue:(NSString*)key value:(NSString*) value {
+- (BOOL)insertOrReplaceKeyValue:(NSString *)key value:(NSString *)value {
     if (value == nil) return [self deleteKeyFromTable:STORE_TABLE_NAME key:key];
     return [self insertOrReplaceKeyValueToTable:STORE_TABLE_NAME key:key value:value];
 }
 
-- (BOOL)insertOrReplaceKeyLongValue:(NSString *)key value:(NSNumber*)value {
+- (BOOL)insertOrReplaceKeyLongValue:(NSString *)key value:(NSNumber *)value {
     if (value == nil) return [self deleteKeyFromTable:LONG_STORE_TABLE_NAME key:key];
     return [self insertOrReplaceKeyValueToTable:LONG_STORE_TABLE_NAME key:key value:value];
 }
 
-- (BOOL)insertOrReplaceKeyValueToTable:(NSString*)table key:(NSString*)key value:(NSObject*)value {
+- (BOOL)insertOrReplaceKeyValueToTable:(NSString *)table key:(NSString *)key value:(NSObject *)value {
     __block BOOL success = YES;
     NSString *insertSQL = [NSString stringWithFormat:INSERT_OR_REPLACE_KEY_VALUE, table, KEY_FIELD, VALUE_FIELD];
 
@@ -430,7 +454,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
         if ([table isEqualToString:STORE_TABLE_NAME]) {
             success &= sqlite3_bind_text(stmt, 2, [(NSString *)value UTF8String], -1, SQLITE_STATIC) == SQLITE_OK;
         } else {
-            success &= sqlite3_bind_int64(stmt, 2, [(NSNumber*)value longLongValue]) == SQLITE_OK;
+            success &= sqlite3_bind_int64(stmt, 2, [(NSNumber *)value longLongValue]) == SQLITE_OK;
         }
 
         if (!success) {
@@ -450,7 +474,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return success;
 }
 
-- (BOOL) deleteKeyFromTable:(NSString*)table key:(NSString*)key {
+- (BOOL) deleteKeyFromTable:(NSString *)table key:(NSString *)key {
     __block BOOL success = YES;
     NSString *deleteSQL = [NSString stringWithFormat:DELETE_KEY, table, KEY_FIELD];
 
@@ -473,16 +497,16 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return success;
 }
 
-- (NSString*)getValue:(NSString*)key {
-    return (NSString*)[self getValueFromTable:STORE_TABLE_NAME key:key];
+- (NSString *)getValue:(NSString *)key {
+    return (NSString *)[self getValueFromTable:STORE_TABLE_NAME key:key];
 }
 
-- (NSNumber*)getLongValue:(NSString*)key
+- (NSNumber *)getLongValue:(NSString *)key
 {
-    return (NSNumber*)[self getValueFromTable:LONG_STORE_TABLE_NAME key:key];
+    return (NSNumber *)[self getValueFromTable:LONG_STORE_TABLE_NAME key:key];
 }
 
-- (NSObject*)getValueFromTable:(NSString*)table key:(NSString*)key {
+- (NSObject *)getValueFromTable:(NSString *)table key:(NSString *)key {
     __block NSObject *value = nil;
     NSString *querySQL = [NSString stringWithFormat:GET_VALUE, KEY_FIELD, VALUE_FIELD, table, KEY_FIELD];
 
@@ -495,7 +519,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
         if (sqlite3_step(stmt) == SQLITE_ROW) {
             if (sqlite3_column_type(stmt, 1) != SQLITE_NULL) {
                 if ([table isEqualToString:STORE_TABLE_NAME]) {
-                    value = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, 1)];
+                    value = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
                 } else {
                     long long longlongValue = sqlite3_column_int64(stmt, 1);
                     value = [[NSNumber alloc] initWithLongLong:longlongValue];
@@ -517,11 +541,15 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return [self getEventCountFromTable:IDENTIFY_TABLE_NAME];
 }
 
+- (int)getInterceptedIdentifyCount {
+    return [self getEventCountFromTable:INTERCEPTED_IDENTIFY_TABLE_NAME];
+}
+
 - (int)getTotalEventCount {
     return [self getEventCount] + [self getIdentifyCount];
 }
 
-- (int)getEventCountFromTable:(NSString*)table {
+- (int)getEventCountFromTable:(NSString *)table {
     __block int count = 0;
     NSString *querySQL = [NSString stringWithFormat:COUNT_EVENTS, table];
 
@@ -544,7 +572,11 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return [self removeEventsFromTable:IDENTIFY_TABLE_NAME maxId:maxIdentifyId];
 }
 
-- (BOOL)removeEventsFromTable:(NSString*)table maxId:(long long)maxId {
+- (BOOL)removeInterceptedIdentifys:(long long)maxIdentifyId {
+    return [self removeEventsFromTable:INTERCEPTED_IDENTIFY_TABLE_NAME maxId:maxIdentifyId];
+}
+
+- (BOOL)removeEventsFromTable:(NSString *)table maxId:(long long)maxId {
     __block BOOL success = YES;
 
     success &= [self inDatabase:^(sqlite3 *db) {
@@ -563,7 +595,11 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return [self removeEventFromTable:IDENTIFY_TABLE_NAME eventId:identifyId];
 }
 
-- (BOOL)removeEventFromTable:(NSString*)table eventId:(long long)eventId {
+- (BOOL)removeInterceptedIdentify:(long long)identifyId {
+    return [self removeEventFromTable:INTERCEPTED_IDENTIFY_TABLE_NAME eventId:identifyId];
+}
+
+- (BOOL)removeEventFromTable:(NSString *)table eventId:(long long)eventId {
     __block BOOL success = YES;
 
     success &= [self inDatabase:^(sqlite3 *db) {
@@ -582,7 +618,11 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     return [self getNthEventIdFromTable:IDENTIFY_TABLE_NAME n:n];
 }
 
-- (long long)getNthEventIdFromTable:(NSString*)table n:(long long)n {
+- (long long)getNthInterceptedIdentifyId:(long long)n {
+    return [self getNthEventIdFromTable:INTERCEPTED_IDENTIFY_TABLE_NAME n:n];
+}
+
+- (long long)getNthEventIdFromTable:(NSString *)table n:(long long)n {
     __block long long eventId = -1;
     NSString *querySQL = [NSString stringWithFormat:GET_NTH_EVENT_ID, ID_FIELD, table, n-1];
 
@@ -595,6 +635,24 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     }];
 
     return eventId;
+}
+
+- (long long)getLastSequenceNumber {
+    NSNumber *sequenceNumberFromDB = [self getLongValue:SEQUENCE_NUMBER];
+    long long sequenceNumber = 0;
+    if (sequenceNumberFromDB != nil) {
+        sequenceNumber = [sequenceNumberFromDB longLongValue];
+    }
+    return sequenceNumber;
+}
+
+- (long long)getNextSequenceNumber {
+    long long sequenceNumber = [self getLastSequenceNumber];
+
+    sequenceNumber++;
+    [self insertOrReplaceKeyLongValue:SEQUENCE_NUMBER value:[NSNumber numberWithLongLong:sequenceNumber]];
+
+    return sequenceNumber;
 }
 
 @end

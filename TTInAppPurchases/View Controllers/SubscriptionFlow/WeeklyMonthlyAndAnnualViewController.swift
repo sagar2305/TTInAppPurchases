@@ -30,8 +30,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var thirdSubscriptionButton: UIButton!
     @IBOutlet weak var topDescriptionLabel: UILabel!
     @IBOutlet var priceButtons: [UIButton]!
-  
-    
     @IBOutlet var tickMarkViews: [UIView]!
     
     //MARK: IBOutlet Collections
@@ -83,7 +81,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
             }
         }
     }
-    
+
     @available(iOS 13.0, *)
     private var countryCode: String? {
         if let storefront = SKPaymentQueue.default().storefront {
@@ -211,11 +209,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         subscriptionViews[0].isHidden = true
         subscriptionViews[1].isHidden = true
         thirdButtonSaveLabel.isHidden = true
-        
         thirdButtonPackTypeLabel.text = "Popular".localized
-        
         secondButtonPackTypeLabel.isHidden = true
-      //  tickMarkImageViews[1].image = UIImage.blueTickImage
     }
     
     private func _configurePriceButtonTitle() {

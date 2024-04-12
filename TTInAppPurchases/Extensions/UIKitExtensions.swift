@@ -80,6 +80,14 @@ public extension UIColor {
         return UIColor(named: "buttonTextColor", in: bundle(), compatibleWith: nil)!
     }
     
+    class var creditMainBackgroundColor: UIColor {
+        return UIColor(named: "creditMainBackgroundColor", in: bundle(), compatibleWith: nil)!
+    }
+    
+    class var creditSecondaryBackgroundColor: UIColor {
+        return UIColor(named: "creditSecondaryBackgroundColor", in: bundle(), compatibleWith: nil)!
+    }
+    
     func lighter(by percentage: CGFloat = 30.0) -> UIColor {
         return self.adjust(by: abs(percentage) ) ?? self
     }
@@ -109,6 +117,10 @@ public extension UIImage {
     
     class var blueTickImage: UIImage {
         return UIImage(named: "ic_blueTick", in: bundle(), compatibleWith: nil)!
+    }
+    
+    class var creditImage: UIImage {
+        return UIImage(named: "ic_credit", in: bundle(), compatibleWith: nil)!
     }
 }
 

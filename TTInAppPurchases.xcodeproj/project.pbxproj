@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F3CE9519D652257C72B67AC /* Pods_TTInAppPurchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D5C570D76EFE7E2AEAF437 /* Pods_TTInAppPurchases.framework */; };
 		1B303496264BC11F00B720A1 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 1B303495264BC11F00B720A1 /* Resources */; };
 		1B42B36B26480E230004F76B /* Helpers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36826480E230004F76B /* Helpers */; };
 		1B42B3742648C39D0004F76B /* View Controllers in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B36E2648C39D0004F76B /* View Controllers */; };
@@ -14,11 +15,10 @@
 		1B42B3762648C39D0004F76B /* Extensions in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B3702648C39D0004F76B /* Extensions */; };
 		1B42B3782648C39D0004F76B /* Protocols in Resources */ = {isa = PBXBuildFile; fileRef = 1B42B3722648C39D0004F76B /* Protocols */; };
 		1BD9B98E2646AD9C00176112 /* TTInAppPurchases.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ED56358B1EAD6864EE0A6A87 /* Pods_TTInAppPurchases.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A54482FAB15624ACBFDAB26 /* Pods_TTInAppPurchases.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.release.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.release.xcconfig"; sourceTree = "<group>"; };
+		104F33D0D2EBCA91FBC5AA7B /* Pods-TTInAppPurchases.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.debug.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.debug.xcconfig"; sourceTree = "<group>"; };
 		1B303495264BC11F00B720A1 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		1B42B36826480E230004F76B /* Helpers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpers; sourceTree = "<group>"; };
 		1B42B36E2648C39D0004F76B /* View Controllers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "View Controllers"; sourceTree = "<group>"; };
@@ -28,8 +28,8 @@
 		1BD9B9892646AD9C00176112 /* TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD9B98C2646AD9C00176112 /* TTInAppPurchases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTInAppPurchases.h; sourceTree = "<group>"; };
 		1BD9B98D2646AD9C00176112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5A54482FAB15624ACBFDAB26 /* Pods_TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.debug.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.debug.xcconfig"; sourceTree = "<group>"; };
+		65D5C570D76EFE7E2AEAF437 /* Pods_TTInAppPurchases.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TTInAppPurchases.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E147088E50ED63E84F06F81 /* Pods-TTInAppPurchases.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTInAppPurchases.release.xcconfig"; path = "Target Support Files/Pods-TTInAppPurchases/Pods-TTInAppPurchases.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED56358B1EAD6864EE0A6A87 /* Pods_TTInAppPurchases.framework in Frameworks */,
+				0F3CE9519D652257C72B67AC /* Pods_TTInAppPurchases.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +50,7 @@
 				1BD9B98B2646AD9C00176112 /* TTInAppPurchases */,
 				1BD9B98A2646AD9C00176112 /* Products */,
 				8AEFB8A644421D17D4A63874 /* Pods */,
-				D6ED06D48E49DAE139974E93 /* Frameworks */,
+				58BA9F9D0AA32E3679F0F7D0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,21 +77,21 @@
 			path = TTInAppPurchases;
 			sourceTree = "<group>";
 		};
+		58BA9F9D0AA32E3679F0F7D0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				65D5C570D76EFE7E2AEAF437 /* Pods_TTInAppPurchases.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8AEFB8A644421D17D4A63874 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */,
-				039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */,
+				104F33D0D2EBCA91FBC5AA7B /* Pods-TTInAppPurchases.debug.xcconfig */,
+				8E147088E50ED63E84F06F81 /* Pods-TTInAppPurchases.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		D6ED06D48E49DAE139974E93 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5A54482FAB15624ACBFDAB26 /* Pods_TTInAppPurchases.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,7 +112,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BD9B9912646AD9C00176112 /* Build configuration list for PBXNativeTarget "TTInAppPurchases" */;
 			buildPhases = (
-				82603023A40ED458ABF4BC91 /* [CP] Check Pods Manifest.lock */,
+				880157B387DD3665250F2074 /* [CP] Check Pods Manifest.lock */,
 				1BD9B9842646AD9C00176112 /* Headers */,
 				1BD9B9852646AD9C00176112 /* Sources */,
 				1BD9B9862646AD9C00176112 /* Frameworks */,
@@ -149,8 +149,6 @@
 				Base,
 			);
 			mainGroup = 1BD9B97F2646AD9C00176112;
-			packageReferences = (
-			);
 			productRefGroup = 1BD9B98A2646AD9C00176112 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -177,7 +175,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		82603023A40ED458ABF4BC91 /* [CP] Check Pods Manifest.lock */ = {
+		880157B387DD3665250F2074 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -264,7 +262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
@@ -338,7 +336,7 @@
 		};
 		1BD9B9922646AD9C00176112 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0B6330057CFFDA0B0B29557 /* Pods-TTInAppPurchases.debug.xcconfig */;
+			baseConfigurationReference = 104F33D0D2EBCA91FBC5AA7B /* Pods-TTInAppPurchases.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -348,6 +346,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TTInAppPurchases/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,7 +363,7 @@
 		};
 		1BD9B9932646AD9C00176112 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 039E4FA96F02E84A5B768012 /* Pods-TTInAppPurchases.release.xcconfig */;
+			baseConfigurationReference = 8E147088E50ED63E84F06F81 /* Pods-TTInAppPurchases.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -374,6 +373,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TTInAppPurchases/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
