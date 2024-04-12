@@ -25,13 +25,13 @@ s.source = { :git => "https://github.com/sagar2305/TTInAppPurchases.git",
 
 # 7
 s.framework = "UIKit"
-s.dependency 'PhoneNumberKit', '~> 3.6'
+s.dependency 'PhoneNumberKit', '~> 3.6.3'
 s.dependency 'LGButton'
-s.dependency 'lottie-ios'
+s.dependency 'lottie-ios', '~> 3.3.0'
 s.dependency 'RevenueCat'
 s.dependency 'NVActivityIndicatorView', '~> 4.8.0'
 s.dependency 'Amplitude'
-s.dependency 'SwiftDate'
+s.dependency 'SwiftDate', '~> 6.3.1'
 s.dependency 'Mixpanel-swift'
 s.dependency 'SwiftEntryKit'
 
