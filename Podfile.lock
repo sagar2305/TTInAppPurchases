@@ -29,7 +29,7 @@ DEPENDENCIES:
   - Mixpanel-swift (~> 3.2.0)
   - NVActivityIndicatorView (~> 4.8.0)
   - PhoneNumberKit (~> 3.6)
-  - RevenueCat (~> 4.25.2)
+  - RevenueCat (~> 4.25.6)
   - SwiftDate (~> 6.2.0)
   - SwiftEntryKit (~> 1.2.7)
 
@@ -60,6 +60,6 @@ SPEC CHECKSUMS:
   SwiftDate: d117c3eb6beed72e47d3f4d1e3bc63fa1e66d7c3
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
 
-PODFILE CHECKSUM: 120f12f7279e55d2c463878f80c02d9984f992e9
+PODFILE CHECKSUM: 209f733e8bb6b5bbee4d512a48e5256aa1bb6a50
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

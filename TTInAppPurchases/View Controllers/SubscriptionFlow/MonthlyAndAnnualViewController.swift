@@ -28,8 +28,9 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func featureThree() -> String
     func featureFour() -> String
     func freeTrialDuration(for index: Int) -> String
-
+    func subscribeButtonSubtitle(for index: Int) -> String
 }
+
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
     var hideCloseButton: Bool = false
     var giftOffer = false
