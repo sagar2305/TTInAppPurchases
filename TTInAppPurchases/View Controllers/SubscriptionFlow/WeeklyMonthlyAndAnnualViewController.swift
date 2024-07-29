@@ -17,7 +17,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     @IBOutlet weak var animationView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var subscribeButton: UIButton!
+    @IBOutlet weak var subscribeButton: SubtitleButton!
     @IBOutlet weak var primaryHeaderLabel: UILabel!
     @IBOutlet weak var feature1Label: UILabel!
     @IBOutlet weak var feature2Label: UILabel!
@@ -374,11 +374,20 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         if offersFreeTrial {
             freeTrialLabel.isHidden = false
             let freeTrialDuration = uiProviderDelegate?.freeTrialDuration(for: index) ?? ""
+
+            subscribeButton.contentVerticalAlignment = .top // Options: .center, .top, .bottom, .fill
+            subscribeButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 0)
+            let subtitleText = uiProviderDelegate?.subscribeButtonSubtitle(for: index) ?? ""
+            subscribeButton.setSubtitle(subtitleText)
+            
             let title = "Try".localized + " " + freeTrialDuration + " " + "Free Trial".localized
             let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)])
             freeTrialLabel.attributedText = attributedString
             subscribeButton.setTitle("Start Free Trial".localized, for: .normal)
         } else {
+            subscribeButton.contentEdgeInsets = UIEdgeInsets.zero
+            subscribeButton.contentVerticalAlignment = .center
+            subscribeButton.setSubtitle("")
             freeTrialLabel.isHidden = true
             subscribeButton.setTitle("Subscribe Now".localized, for: .normal)
         }
