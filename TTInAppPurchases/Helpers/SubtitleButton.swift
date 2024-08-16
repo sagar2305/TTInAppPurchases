@@ -28,6 +28,7 @@ class SubtitleButton: UIButton {
         subtitleText.font = UIFont.systemFont(ofSize: 12)
         subtitleText.textColor = .white
         subtitleText.textAlignment = .center
+        subtitleText.text = ""
 
         // Add the label to the button
         addSubview(subtitleText)
