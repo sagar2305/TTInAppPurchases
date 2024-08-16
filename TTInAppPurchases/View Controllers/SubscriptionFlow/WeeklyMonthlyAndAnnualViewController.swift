@@ -81,15 +81,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
             }
         }
     }
-
-    @available(iOS 13.0, *)
-    private var countryCode: String? {
-        if let storefront = SKPaymentQueue.default().storefront {
-            let countryCode = storefront.countryCode
-            return countryCode
-        }
-        return nil
-    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -116,7 +107,7 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configurePrivacyAndTermsOfLawLabel()
         
         if #available(iOS 13.0, *) {
-            if countryCode == "IND" {
+            if SubscriptionHelper.shared.isIndianAppStore() {
                 _configureSubscriptionViewsForIndia()
             }
         }

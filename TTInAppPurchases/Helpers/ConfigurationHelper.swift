@@ -36,7 +36,7 @@ public struct ConfigurationHelper {
     }
     
     public var isLifetimePlanAvailable: Bool {
-        if PhoneNumberHelper.shared.isIndianUser {
+        if SubscriptionHelper.shared.isIndianAppStore() {
             return _lifetimePlan
         } else {
             return _lifetimePlanAllCountries

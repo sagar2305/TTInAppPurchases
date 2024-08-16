@@ -24,7 +24,7 @@ public protocol SpecialOfferUIProviderDelegate: AnyObject {
     func originalPrice() -> String
     func discountedPrice() -> String
     func percentDiscount() -> String
-    func getOriginalPriceLifeTimeOffer() -> String
+    func getOriginalPriceLifeTimeOffer() -> NSAttributedString
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
     func featureOne() -> String
     func featureTwo() -> String
@@ -185,7 +185,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     
     private func _configureActualPriceLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            actualPriceLabel .text = specialOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
+            actualPriceLabel .attributedText = specialOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
         } else {
             actualPriceLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
             let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.strikethroughStyle: 1,

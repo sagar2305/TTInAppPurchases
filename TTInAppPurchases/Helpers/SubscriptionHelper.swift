@@ -50,6 +50,21 @@ public class SubscriptionHelper {
     
     private(set) public var isProUser: Bool = false
     
+    private var countryCode: String? {
+        if let storefront = SKPaymentQueue.default().storefront {
+            let countryCode = storefront.countryCode
+            return countryCode
+        }
+        return nil
+    }
+    
+    public func isIndianAppStore() -> Bool {
+        if countryCode == "IND" {
+            return true
+        }
+        return false
+    }
+ 
     private func _process(purchaserInfo: CustomerInfo?) {
         guard let purchaserInfo = purchaserInfo else {
             return
