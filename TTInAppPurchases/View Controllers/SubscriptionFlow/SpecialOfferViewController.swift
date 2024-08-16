@@ -84,7 +84,6 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
-        print("**********specialOfferUIProviderDelegate!.productsFetched() else ")
         NotificationCenter.default.addObserver(self, selector:
                                                 #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
                                                     Notification.Name.iapProductsFetchedNotification,
@@ -169,8 +168,8 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     
     private func _configureSaveExtraHeaderAndPercentageLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            saveExtraHeaderLabel.text = "Save an extra"
-            savingPercentageLabel.text = "70% OFF"
+            saveExtraHeaderLabel.text = "Save an extra".localized
+            savingPercentageLabel.text = "70% OFF".localized
         } else {
             
             saveExtraHeaderLabel.font = UIFont.font(.sofiaProRegular, style: .title3)
@@ -182,10 +181,6 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
             savingPercentageLabel.adjustsFontSizeToFitWidth = true
             savingPercentageLabel.text = "\(specialOfferUIProviderDelegate!.percentDiscount())%"
         }
-    }
-    
-    private func calulateDiscountAfterfetchingProduct(){
-        
     }
     
     private func _configureActualPriceLabel() {
