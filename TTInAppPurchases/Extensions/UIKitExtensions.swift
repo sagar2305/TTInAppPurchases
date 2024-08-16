@@ -208,6 +208,10 @@ public extension UILabel {
         pointerView.layer.mask = hintBannerPointerLayer
         return pointerView
     }
+    
+    func setItalicText() {
+        self.font = UIFont.italicSystemFont(ofSize: self.font.pointSize)
+    }
 }
 
 public extension UIViewController {

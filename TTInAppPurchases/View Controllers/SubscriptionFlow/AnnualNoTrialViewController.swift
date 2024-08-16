@@ -128,7 +128,7 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
     
     private func _configurePrimaryHeaderLabel() {
         if giftOffer {
-            primaryHeaderLabel.text = "A gift to yourself".localized.capitalized
+            primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
         }
@@ -175,7 +175,7 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         continueButton.layer.cornerRadius = 27
         continueButton.backgroundColor = .primaryColor
         continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .headline))
-        let title = giftOffer ? "Redeem my offer".localized.uppercased() : "Continue".localized.uppercased()
+        let title = giftOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
         continueButton.setTitle(title, for: .normal)
     }
     

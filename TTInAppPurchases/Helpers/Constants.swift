@@ -83,6 +83,7 @@ public struct Constants {
         public static let subscribedToCallRecordChangesKey = "subscribedToCallRecordChangesKey"
         public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
+        public static let homeScreenGiftOfferTapped = "homeScreenGiftOfferTapped"
     }
     
     public struct SettingsDefaults {

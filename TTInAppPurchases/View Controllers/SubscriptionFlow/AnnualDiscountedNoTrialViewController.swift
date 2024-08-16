@@ -20,7 +20,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     
     public weak var delegate: SubscriptionViewControllerDelegate?
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    private var _index = 1
+    private var _index = 0
     
     @IBOutlet weak var cancelButton: UIButton!
     
@@ -37,7 +37,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     @IBOutlet weak var feature2Label: UILabel!
     @IBOutlet weak var feature3Label: UILabel!
     @IBOutlet weak var feature4Label: UILabel!
-    @IBOutlet weak var continueButton: UIButton!
+    @IBOutlet weak var continueButton: SubtitleButton!
     
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
     public var giftOffer: Bool = false
@@ -120,7 +120,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     
     private func _configurePrimaryHeaderLabel() {
         if giftOffer {
-            primaryHeaderLabel.text = "A gift to yourself".localized.capitalized
+            primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
         }
@@ -146,8 +146,8 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     private func _configurePricingBottomLabel() {
         pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
-            pricingBottomLabel.text = "for lifetime".localized.localizedCapitalized
+            pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .body))
+            pricingBottomLabel.text = "No Recurring Subscription!".localized
         } else {
             let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withIntroDiscount: true, withDurationSuffix: true)
             pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
@@ -172,9 +172,14 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     private func _configureContinueButton() {
         continueButton.layer.cornerRadius = 27
         continueButton.backgroundColor = .primaryColor
-        continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .headline))
-        let title = giftOffer ? "Redeem my offer".localized.uppercased() : "Continue".localized.uppercased()
+        continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title3))
+        let title = giftOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
         continueButton.setTitle(title, for: .normal)
+        continueButton.titleEdgeInsets = UIEdgeInsets(top:12, left: 0, bottom: 0, right: 0)
+        continueButton.setSubtitle("This offer will never be shown again!".localized)
+        continueButton.subtitleText.textColor = UIColor.systemYellow
+        continueButton.subtitleText.font = UIFont.font(.sofiaProMedium, style: .footnote)
+        continueButton.subtitleText.setItalicText()
     }
     
     private func _configureCancelButton() {
