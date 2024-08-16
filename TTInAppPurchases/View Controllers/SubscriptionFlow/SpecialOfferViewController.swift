@@ -24,7 +24,6 @@ public protocol SpecialOfferUIProviderDelegate: AnyObject {
     func originalPrice() -> String
     func discountedPrice() -> String
     func percentDiscount() -> String
-    func percentDiscountLifetime() -> String
     func getOriginalPriceLifeTimeOffer() -> String
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
     func featureOne() -> String
@@ -171,7 +170,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     private func _configureSaveExtraHeaderAndPercentageLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
             saveExtraHeaderLabel.text = "Save an extra"
-            savingPercentageLabel.text = "\(specialOfferUIProviderDelegate!.percentDiscountLifetime())% OFF"
+            savingPercentageLabel.text = "70% OFF"
         } else {
             
             saveExtraHeaderLabel.font = UIFont.font(.sofiaProRegular, style: .title3)

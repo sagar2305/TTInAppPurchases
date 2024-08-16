@@ -40,7 +40,6 @@ public struct Constants {
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
-        public static let onlyLifeTime = "onlyLifeTime"
     }
     
     public struct CallRecorder {
