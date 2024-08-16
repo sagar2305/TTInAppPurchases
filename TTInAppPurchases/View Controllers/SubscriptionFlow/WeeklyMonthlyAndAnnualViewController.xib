@@ -79,7 +79,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="963.5"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="saU-wa-Ai5">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="44" height="43"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8I0-ok-kRh" userLabel="Animation View">
@@ -718,7 +718,7 @@
                                     </variation>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O54-UD-4Ve" userLabel="Cancel">
-                                    <rect key="frame" x="370" y="0.0" width="44" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="54G-Qe-mCq"/>
                                         <constraint firstAttribute="width" constant="44" id="XIa-X6-QY3"/>
@@ -737,8 +737,10 @@
                                 <constraint firstItem="q96-gI-MXK" firstAttribute="leading" secondItem="nIR-uQ-2Co" secondAttribute="leading" id="9MM-Df-Ouh"/>
                                 <constraint firstItem="O54-UD-4Ve" firstAttribute="trailing" secondItem="saU-wa-Ai5" secondAttribute="trailing" id="9Xo-5F-Q4L"/>
                                 <constraint firstItem="q96-gI-MXK" firstAttribute="width" secondItem="UjN-Nm-B1V" secondAttribute="width" id="BRH-gr-nBc"/>
+                                <constraint firstItem="O54-UD-4Ve" firstAttribute="top" secondItem="b4d-Ri-TX7" secondAttribute="top" id="CSF-RT-cp5"/>
                                 <constraint firstItem="q96-gI-MXK" firstAttribute="top" secondItem="nIR-uQ-2Co" secondAttribute="top" id="XEg-tT-C20"/>
                                 <constraint firstItem="saU-wa-Ai5" firstAttribute="height" secondItem="UjN-Nm-B1V" secondAttribute="height" multiplier="0.05" id="cBB-ut-PJ4"/>
+                                <constraint firstItem="O54-UD-4Ve" firstAttribute="leading" secondItem="UjN-Nm-B1V" secondAttribute="leading" id="sJ0-Eq-aia"/>
                                 <constraint firstItem="q96-gI-MXK" firstAttribute="trailing" secondItem="nIR-uQ-2Co" secondAttribute="trailing" id="uDe-SJ-Y9s"/>
                             </constraints>
                             <viewLayoutGuide key="contentLayoutGuide" id="nIR-uQ-2Co"/>

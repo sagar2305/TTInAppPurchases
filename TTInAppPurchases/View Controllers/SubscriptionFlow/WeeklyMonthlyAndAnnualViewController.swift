@@ -338,7 +338,12 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     private func _configureCancelButton() {
         cancelButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title2))
         cancelButton.setTitle("𝘅", for: .normal)
-        cancelButton.isHidden = hideCloseButton ? true : false
+        cancelButton.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.cancelButton.isHidden = self.hideCloseButton ? true : false
+        }
+        
     }
     
 

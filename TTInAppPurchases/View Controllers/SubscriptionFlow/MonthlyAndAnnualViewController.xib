@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -51,43 +51,43 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="415" placeholderIntrinsicHeight="572" translatesAutoresizingMaskIntoConstraints="NO" id="qmZ-je-tAE" userLabel="contentView">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="715"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="732.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VFg-qn-vXb">
-                                    <rect key="frame" x="16" y="240" width="382" height="23"/>
+                                    <rect key="frame" x="16" y="240" width="382" height="26.5"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                     <color key="textColor" name="buttonTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUf-ZB-Rcz">
-                                    <rect key="frame" x="16" y="279" width="382" height="0.0"/>
+                                    <rect key="frame" x="16" y="282.5" width="382" height="0.0"/>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                     <color key="textColor" name="buttonTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="uad-1x-2ui">
-                                    <rect key="frame" x="16" y="295" width="382" height="82"/>
+                                    <rect key="frame" x="16" y="298.5" width="382" height="96"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMG-uF-Fky">
-                                            <rect key="frame" x="0.0" y="0.0" width="382" height="16"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="382" height="19.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                             <color key="textColor" name="buttonTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmg-Dv-vsF">
-                                            <rect key="frame" x="0.0" y="22" width="382" height="16"/>
+                                            <rect key="frame" x="0.0" y="25.5" width="382" height="19.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                             <color key="textColor" name="buttonTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odv-Cf-ayu">
-                                            <rect key="frame" x="0.0" y="44" width="382" height="16"/>
+                                            <rect key="frame" x="0.0" y="51" width="382" height="19.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                             <color key="textColor" name="buttonTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luW-VW-7Xl">
-                                            <rect key="frame" x="0.0" y="66" width="382" height="16"/>
+                                            <rect key="frame" x="0.0" y="76.5" width="382" height="19.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                             <color key="textColor" name="buttonTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -95,7 +95,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GBU-Lb-Loh">
-                                    <rect key="frame" x="16" y="393" width="382" height="108"/>
+                                    <rect key="frame" x="16" y="410.5" width="382" height="108"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OT0-vJ-jGY" customClass="LGButton" customModule="LGButton">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="50"/>
@@ -179,13 +179,13 @@
                                                             <rect key="frame" x="156" y="0.0" width="156" height="50"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 days free, then" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zs3-iR-W4q">
-                                                                    <rect key="frame" x="61" y="0.0" width="95" height="25"/>
+                                                                    <rect key="frame" x="54.5" y="0.0" width="101.5" height="25"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                                     <color key="textColor" name="buttonTextColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$99" textAlignment="right" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpg-Oy-4Vv">
-                                                                    <rect key="frame" x="121" y="25" width="35" height="25"/>
+                                                                    <rect key="frame" x="115.5" y="25" width="40.5" height="25"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                                     <color key="textColor" name="buttonTextColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -221,7 +221,7 @@
                                     </subviews>
                                 </stackView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="clip" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KTO-G1-FMs">
-                                    <rect key="frame" x="143" y="517" width="128" height="30"/>
+                                    <rect key="frame" x="143" y="534.5" width="128" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="xmc-Wq-jll"/>
                                     </constraints>
@@ -241,7 +241,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j1H-jU-v7R">
-                                    <rect key="frame" x="16" y="579" width="382" height="54"/>
+                                    <rect key="frame" x="16" y="596.5" width="382" height="54"/>
                                     <color key="backgroundColor" systemColor="systemGreenColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="54" id="O3F-Up-bGE"/>
@@ -260,7 +260,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqL-kb-K6D">
-                                    <rect key="frame" x="16" y="649" width="382" height="50"/>
+                                    <rect key="frame" x="16" y="666.5" width="382" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="g6S-gr-Wgt"/>
                                     </constraints>
@@ -310,7 +310,7 @@
                     <viewLayoutGuide key="frameLayoutGuide" id="VO9-mz-HLM"/>
                 </scrollView>
                 <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbs-eX-mKX">
-                    <rect key="frame" x="354" y="60" width="44" height="44"/>
+                    <rect key="frame" x="354" y="64" width="44" height="44"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="K8x-FI-uhF"/>
@@ -351,14 +351,6 @@
             <point key="canvasLocation" x="131.8840579710145" y="147.99107142857142"/>
         </view>
     </objects>
-    <designables>
-        <designable name="OT0-vJ-jGY">
-            <size key="intrinsicContentSize" width="10" height="10"/>
-        </designable>
-        <designable name="pNY-iw-JPM">
-            <size key="intrinsicContentSize" width="10" height="10"/>
-        </designable>
-    </designables>
     <resources>
         <image name="caller" width="6720" height="4480"/>
         <namedColor name="buttonTextColor">
@@ -371,7 +363,7 @@
             <color red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

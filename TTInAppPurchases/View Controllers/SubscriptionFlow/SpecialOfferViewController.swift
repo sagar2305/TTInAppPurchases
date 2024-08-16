@@ -24,6 +24,7 @@ public protocol SpecialOfferUIProviderDelegate: AnyObject {
     func originalPrice() -> String
     func discountedPrice() -> String
     func percentDiscount() -> String
+    func getOriginalPriceLifeTimeOffer() -> String
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
     func featureOne() -> String
     func featureTwo() -> String
@@ -32,7 +33,6 @@ public protocol SpecialOfferUIProviderDelegate: AnyObject {
 }
 
 public class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerProtocol {
-    
     
     public weak var delegate: SpecialOfferViewControllerDelegate?
     public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
@@ -84,8 +84,6 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
-        print("**********specialOfferUIProviderDelegate!.productsFetched() else ")
-        
         NotificationCenter.default.addObserver(self, selector:
                                                 #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
                                                     Notification.Name.iapProductsFetchedNotification,
@@ -158,7 +156,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     
     private func _configureOfferDescriptionAndSubheadingLabel() {
         offerDescriptionLabel.configure(with: UIFont.font(.sofiaProBlack, style: .largeTitle))
-        offerDescriptionLabel.text = "LIMITED \nTIME \nOFFER".localized
+        offerDescriptionLabel.text = "LIFE \nTIME \nOFFER".localized
         
         offerDescriptionSubheadingLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
         offerDescriptionSubheadingLabel.text = "ENDS IN".localized
@@ -170,8 +168,8 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     
     private func _configureSaveExtraHeaderAndPercentageLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            saveExtraHeaderLabel.text = ""
-            savingPercentageLabel.text = ""
+            saveExtraHeaderLabel.text = "Save an extra".localized
+            savingPercentageLabel.text = "70% OFF".localized
         } else {
             
             saveExtraHeaderLabel.font = UIFont.font(.sofiaProRegular, style: .title3)
@@ -187,7 +185,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
     
     private func _configureActualPriceLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            actualPriceLabel .text = ""
+            actualPriceLabel .text = specialOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
         } else {
             actualPriceLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
             let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.strikethroughStyle: 1,
@@ -225,7 +223,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
             attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.string.count))
             savingBreakdownLabel.attributedText = attributedString
         } else {
-            let attributedString = NSMutableAttributedString(string: "For 1 year\n".localized)
+            let attributedString = NSMutableAttributedString(string: "For Life Time\n".localized)
             let attributedString1 = NSMutableAttributedString(string: "only".localized)
             let attributedString2 = NSMutableAttributedString(string: "\(specialOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
                                                               attributes: [NSAttributedString.Key.font: blackFont])
