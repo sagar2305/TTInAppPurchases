@@ -38,7 +38,7 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
     @IBOutlet weak var continueButton: UIButton!
     
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
-    public var giftOffer: Bool = false
+    public var lifetimeOffer: Bool = false
     public var hideCloseButton: Bool = false
     private var _index = 0
     
@@ -127,7 +127,7 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
     }
     
     private func _configurePrimaryHeaderLabel() {
-        if giftOffer {
+        if lifetimeOffer {
             primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
@@ -175,7 +175,7 @@ public class AnnualNoTrialViewController: UIViewController, SubscriptionViewCont
         continueButton.layer.cornerRadius = 27
         continueButton.backgroundColor = .primaryColor
         continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .headline))
-        let title = giftOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
+        let title = lifetimeOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
         continueButton.setTitle(title, for: .normal)
     }
     

@@ -113,7 +113,7 @@ public class SubscriptionHelper {
 //        case .playRecording,
 //             .transcribeRecording,
 //             .shareRecording,
-//             .giftOffer:
+//             .lifetimeOffer:
 //            return Constants.Offering.onlyAnnualDiscountedNoTrialRecordingScreen
 //        case .onFirstOnBoardingCompletion:
 //            return Constants.Offering.onlyAnnualDiscountedNoTrialOnboarding

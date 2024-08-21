@@ -40,7 +40,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     @IBOutlet weak var continueButton: SubtitleButton!
     
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
-    public var giftOffer: Bool = false
+    public var lifetimeOffer: Bool = false
     public var hideCloseButton: Bool = false
     
     public override func viewDidLoad() {
@@ -119,7 +119,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     }
     
     private func _configurePrimaryHeaderLabel() {
-        if giftOffer {
+        if lifetimeOffer {
             primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
@@ -173,7 +173,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
         continueButton.layer.cornerRadius = 27
         continueButton.backgroundColor = .primaryColor
         continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title3))
-        let title = giftOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
+        let title = lifetimeOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
         continueButton.setTitle(title, for: .normal)
         continueButton.titleEdgeInsets = UIEdgeInsets(top:12, left: 0, bottom: 0, right: 0)
         continueButton.setSubtitle("This offer will never be shown again!".localized)

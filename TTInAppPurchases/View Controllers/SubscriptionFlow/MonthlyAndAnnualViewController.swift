@@ -33,7 +33,7 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
 
 class MonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
     var hideCloseButton: Bool = false
-    var giftOffer = false
+    var lifetimeOffer = false
     weak var delegate: SubscriptionViewControllerDelegate?
     weak var uiProviderDelegate: UpgradeUIProviderDelegate?
     

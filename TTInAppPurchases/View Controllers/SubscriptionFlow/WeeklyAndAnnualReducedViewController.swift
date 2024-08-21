@@ -12,10 +12,10 @@ import NVActivityIndicatorView
 
 class WeeklyAndAnnualReducedViewController: UIViewController, SubscriptionViewControllerProtocol {
     var hideCloseButton: Bool = false
-    var giftOffer = false
+    var lifetimeOffer = false
     weak var delegate: SubscriptionViewControllerDelegate?
     weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+    weak var fiveMinOfferUIProviderDelegate: FiveMinuteOfferUIProviderDelegate?
 
     private var _selectedIndex = 1 {
         didSet {

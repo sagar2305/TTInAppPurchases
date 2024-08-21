@@ -51,8 +51,8 @@ public class MonthlyAnnualViewController: UIViewController, SubscriptionViewCont
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    public var giftOffer: Bool = false
     public var hideCloseButton: Bool = false
+    public var lifetimeOffer: Bool = false
     
     //MARK: Internal Parameters
     private let bounds = UIScreen.main.bounds
