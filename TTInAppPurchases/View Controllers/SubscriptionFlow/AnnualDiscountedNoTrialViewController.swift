@@ -11,7 +11,7 @@ import LGButton
 import NVActivityIndicatorView
 import Lottie
 
-public class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewControllerProtocol {    
+public class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewControllerProtocol {
 
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
