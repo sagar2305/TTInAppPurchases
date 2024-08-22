@@ -110,7 +110,7 @@ public class TripleOptionPaywallViewController: UIViewController, SubscriptionVi
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         animationView.addSubview(lottieView)
         let xOffset: CGFloat = uiProviderDelegate?.animatingAnimationView().offsetBy ?? 0
-        NSLayoutConstraint.activate( [
+        NSLayoutConstraint.activate([
             lottieView.topAnchor.constraint(equalTo: animationView.topAnchor,constant: xOffset),
             lottieView.rightAnchor.constraint(equalTo: animationView.rightAnchor),
             lottieView.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
