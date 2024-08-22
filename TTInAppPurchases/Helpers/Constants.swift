@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PhoneNumberKit
 
 public struct Constants {
     public struct RevenueCat {
@@ -32,10 +33,6 @@ public struct Constants {
     }
     
     public struct Offering {
-//        public static let onlyAnnualDiscountedNoTrialOnboarding = "onlyannualdiscounted_notrial_onboarding"
-//        public static let onlyAnnualDiscountedNoTrialHomeScreen = "onlyannualdiscounted_notrial_homescreen"
-//        public static let onlyAnnualDiscountedNoTrialRecordingScreen = "onlyannualdiscounted_notrial_recordingscreen"
-//        public static let weeklyAndAnnualReduced = "weeklyandannualreduced"
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"

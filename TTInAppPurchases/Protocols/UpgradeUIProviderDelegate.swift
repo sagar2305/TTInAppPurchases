@@ -15,15 +15,12 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func subscriptionPrice(for index: Int, withDurationSuffix: Bool) -> String
     func continueButtonTitle(for index: Int) -> String
     func offersFreeTrial(for index: Int) -> Bool
-    func introductoryPrice(for index: Int, withDurationSuffix: Bool) -> String
-    func monthlyBreakdownOfPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
+    func introductoryPrice(for index: Int, withDurationSuffix: Bool) -> String?
+    func monthlyBreakdownOfPrice(withDurationSuffix: Bool) -> String
     /// provide Lottie animating view for subscription page
     /// and whether to shift the xOffSet (Only For EZTAPE)
     func animatingAnimationView() -> (view: AnimationView,offsetBy: CGFloat?)
-    func featureOne() -> String
-    func featureTwo() -> String
-    func featureThree() -> String
-    func featureFour() -> String
+    func allFeatures(lifetimeOffer: Bool) -> [String]
     func freeTrialDuration(for index: Int) -> String
     func subscribeButtonSubtitle(for index: Int) -> String
 }

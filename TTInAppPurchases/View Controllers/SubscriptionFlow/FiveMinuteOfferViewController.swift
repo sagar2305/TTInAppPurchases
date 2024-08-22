@@ -26,10 +26,7 @@ public protocol FiveMinuteOfferUIProviderDelegate: AnyObject {
     func percentDiscount() -> String
     func getOriginalPriceLifeTimeOffer() -> NSAttributedString
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
-    func featureOne() -> String
-    func featureTwo() -> String
-    func featureThree() -> String
-    func featureFour() -> String
+    func allFeatures(lifetimeOffer: Bool) -> [String]
 }
 
 public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferViewControllerProtocol {
@@ -242,18 +239,25 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
         let bounds = UIScreen.main.bounds
         let style: UIFont.TextStyle = bounds.height > 812 ? .title3 : .callout
         
-        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature1Label.text = fiveMinOfferUIProviderDelegate?.featureOne() ?? ""
-         
-        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature2Label.text = fiveMinOfferUIProviderDelegate?.featureTwo() ?? ""
-
-        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature3Label.text = fiveMinOfferUIProviderDelegate?.featureThree() ?? ""
-
-        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature4Label.text = fiveMinOfferUIProviderDelegate?.featureFour() ?? ""
+        // Get the features using the allFeatures(for:) method
+        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: true) else { return }
+        
+        // Create an array of the feature labels
+        let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
+        
+        // Iterate through the labels and configure them with the corresponding feature text
+        for (index, label) in featureLabels.enumerated() {
+            label?.configure(with: UIFont.font(.sofiaProRegular, style: style))
+            
+            // Ensure we don't access an out-of-bounds index in the features array
+            if index < features.count {
+                label?.text = features[index]
+            } else {
+                label?.text = "" // Or handle this case as appropriate
+            }
+        }
     }
+
     
     private func _configureContinueButton() {
         continueButton.backgroundColor = .systemGreen
