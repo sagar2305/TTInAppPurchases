@@ -1,5 +1,5 @@
 //
-//  WeeklyMonthlyAndAnnualViewController.swift
+//  TripleOptionPaywallViewController.swift
 //  TTInAppPurchases
 //
 //  Created by Revathi on 18/04/22.

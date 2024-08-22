@@ -1,5 +1,5 @@
 //
-//  AnnualDiscountedNoTrialViewController.swift
+//  SingleOptionPaywallViewController.swift
 //  CallRecorder
 //
 //  Created by Sagar on 8/12/20.
