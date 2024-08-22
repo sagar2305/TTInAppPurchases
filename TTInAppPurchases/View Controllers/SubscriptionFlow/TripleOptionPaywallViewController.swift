@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 import SwiftUI
 import StoreKit
 
-public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
+public class TripleOptionPaywallViewController: UIViewController, SubscriptionViewControllerProtocol {
       
     //MARK: - IBOutlets
     @IBOutlet weak var animationView: UIView!

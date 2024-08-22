@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnnualDiscountedNoTrialViewController" customModule="TTInAppPurchases" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SingleOptionPaywallViewController" customModule="TTInAppPurchases" customModuleProvider="target">
             <connections>
                 <outlet property="animationView" destination="9pw-Kf-p3a" id="weX-xn-grG"/>
                 <outlet property="cancelButton" destination="AAd-zT-BSG" id="hwx-0L-NoF"/>
