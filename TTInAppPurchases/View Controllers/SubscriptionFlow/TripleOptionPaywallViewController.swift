@@ -1,5 +1,5 @@
 //
-//  WeeklyMonthlyAndAnnualViewController.swift
+//  TripleOptionPaywallViewController.swift
 //  TTInAppPurchases
 //
 //  Created by Revathi on 18/04/22.
@@ -11,7 +11,7 @@ import NVActivityIndicatorView
 import SwiftUI
 import StoreKit
 
-public class WeeklyMonthlyAndAnnualViewController: UIViewController, SubscriptionViewControllerProtocol {
+public class TripleOptionPaywallViewController: UIViewController, SubscriptionViewControllerProtocol {
       
     //MARK: - IBOutlets
     @IBOutlet weak var animationView: UIView!
@@ -62,8 +62,8 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     //MARK: External Parameters
     public weak var delegate: SubscriptionViewControllerDelegate?
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
-    public var giftOffer: Bool = false
     public var hideCloseButton: Bool = false
+    public var lifetimeOffer: Bool = false
     
     //MARK: Internal Parameters
     private var lottieView: AnimationView!
@@ -105,18 +105,12 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         _configureThirdButtonPackTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
-        
-        if #available(iOS 13.0, *) {
-            if SubscriptionHelper.shared.isIndianAppStore() {
-                _configureSubscriptionViewsForIndia()
-            }
-        }
 
         lottieView = uiProviderDelegate?.animatingAnimationView().view
         lottieView.translatesAutoresizingMaskIntoConstraints = false
         animationView.addSubview(lottieView)
         let xOffset: CGFloat = uiProviderDelegate?.animatingAnimationView().offsetBy ?? 0
-        NSLayoutConstraint.activate( [
+        NSLayoutConstraint.activate([
             lottieView.topAnchor.constraint(equalTo: animationView.topAnchor,constant: xOffset),
             lottieView.rightAnchor.constraint(equalTo: animationView.rightAnchor),
             lottieView.bottomAnchor.constraint(equalTo: animationView.bottomAnchor),
@@ -196,14 +190,6 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
         }
     }
     
-    private func _configureSubscriptionViewsForIndia() {
-        subscriptionViews[0].isHidden = true
-        subscriptionViews[1].isHidden = true
-        thirdButtonSaveLabel.isHidden = true
-        thirdButtonPackTypeLabel.text = "Popular".localized
-        secondButtonPackTypeLabel.isHidden = true
-    }
-    
     private func _configurePriceButtonTitle() {
         _configureFirstSubscriptionButton()
         _configureSecondSubscriptionButton()
@@ -222,17 +208,22 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
     }
     
     private func _configureFeatureLabel() {
-        feature1Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
-        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
+        guard let features = uiProviderDelegate?.allFeatures(lifetimeOffer: false) else {
+            return
+        }
         
-        feature2Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
-        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
+        let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
         
-        feature3Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
-        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
-        
-        feature4Label.configure(with: UIFont.font(.sofiaProLight, style: featureLabelTextStyle))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
+        for (index, label) in featureLabels.enumerated() {
+            label?.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+            
+            // Ensure we don't access an out-of-bounds index in the features array
+            if index < features.count {
+                label?.text = SubscriptionHelper.attributedFeatureText(features[index])
+            } else {
+                label?.text = "" // or handle it however you prefer if there are fewer features than labels
+            }
+        }
     }
     
     private func _configurePriceButton() {
@@ -376,16 +367,16 @@ public class WeeklyMonthlyAndAnnualViewController: UIViewController, Subscriptio
             let subtitleText = uiProviderDelegate?.subscribeButtonSubtitle(for: index) ?? ""
             subscribeButton.setSubtitle(subtitleText)
             
-            let title = "Try".localized + " " + freeTrialDuration + " " + "Free Trial".localized
+            let title = freeTrialDuration + " " + "Free Trial".localized
             let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.font(.sofiaProSemibold, style: .footnote)])
             freeTrialLabel.attributedText = attributedString
-            subscribeButton.setTitle("Start Free Trial".localized, for: .normal)
+            subscribeButton.setTitle("CONTINUE".localized, for: .normal)
         } else {
             subscribeButton.contentEdgeInsets = UIEdgeInsets.zero
             subscribeButton.contentVerticalAlignment = .center
             subscribeButton.setSubtitle("")
             freeTrialLabel.isHidden = true
-            subscribeButton.setTitle("Subscribe Now".localized, for: .normal)
+            subscribeButton.setTitle("CONTINUE".localized, for: .normal)
         }
     }
     

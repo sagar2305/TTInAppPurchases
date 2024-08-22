@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PhoneNumberKit
 
 public struct Constants {
     public struct RevenueCat {
@@ -32,11 +33,6 @@ public struct Constants {
     }
     
     public struct Offering {
-//        public static let onlyAnnualDiscountedNoTrialOnboarding = "onlyannualdiscounted_notrial_onboarding"
-//        public static let onlyAnnualDiscountedNoTrialHomeScreen = "onlyannualdiscounted_notrial_homescreen"
-//        public static let onlyAnnualDiscountedNoTrialRecordingScreen = "onlyannualdiscounted_notrial_recordingscreen"
-//        public static let weeklyAndAnnualReduced = "weeklyandannualreduced"
-//        public static let annualReducedSpecialOffer = "annualreduced"
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
@@ -83,7 +79,7 @@ public struct Constants {
         public static let subscribedToCallRecordChangesKey = "subscribedToCallRecordChangesKey"
         public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
-        public static let homeScreenGiftOfferTapped = "homeScreenGiftOfferTapped"
+        public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
     }
     
     public struct SettingsDefaults {
@@ -157,10 +153,10 @@ public struct Constants {
         case registrationFailed = "Registration - Failure"
         case staticOnboardingScreenContinued = "Initial static onboarding screen"
         case homeScreenDidShow = "Home Screen DidShow"
-        case giftOfferDidShow = "Gift Offer DidShow"
-        case didClickGiftOffer = "Did Click Gift Offer"
-        case specialOfferScreenDidShow = "Entered Special Offer screen"
-        case specialOfferCancelled = "Left Special Offer screen"
+        case lifetimeOfferDidShow = "Lifetime Offer DidShow"
+        case didClickLifetimeOffer = "Did Click Lifetime Offer"
+        case fiveMinOfferScreenDidShow = "Entered Five Minute Offer screen"
+        case fiveMinOfferCancelled = "Left Five Minute Offer screen"
         
         //Inbound Call
         case callToAccessNumber = "Inbound Call - Dail Access Number"
@@ -215,7 +211,7 @@ public struct Constants {
         case subscribedAfterPlaying15SecondsOfRecording = "Subscription - Play 15 sec recording"
         case subscribedOnTranscriptionAttempt = "Subscription - On transcribing"
         case subscribedOnSharingAttempt = "Subscription - Share recording"
-        case subscribedFrom24hrGiftOffer = "Subscription - 24 hour gift offer"
+        case subscribedFromLifetimeOffer = "Subscription - Lifetime offer"
         case madeFirstFreeCall = "Made one free call"
         case listenedTo15SecondsRecording = "Play 15s recording"
         

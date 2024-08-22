@@ -1,5 +1,5 @@
 //
-//  SpecialOfferViewController.swift
+//  FiveMinuteOfferViewController.swift
 //  CallRecorder
 //
 //  Created by Sandesh on 27/07/20.
@@ -8,34 +8,31 @@
 
 import UIKit
 
-public protocol SpecialOfferViewControllerDelegate: AnyObject {
-    func viewDidLoad(_ controller: SpecialOfferViewController)
-    func viewWillAppear(_ controller: SpecialOfferViewController)
-    func restorePurchases(_ controller: SpecialOfferViewController)
-    func didTapBackButton(_ controller: SpecialOfferViewController)
-    func didTapCancelButton(_ controller: SpecialOfferViewController)
-    func showPrivacyPolicy(_ controller: SpecialOfferViewController)
-    func showTermsOfLaw(_ controller: SpecialOfferViewController)
-    func purchaseOffer(_ controller: SpecialOfferViewController)
+public protocol FiveMinuteOfferViewControllerDelegate: AnyObject {
+    func viewDidLoad(_ controller: FiveMinuteOfferViewController)
+    func viewWillAppear(_ controller: FiveMinuteOfferViewController)
+    func restorePurchases(_ controller: FiveMinuteOfferViewController)
+    func didTapBackButton(_ controller: FiveMinuteOfferViewController)
+    func didTapCancelButton(_ controller: FiveMinuteOfferViewController)
+    func showPrivacyPolicy(_ controller: FiveMinuteOfferViewController)
+    func showTermsOfLaw(_ controller: FiveMinuteOfferViewController)
+    func purchaseOffer(_ controller: FiveMinuteOfferViewController)
 }
 
-public protocol SpecialOfferUIProviderDelegate: AnyObject {
+public protocol FiveMinuteOfferUIProviderDelegate: AnyObject {
     func productsFetched() -> Bool
     func originalPrice() -> String
     func discountedPrice() -> String
     func percentDiscount() -> String
     func getOriginalPriceLifeTimeOffer() -> NSAttributedString
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
-    func featureOne() -> String
-    func featureTwo() -> String
-    func featureThree() -> String
-    func featureFour() -> String
+    func allFeatures(lifetimeOffer: Bool) -> [String]
 }
 
-public class SpecialOfferViewController: UIViewController, SpecialOfferViewControllerProtocol {
+public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferViewControllerProtocol {
     
-    public weak var delegate: SpecialOfferViewControllerDelegate?
-    public weak var specialOfferUIProviderDelegate: SpecialOfferUIProviderDelegate?
+    public weak var delegate: FiveMinuteOfferViewControllerDelegate?
+    public weak var fiveMinOfferUIProviderDelegate: FiveMinuteOfferUIProviderDelegate?
 
     private var borderLayer: CALayer!
     private var lastBounds: CGRect!
@@ -179,19 +176,19 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
             savingPercentageLabel.font = UIFont.font(.sofiaProBold, style: .largeTitle)
             savingPercentageLabel.adjustsFontForContentSizeCategory = true
             savingPercentageLabel.adjustsFontSizeToFitWidth = true
-            savingPercentageLabel.text = "\(specialOfferUIProviderDelegate!.percentDiscount())%"
+            savingPercentageLabel.text = "\(fiveMinOfferUIProviderDelegate!.percentDiscount())%"
         }
     }
     
     private func _configureActualPriceLabel() {
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
-            actualPriceLabel .attributedText = specialOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
+            actualPriceLabel .attributedText = fiveMinOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
         } else {
             actualPriceLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
             let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.strikethroughStyle: 1,
                                                              NSAttributedString.Key.strikethroughColor: UIColor.buttonTextColor
             ]
-            let attributedActualPrice = NSAttributedString(string: specialOfferUIProviderDelegate!.originalPrice(), attributes: attributes)
+            let attributedActualPrice = NSAttributedString(string: fiveMinOfferUIProviderDelegate!.originalPrice(), attributes: attributes)
             actualPriceLabel.attributedText = attributedActualPrice
         }
     }
@@ -202,10 +199,10 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         if ConfigurationHelper.shared.isLifetimePlanAvailable {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .largeTitle)
-            discountedPriceLabel.text = specialOfferUIProviderDelegate!.originalPrice()
+            discountedPriceLabel.text = fiveMinOfferUIProviderDelegate!.originalPrice()
         } else {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .title2)
-            discountedPriceLabel.text = "NOW".localized + "\(specialOfferUIProviderDelegate!.discountedPrice())"
+            discountedPriceLabel.text = "NOW".localized + "\(fiveMinOfferUIProviderDelegate!.discountedPrice())"
         }
     }
     
@@ -225,7 +222,7 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         } else {
             let attributedString = NSMutableAttributedString(string: "For Life Time\n".localized)
             let attributedString1 = NSMutableAttributedString(string: "only".localized)
-            let attributedString2 = NSMutableAttributedString(string: "\(specialOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
+            let attributedString2 = NSMutableAttributedString(string: "\(fiveMinOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
                                                               attributes: [NSAttributedString.Key.font: blackFont])
             let attributedString3 = NSMutableAttributedString(string: "month".localized, attributes: [NSAttributedString.Key.font: blackFont])
             
@@ -242,18 +239,25 @@ public class SpecialOfferViewController: UIViewController, SpecialOfferViewContr
         let bounds = UIScreen.main.bounds
         let style: UIFont.TextStyle = bounds.height > 812 ? .title3 : .callout
         
-        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature1Label.text = specialOfferUIProviderDelegate?.featureOne() ?? ""
-         
-        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature2Label.text = specialOfferUIProviderDelegate?.featureTwo() ?? ""
-
-        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature3Label.text = specialOfferUIProviderDelegate?.featureThree() ?? ""
-
-        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: style))
-        feature4Label.text = specialOfferUIProviderDelegate?.featureFour() ?? ""
+        // Get the features using the allFeatures(for:) method
+        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: true) else { return }
+        
+        // Create an array of the feature labels
+        let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
+        
+        // Iterate through the labels and configure them with the corresponding feature text
+        for (index, label) in featureLabels.enumerated() {
+            label?.configure(with: UIFont.font(.sofiaProRegular, style: style))
+            
+            // Ensure we don't access an out-of-bounds index in the features array
+            if index < features.count {
+                label?.text = features[index]
+            } else {
+                label?.text = "" // Or handle this case as appropriate
+            }
+        }
     }
+
     
     private func _configureContinueButton() {
         continueButton.backgroundColor = .systemGreen

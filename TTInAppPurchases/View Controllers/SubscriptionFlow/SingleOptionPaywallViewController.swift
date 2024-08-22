@@ -1,5 +1,5 @@
 //
-//  AnnualDiscountedNoTrialViewController.swift
+//  SingleOptionPaywallViewController.swift
 //  CallRecorder
 //
 //  Created by Sagar on 8/12/20.
@@ -11,7 +11,7 @@ import LGButton
 import NVActivityIndicatorView
 import Lottie
 
-public class AnnualDiscountedNoTrialViewController: UIViewController, SubscriptionViewControllerProtocol {    
+public class SingleOptionPaywallViewController: UIViewController, SubscriptionViewControllerProtocol {
 
     private let bounds = UIScreen.main.bounds
     private var featureLabelTextStyle: UIFont.TextStyle = .callout
@@ -40,7 +40,11 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     @IBOutlet weak var continueButton: SubtitleButton!
     
     @IBOutlet weak var privacyAndTermsOfLawLabel: UILabel!
-    public var giftOffer: Bool = false
+    public var lifetimeOffer: Bool = false {
+        didSet {
+            print("lifetimeOffer has been set to \(lifetimeOffer)")
+        }
+    }
     public var hideCloseButton: Bool = false
     
     public override func viewDidLoad() {
@@ -93,6 +97,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
         _configurePrimaryHeaderLabel()
         _configurePricingTopLabel()
         _configurePricingBottomLabel()
+        _configureContinueButtonText()
     }
     
     private func _configureUI() {
@@ -119,7 +124,7 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     }
     
     private func _configurePrimaryHeaderLabel() {
-        if giftOffer {
+        if lifetimeOffer {
             primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
@@ -127,56 +132,82 @@ public class AnnualDiscountedNoTrialViewController: UIViewController, Subscripti
     }
     
     private func _configurePricingTopLabel() {
-        
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if lifetimeOffer {
+            // Configure for lifetime offer
             pricingTopLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
-            let attributedString = NSMutableAttributedString(string: "\(uiProviderDelegate!.subscriptionPrice(for: _index, withDurationSuffix: false))")
+            let subscriptionPrice = uiProviderDelegate?.subscriptionPrice(for: _index, withDurationSuffix: false) ?? ""
+            let attributedString = NSMutableAttributedString(string: subscriptionPrice)
             pricingTopLabel.attributedText = attributedString
         } else {
-            let attributedString = NSMutableAttributedString(string: "\(uiProviderDelegate!.introductoryPrice(for: _index, withDurationSuffix: true)) ")
-            let attributedString1 = NSMutableAttributedString(string:
-                                                                "(\(uiProviderDelegate!.subscriptionPrice(for: _index, withDurationSuffix: false)))".localized,
-                                                              attributes: [NSAttributedString.Key.strikethroughStyle: 1])
-            
-            attributedString.append(attributedString1)
-            pricingTopLabel.attributedText = attributedString
+            // Check if an introductory price is available
+            if let introductoryPrice = uiProviderDelegate?.introductoryPrice(for: _index, withDurationSuffix: true) {
+                // Introductory price exists
+                let attributedString = NSMutableAttributedString(string: "\(introductoryPrice) ")
+                let regularPrice = uiProviderDelegate?.subscriptionPrice(for: _index, withDurationSuffix: false) ?? ""
+                
+                let attributedString1 = NSMutableAttributedString(
+                    string: "(\(regularPrice))".localized,
+                    attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+                )
+                
+                attributedString.append(attributedString1)
+                pricingTopLabel.attributedText = attributedString
+            } else {
+                // No introductory price, only show the regular subscription price
+                let subscriptionPrice = uiProviderDelegate?.subscriptionPrice(for: _index, withDurationSuffix: true) ?? ""
+                let attributedString = NSMutableAttributedString(string: subscriptionPrice)
+                pricingTopLabel.attributedText = attributedString
+            }
+        }
+    }
+    
+    private func _configureContinueButtonText() {
+        if lifetimeOffer {
+            continueButton.setSubtitle("This offer will never be shown again!".localized)
+        } else {
+            let subtitleText = uiProviderDelegate?.subscribeButtonSubtitle(for: 0) ?? ""
+            continueButton.setSubtitle(subtitleText)
         }
     }
     
     private func _configurePricingBottomLabel() {
         pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .subheadline))
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if lifetimeOffer {
             pricingBottomLabel.configure(with: UIFont.font(.sofiaProRegular, style: .body))
             pricingBottomLabel.text = "No Recurring Subscription!".localized
         } else {
-            let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withIntroDiscount: true, withDurationSuffix: true)
+            let price = uiProviderDelegate!.monthlyBreakdownOfPrice(withDurationSuffix: true)
             pricingBottomLabel.text = "( \(price) " + "only".localized + " )"
         }
     }
     
+    
     private func _configureFeatureLabel() {
+        guard let features = uiProviderDelegate?.allFeatures(lifetimeOffer: lifetimeOffer) else {
+            return
+        }
         
-        feature1Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature1Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureOne() ?? "")
+        let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
         
-        feature2Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature2Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureTwo() ?? "")
-        
-        feature3Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature3Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureThree() ?? "")
-        
-        feature4Label.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
-        feature4Label.text = SubscriptionHelper.attributedFeatureText(uiProviderDelegate?.featureFour() ?? "")
+        for (index, label) in featureLabels.enumerated() {
+            label?.configure(with: UIFont.font(.sofiaProRegular, style: featureLabelTextStyle))
+            
+            // Ensure we don't access an out-of-bounds index in the features array
+            if index < features.count {
+                label?.text = SubscriptionHelper.attributedFeatureText(features[index])
+            } else {
+                label?.text = "" // or handle it however you prefer if there are fewer features than labels
+            }
+        }
     }
     
     private func _configureContinueButton() {
         continueButton.layer.cornerRadius = 27
         continueButton.backgroundColor = .primaryColor
         continueButton.titleLabel?.configure(with: UIFont.font(.sofiaProBold, style: .title3))
-        let title = giftOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
+        let title = lifetimeOffer ? "Unlock Lifetime Access".localized.uppercased() : "Continue".localized.uppercased()
         continueButton.setTitle(title, for: .normal)
         continueButton.titleEdgeInsets = UIEdgeInsets(top:12, left: 0, bottom: 0, right: 0)
-        continueButton.setSubtitle("This offer will never be shown again!".localized)
         continueButton.subtitleText.textColor = UIColor.systemYellow
         continueButton.subtitleText.font = UIFont.font(.sofiaProMedium, style: .footnote)
         continueButton.subtitleText.setItalicText()

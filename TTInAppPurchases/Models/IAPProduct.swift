@@ -12,7 +12,7 @@ import RevenueCat
 public struct IAPProduct {
     public let   identifier: String
     private let _price: String
-    private let _introductoryPrice: String
+    private let _introductoryPrice: String?
     public let   product: StoreProduct
     public let   offersFreeTrial: Bool
     public let   packageType: PackageType
@@ -28,7 +28,7 @@ public struct IAPProduct {
         case .weekly:
             return " " + "weekly".localized
         case .lifetime:
-            return "for lifetime".localized
+            return " " + "for lifetime".localized
         default:
             return ""
         }
@@ -53,12 +53,15 @@ public struct IAPProduct {
         return _price
     }
     
-    public var introductoryPrice: String {
+    public var introductoryPrice: String? {
         return _introductoryPrice
     }
     
-    public var introductoryPriceWithDurationSuffix: String {
-        return _introductoryPrice + _durationSuffix
+    public var introductoryPriceWithDurationSuffix: String? {
+        if let _introductoryPrice = _introductoryPrice {
+            return _introductoryPrice + _durationSuffix
+        }
+        return nil
     }
     
     public var priceWithDurationSuffix: String {
@@ -67,7 +70,7 @@ public struct IAPProduct {
     
     init(package: Package) {
         _price = package.localizedPriceString
-        _introductoryPrice = package.localizedIntroductoryPriceString ?? ""
+        _introductoryPrice = package.localizedIntroductoryPriceString
         product = package.storeProduct
         packageType = package.packageType
         offersFreeTrial = package.storeProduct.introductoryDiscount?.paymentMode == .freeTrial
