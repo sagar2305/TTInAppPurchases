@@ -272,5 +272,27 @@ public class SubscriptionHelper {
             }
         }
     }
+    
+    public func getIsSubscriptionCancelled(completionHandler: @escaping ( _ isUnsubscribed : Bool, _ isTrialPeriod: Bool) -> Void){
+          Purchases.shared.getCustomerInfo { (customerInfo, error) in
+              if let customerInfo = customerInfo {
+                  if let entitlement = customerInfo.entitlements["pro"] {
+                      print("############Start############")
+                      print(entitlement.periodType.rawValue)
+                      let isTrialPeriod = entitlement.periodType.rawValue == 2 // this is periodType enum map 0: normal, 1: promotional, 2: trial
+                      
+                      if let unsubsribeAt = entitlement.unsubscribeDetectedAt {
+                          print(unsubsribeAt)
+                          completionHandler(true, isTrialPeriod)
+                      } else {
+                          completionHandler(false, isTrialPeriod)
+                          print("User has not unsubscribe yet")
+                      }
+                  }
+              } else if let error = error {
+                  print("Error fetching customer info: \(error.localizedDescription)")
+              }
+          }
+      }
 }
 
