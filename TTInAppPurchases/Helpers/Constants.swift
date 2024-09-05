@@ -36,6 +36,7 @@ public struct Constants {
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
+        public static let quadruple = "quadruple" // New offering for 4-option paywall
     }
     
     public struct CallRecorder {
@@ -126,7 +127,7 @@ public struct Constants {
         case phoneNumber = "Phone Number"
         case accessNumber = "Access Number"
         case userPlan = "User Plan"
-        case dateOfSubScription = "Date Of Subscription"
+        case dateOfSubscription = "Date Of Subscription"
         case outboundCallCount = "Outbound Calls Count"
         case inboundCallCount = "Inbound Calls Count"
         case totalRecordings = "Total Recordings"
