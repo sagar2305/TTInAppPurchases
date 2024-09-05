@@ -69,9 +69,12 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private lazy var freeTrialInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.font(.sofiaProRegular, style: .subheadline)
+        label.font = UIFont.font(.sofiaProMedium, style: .body)
         label.textAlignment = .center
-        label.text = "7 day free trial, then $59.99/year"
+        label.numberOfLines = 0
+        label.backgroundColor = .clear
+        label.layer.cornerRadius = 12
+        label.clipsToBounds = true
         return label
     }()
     
@@ -82,21 +85,31 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.setTitle("CONTINUE".localized, for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = 12
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
+        
+        // Add a gradient background
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.frame = button.bounds
+        button.layer.insertSublayer(gradientLayer, at: 0)
+        
         return button
     }()
     
     private lazy var mostPopularLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.font(.sofiaProBold, style: .footnote)
+        label.font = UIFont.font(.sofiaProBold, style: .caption1)
         label.text = "Most Popular"
         label.textColor = .white
         label.backgroundColor = .systemGreen
         label.textAlignment = .center
-        label.layer.cornerRadius = 10
+        label.layer.cornerRadius = 8
         label.clipsToBounds = true
         return label
     }()
@@ -122,12 +135,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return stackView
     }()
     
-    private lazy var freeTrialLabel: UILabel = {
+    private lazy var cancelAnytimeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.font(.sofiaProSemibold, style: .footnote)
+        label.font = UIFont.font(.sofiaProBold, style: .subheadline)
+        label.text = "Cancel at any time"
+        label.textColor = .systemGreen
+        label.backgroundColor = .systemGreen.withAlphaComponent(0.1)
         label.textAlignment = .center
-        label.isHidden = true
+        label.layer.cornerRadius = 12
+        label.clipsToBounds = true
         return label
     }()
     
@@ -137,7 +154,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.titleLabel?.font = UIFont.font(.sofiaProRegular, style: .footnote)
         let attributedTitle = NSAttributedString(string: "Restore Purchase".localized, attributes: [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.label
         ])
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(didTapRestorePurchase), for: .touchUpInside)
@@ -202,6 +219,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
                                                    name: Notification.Name.iapProductsFetchedNotification,
                                                    object: nil)
         }
+        
+        updateColorsForCurrentTraitCollection()
     }
     
     private func setupViews() {
@@ -209,9 +228,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView, 
-         freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView, 
-         freeTrialLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { contentView.addSubview($0) }
+        [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView,
+         freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView,
+         cancelAnytimeLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { contentView.addSubview($0) }
         
         subscriptionStackView.isUserInteractionEnabled = true
         
@@ -265,16 +284,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: 32),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-
-            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 16),
+            
+            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
             subscribeButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             subscribeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             subscribeButton.heightAnchor.constraint(equalToConstant: 50),
 
-            mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -10),
-            mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: 10),
-            mostPopularLabel.widthAnchor.constraint(equalToConstant: 100),
-            mostPopularLabel.heightAnchor.constraint(equalToConstant: 20),
+            mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
+            mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
+            mostPopularLabel.widthAnchor.constraint(equalToConstant: 80),
+            mostPopularLabel.heightAnchor.constraint(equalToConstant: 16),
 
             saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
             saveInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -284,13 +303,15 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             subscriptionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             subscriptionStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            freeTrialLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 8),
-            freeTrialLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cancelAnytimeLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 8),
+            cancelAnytimeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cancelAnytimeLabel.heightAnchor.constraint(equalToConstant: 30),
+            cancelAnytimeLabel.widthAnchor.constraint(equalToConstant: 160),
             
-            restorePurchasesButton.topAnchor.constraint(equalTo: freeTrialLabel.bottomAnchor, constant: 16),
+            restorePurchasesButton.topAnchor.constraint(equalTo: cancelAnytimeLabel.bottomAnchor, constant: 8),
             restorePurchasesButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 16),
+            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 8),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             privacyAndTermsOfLawLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
@@ -312,14 +333,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.isUserInteractionEnabled = true
         button.isEnabled = true
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = 12 // Increased corner radius
         button.clipsToBounds = true
-        button.backgroundColor = .systemGray5
+        button.backgroundColor = .systemBackground
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.separator.cgColor
         
         // Add a subtle shadow
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOffset = CGSize(width: 0, height: 2)
-        button.layer.shadowRadius = 4
+        button.layer.shadowRadius = 6
         button.layer.shadowOpacity = 0.1
         button.layer.masksToBounds = false
 
@@ -451,27 +474,27 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
-        titleLabel.textColor = .white
+        titleLabel.textColor = .label
         
         let priceLabel = UILabel()
         priceLabel.text = price + " per month"
         priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        priceLabel.textColor = .white
+        priceLabel.textColor = .label
         
         leftStackView.addArrangedSubview(titleLabel)
         leftStackView.addArrangedSubview(priceLabel)
         
         if let pricePerMonth = pricePerMonth {
-            let yearlyPrice = round(pricePerMonth * 12)
+            let yearlyPrice = pricePerMonth * 12
             let yearlyPriceLabel = UILabel()
-            yearlyPriceLabel.text = "$\(Int(yearlyPrice))"
+            yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
             yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-            yearlyPriceLabel.textColor = .white
+            yearlyPriceLabel.textColor = .label
             
             let perYearLabel = UILabel()
-            perYearLabel.text = "per year"
+            perYearLabel.text = "per year".localized
             perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-            perYearLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+            perYearLabel.textColor = UIColor.secondaryLabel
             
             rightStackView.addArrangedSubview(yearlyPriceLabel)
             rightStackView.addArrangedSubview(perYearLabel)
@@ -482,7 +505,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let lifetimeLabel = UILabel()
         lifetimeLabel.text = "Lifetime"
         lifetimeLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        lifetimeLabel.textColor = .white
+        lifetimeLabel.textColor = .label
     
         
         leftStackView.addArrangedSubview(lifetimeLabel)
@@ -490,18 +513,18 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let priceLabel = UILabel()
         priceLabel.text = price
         priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        priceLabel.textColor = .white
+        priceLabel.textColor = .label
         
         rightStackView.addArrangedSubview(priceLabel)
         
         // Add "Best Value" label
         let bestValueLabel = UILabel()
         bestValueLabel.text = "Best Value"
-        bestValueLabel.font = UIFont.font(.sofiaProBold, style: .footnote)
+        bestValueLabel.font = UIFont.font(.sofiaProBold, style: .caption1)
         bestValueLabel.textColor = .white
         bestValueLabel.backgroundColor = .systemOrange
         bestValueLabel.textAlignment = .center
-        bestValueLabel.layer.cornerRadius = 10
+        bestValueLabel.layer.cornerRadius = 8
         bestValueLabel.clipsToBounds = true
         bestValueLabel.isUserInteractionEnabled = false // Disable user interaction on the "Best Value" label
         bestValueLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -514,10 +537,10 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         bestValueLabel.accessibilityIdentifier = "BestValueLabel"
         
         NSLayoutConstraint.activate([
-            bestValueLabel.topAnchor.constraint(equalTo: button.topAnchor, constant: -10),
-            bestValueLabel.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 10),
+            bestValueLabel.topAnchor.constraint(equalTo: button.topAnchor, constant: -8),
+            bestValueLabel.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -8),
             bestValueLabel.widthAnchor.constraint(equalToConstant: 80),
-            bestValueLabel.heightAnchor.constraint(equalToConstant: 20)
+            bestValueLabel.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
 
@@ -525,31 +548,68 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let titleLabel = UILabel()
         titleLabel.text = "Subscribe Weekly"
         titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
-        titleLabel.textColor = .white
+        titleLabel.textColor = .label
         
         let priceLabel = UILabel()
         priceLabel.text = price + " per week"
         priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        priceLabel.textColor = .white
+        priceLabel.textColor = .label
         
         leftStackView.addArrangedSubview(titleLabel)
         leftStackView.addArrangedSubview(priceLabel)
         
         if let pricePerMonth = pricePerMonth {
-            let yearlyPrice = round(pricePerMonth * 12)
+            let yearlyPrice = pricePerMonth * 12
             let yearlyPriceLabel = UILabel()
-            yearlyPriceLabel.text = "$\(Int(yearlyPrice))"
+            yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
             yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-            yearlyPriceLabel.textColor = .white
+            yearlyPriceLabel.textColor = .label
             
             let perYearLabel = UILabel()
-            perYearLabel.text = "per year"
+            perYearLabel.text = "per year".localized
             perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-            perYearLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+            perYearLabel.textColor = UIColor.secondaryLabel
             
             rightStackView.addArrangedSubview(yearlyPriceLabel)
             rightStackView.addArrangedSubview(perYearLabel)
         }
+    }
+
+    private func formatPrice(_ price: Double, currencyCode: String, originalPriceString: String) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.currencyCode = currencyCode
+        numberFormatter.locale = Locale.current
+
+        if let formattedPrice = numberFormatter.string(from: NSNumber(value: price)) {
+            // Extract the currency symbol from the original price string
+            let originalSymbol = originalPriceString.components(separatedBy: CharacterSet.decimalDigits).first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            
+            // Replace the formatted currency symbol with the original one and add a space
+            return formattedPrice.replacingOccurrences(of: numberFormatter.currencySymbol, with: originalSymbol + " ")
+        }
+        
+        // Fallback to a basic format if formatting fails
+        return "\(currencyCode) \(price)"
+    }
+
+    private func getCurrencyCode(from priceString: String) -> String {
+        let currencySymbol = priceString.components(separatedBy: CharacterSet.decimalDigits).first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let locale = Locale.current
+        
+        if let currencyCode = locale.currencyCode {
+            return currencyCode
+        }
+        
+        // Fallback method if we can't get the currency code directly
+        for code in Locale.isoCurrencyCodes {
+            let tempLocale = Locale(identifier: "en_US_POSIX")
+            if let symbol = tempLocale.localizedString(forCurrencyCode: code), symbol == currencySymbol {
+                return code
+            }
+        }
+        
+        return "USD" // Default to USD if currency code can't be determined
     }
 
     private func _configureSubscribeButton() {
@@ -557,28 +617,14 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         updateFreeTrialInfo()
     }
 
-    private func updateFreeTrialInfo() {
-        guard let uiProviderDelegate = uiProviderDelegate else { return }
-        
-        let trialDuration = uiProviderDelegate.freeTrialDuration(for: 0)
-        let price = uiProviderDelegate.subscriptionPrice(for: 0, withDurationSuffix: false)
-        
-        let attributedString = NSMutableAttributedString()
-        
-        if !trialDuration.isEmpty {
-            attributedString.append(NSAttributedString(string: "\(trialDuration) free trial, then ", attributes: [.font: UIFont.font(.sofiaProRegular, style: .title3), .foregroundColor: UIColor.label]))
-        }
-        
-        attributedString.append(NSAttributedString(string: price, attributes: [.font: UIFont.font(.sofiaProBold, style: .title3), .foregroundColor: UIColor.label]))
-        attributedString.append(NSAttributedString(string: " / year", attributes: [.font: UIFont.font(.sofiaProRegular, style: .title3), .foregroundColor: UIColor.label]))
-        
-        freeTrialInfoLabel.attributedText = attributedString
-    }
-
     // MARK: - Helper Methods
     private func highlightButton(at index: Int) {
-        priceButtons.forEach { $0.backgroundColor = .systemGray5 }
-        priceButtons[index].backgroundColor = .systemBlue
+        priceButtons.forEach {
+            $0.backgroundColor = .systemBackground
+            $0.layer.borderColor = UIColor.separator.cgColor
+        }
+        priceButtons[index].backgroundColor = .systemBlue.withAlphaComponent(0.1)
+        priceButtons[index].layer.borderColor = UIColor.systemBlue.cgColor
         
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -588,7 +634,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
     
     private func unhighlightButton(at index: Int) {
-        priceButtons[index].backgroundColor = .systemGray5
+        priceButtons[index].backgroundColor = .systemBackground
+        priceButtons[index].layer.borderColor = UIColor.separator.cgColor
     }
     
     private func checkFreeOfferTrialStatus(for index: Int) {
@@ -634,5 +681,62 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.updateScrollViewContentSize()
         }
+    }
+
+    // Add this method to update colors for dark mode
+    private func updateColorsForCurrentTraitCollection() {
+        if traitCollection.userInterfaceStyle == .dark {
+            cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.2)
+            cancelAnytimeLabel.textColor = .systemGreen
+        } else {
+            cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.1)
+            cancelAnytimeLabel.textColor = .systemGreen
+        }
+    }
+
+    // Override traitCollectionDidChange to handle dark mode changes
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateColorsForCurrentTraitCollection()
+    }
+
+    // Update the updateFreeTrialInfo() method
+    private func updateFreeTrialInfo() {
+        guard let uiProviderDelegate = uiProviderDelegate else { return }
+        
+        let trialDuration = uiProviderDelegate.freeTrialDuration(for: selectedIndex)
+        let price = uiProviderDelegate.subscriptionPrice(for: selectedIndex, withDurationSuffix: false)
+        
+        let attributedString = NSMutableAttributedString()
+        
+        if !trialDuration.isEmpty {
+            attributedString.append(NSAttributedString(string: "\(trialDuration) FREE TRIAL\n", attributes: [
+                .font: UIFont.font(.sofiaProBlack, style: .title3),
+                .foregroundColor: UIColor.systemGreen
+            ]))
+            attributedString.append(NSAttributedString(string: "then ", attributes: [
+                .font: UIFont.font(.sofiaProRegular, style: .subheadline),
+                .foregroundColor: UIColor.secondaryLabel
+            ]))
+        }
+        
+        attributedString.append(NSAttributedString(string: price, attributes: [
+            .font: UIFont.font(.sofiaProBlack, style: .title2),
+            .foregroundColor: UIColor.label
+        ]))
+        attributedString.append(NSAttributedString(string: " / year", attributes: [
+            .font: UIFont.font(.sofiaProRegular, style: .subheadline),
+            .foregroundColor: UIColor.secondaryLabel
+        ]))
+        
+        freeTrialInfoLabel.attributedText = attributedString
+        
+        // Remove the background color and shadow
+        freeTrialInfoLabel.backgroundColor = .clear
+        freeTrialInfoLabel.layer.shadowColor = nil
+        freeTrialInfoLabel.layer.shadowOffset = .zero
+        freeTrialInfoLabel.layer.shadowRadius = 0
+        freeTrialInfoLabel.layer.shadowOpacity = 0
+        freeTrialInfoLabel.layer.masksToBounds = true
     }
 }
