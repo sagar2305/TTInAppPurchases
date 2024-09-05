@@ -23,4 +23,5 @@ public protocol UpgradeUIProviderDelegate: AnyObject {
     func allFeatures(lifetimeOffer: Bool) -> [String]
     func freeTrialDuration(for index: Int) -> String
     func subscribeButtonSubtitle(for index: Int) -> String
+    func subscriptionPricePerMonth(for index: Int) -> Double?
 }

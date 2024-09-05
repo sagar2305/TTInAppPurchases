@@ -52,7 +52,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return label
     }()
     
-    private lazy var reviewCarouselView: ReviewCarouselView = {
+    public lazy var reviewCarouselView: ReviewCarouselView = {
         let view = ReviewCarouselView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -83,8 +83,22 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
+        button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
         return button
+    }()
+    
+    private lazy var mostPopularLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.font(.sofiaProBold, style: .footnote)
+        label.text = "Most Popular"
+        label.textColor = .white
+        label.backgroundColor = .systemGreen
+        label.textAlignment = .center
+        label.layer.cornerRadius = 10
+        label.clipsToBounds = true
+        return label
     }()
     
     private lazy var saveInfoLabel: UILabel = {
@@ -92,7 +106,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.font(.sofiaProMedium, style: .subheadline)
         label.textAlignment = .center
-        label.text = "No payment now! Save 75%"
+        label.text = "Save 75% • Top Rated Plan"
         label.textColor = .systemGreen
         return label
     }()
@@ -102,6 +116,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.isUserInteractionEnabled = true
         return stackView
     }()
     
@@ -118,7 +135,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.font(.sofiaProRegular, style: .footnote)
-        button.setTitle("Restore Purchase".localized, for: .normal)
+        let attributedTitle = NSAttributedString(string: "Restore Purchase".localized, attributes: [
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .foregroundColor: UIColor.white
+        ])
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(didTapRestorePurchase), for: .touchUpInside)
         return button
     }()
@@ -129,7 +150,6 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.font = UIFont.font(.sofiaProRegular, style: .footnote)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -142,15 +162,21 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = 2 {
+    private var _selectedIndex = -1 {
         didSet {
             if isViewLoaded {
                 checkFreeOfferTrialStatus(for: _selectedIndex)
-                unhighlightButton(at: oldValue)
-                highlightButton(at: _selectedIndex)
+                if oldValue != -1 {
+                    unhighlightButton(at: oldValue)
+                }
+                if _selectedIndex != -1 {
+                    highlightButton(at: _selectedIndex)
+                }
             }
         }
     }
+    
+    private var selectedIndex: Int = 0 // Set default to 0 for the continue button
     
     // MARK: - View Lifecycle
     public override func viewDidLoad() {
@@ -158,42 +184,36 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         setupViews()
         setupConstraints()
-        
-        _selectedIndex = 2
+        setupButtonConstraints()
         
         _configureUI()
         _configureHeaderLabels()
         _configureDescriptionLabels()
         _configureFeatureLabel()
         _configureCancelButton()
-        _configurePriceButton()
-        _configureSubscribeButton()
-        _configurePriceButtonTitle()
         _configureRestorePurchasesButton()
         _configurePrivacyAndTermsOfLawLabel()
         
-        setupSubscriptionButtons()
+        if uiProviderDelegate!.productsFetched() {
+            setupSubscriptionButtons(notification: nil)
+        } else {
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(setupSubscriptionButtons(notification:)),
+                                                   name: Notification.Name.iapProductsFetchedNotification,
+                                                   object: nil)
+        }
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        delegate?.viewWillAppear(self)
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        delegate?.viewDidAppear(self)
-    }
-    
-    // MARK: - Setup Views
     private func setupViews() {
         view.backgroundColor = .systemBackground
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
         [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView, 
-         freeTrialInfoLabel, subscribeButton, saveInfoLabel, subscriptionStackView, 
+         freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView, 
          freeTrialLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { contentView.addSubview($0) }
+        
+        subscriptionStackView.isUserInteractionEnabled = true
         
         for _ in 0..<3 {
             let button = createPriceButton()
@@ -204,6 +224,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             tickMarkViews.append(tickMark)
             button.addSubview(tickMark)
         }
+        
+        scrollView.isScrollEnabled = true
+        updateScrollViewContentSize()
     }
     
     private func setupConstraints() {
@@ -222,8 +245,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             cancelButton.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
             cancelButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            // Increase the top spacing for the primary header label
-            primaryHeaderLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 32), // Changed from 8 to 32
+            primaryHeaderLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 32),
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
@@ -234,7 +256,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             reviewCarouselView.topAnchor.constraint(equalTo: topDescriptionLabel.bottomAnchor, constant: 16),
             reviewCarouselView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             reviewCarouselView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            reviewCarouselView.heightAnchor.constraint(equalToConstant: 100),
+            reviewCarouselView.heightAnchor.constraint(equalToConstant: 130),
             
             featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: 24),
             featureStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -248,6 +270,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             subscribeButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             subscribeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             subscribeButton.heightAnchor.constraint(equalToConstant: 50),
+
+            mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -10),
+            mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: 10),
+            mostPopularLabel.widthAnchor.constraint(equalToConstant: 100),
+            mostPopularLabel.heightAnchor.constraint(equalToConstant: 20),
 
             saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
             saveInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -266,17 +293,36 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 16),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            privacyAndTermsOfLawLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            privacyAndTermsOfLawLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
     
+    private func setupButtonConstraints() {
+        for button in priceButtons {
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 70),
+                button.widthAnchor.constraint(equalTo: subscriptionStackView.widthAnchor)
+            ])
+        }
+    }
+    
     private func createPriceButton() -> UIButton {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 6
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(subscriptionButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        button.isUserInteractionEnabled = true
+        button.isEnabled = true
+        button.layer.cornerRadius = 8
+        button.clipsToBounds = true
+        button.backgroundColor = .systemGray5
+        
+        // Add a subtle shadow
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.1
+        button.layer.masksToBounds = false
+
         return button
     }
     
@@ -320,22 +366,6 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         cancelButton.alpha = hideCloseButton ? 0.0 : 0.8
     }
     
-    private func _configurePriceButton() {
-        // Already configured in createPriceButton()
-    }
-    
-    private func _configureSubscribeButton() {
-        // Already configured in lazy var
-    }
-    
-    private func _configurePriceButtonTitle() {
-        for (index, button) in priceButtons.enumerated() {
-            let title = uiProviderDelegate?.subscriptionTitle(for: index) ?? ""
-            let price = uiProviderDelegate?.subscriptionPrice(for: index, withDurationSuffix: true) ?? ""
-            button.setTitle("\(title)\n\(price)", for: .normal)
-        }
-    }
-    
     private func _configureRestorePurchasesButton() {
         // Already configured in lazy var
     }
@@ -351,37 +381,258 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         privacyAndTermsOfLawLabel.attributedText = attributedString
     }
     
-    private func setupSubscriptionButtons() {
-        // Setup subscription buttons
+    @objc func setupSubscriptionButtons(notification: Notification?) {
+        NVActivityIndicatorView.stop()
+        _configurePriceButtonTitle()
+        _configureSubscribeButton()
     }
     
+    private func _configurePriceButtonTitle() {
+        guard let uiProviderDelegate = uiProviderDelegate else { return }
+        
+        for (index, button) in priceButtons.enumerated() {
+            let price = uiProviderDelegate.subscriptionPrice(for: index + 1, withDurationSuffix: false)
+            let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1)
+            
+            let containerView = UIView()
+            containerView.translatesAutoresizingMaskIntoConstraints = false
+            containerView.isUserInteractionEnabled = false // Disable user interaction on container
+            button.addSubview(containerView)
+            
+            NSLayoutConstraint.activate([
+                containerView.topAnchor.constraint(equalTo: button.topAnchor),
+                containerView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
+                containerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+                containerView.trailingAnchor.constraint(equalTo: button.trailingAnchor)
+            ])
+            
+            let leftStackView = UIStackView()
+            leftStackView.axis = .vertical
+            leftStackView.alignment = .leading
+            leftStackView.translatesAutoresizingMaskIntoConstraints = false
+            leftStackView.isUserInteractionEnabled = false // Disable user interaction on left stack view
+            
+            let rightStackView = UIStackView()
+            rightStackView.axis = .vertical
+            rightStackView.alignment = .trailing
+            rightStackView.translatesAutoresizingMaskIntoConstraints = false
+            rightStackView.isUserInteractionEnabled = false // Disable user interaction on right stack view
+            
+            containerView.addSubview(leftStackView)
+            containerView.addSubview(rightStackView)
+            
+            NSLayoutConstraint.activate([
+                leftStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+                leftStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+                
+                rightStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+                rightStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            ])
+            
+            // Configure button content based on index
+            switch index {
+            case 0: // Monthly
+                configureMonthlyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
+            case 1: // Lifetime
+                configureLifetimeButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, button: button)
+            case 2: // Weekly
+                configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
+            default:
+                break
+            }
+            
+            // Ensure the button is on top of the container view
+            button.bringSubviewToFront(button.titleLabel!)
+        }
+    }
+
+    private func configureMonthlyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double?) {
+        let title = "Subscribe Monthly"
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
+        titleLabel.textColor = .white
+        
+        let priceLabel = UILabel()
+        priceLabel.text = price + " per month"
+        priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        priceLabel.textColor = .white
+        
+        leftStackView.addArrangedSubview(titleLabel)
+        leftStackView.addArrangedSubview(priceLabel)
+        
+        if let pricePerMonth = pricePerMonth {
+            let yearlyPrice = round(pricePerMonth * 12)
+            let yearlyPriceLabel = UILabel()
+            yearlyPriceLabel.text = "$\(Int(yearlyPrice))"
+            yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+            yearlyPriceLabel.textColor = .white
+            
+            let perYearLabel = UILabel()
+            perYearLabel.text = "per year"
+            perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+            perYearLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+            
+            rightStackView.addArrangedSubview(yearlyPriceLabel)
+            rightStackView.addArrangedSubview(perYearLabel)
+        }
+    }
+
+    private func configureLifetimeButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, button: UIButton) {
+        let lifetimeLabel = UILabel()
+        lifetimeLabel.text = "Lifetime"
+        lifetimeLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        lifetimeLabel.textColor = .white
+    
+        
+        leftStackView.addArrangedSubview(lifetimeLabel)
+        
+        let priceLabel = UILabel()
+        priceLabel.text = price
+        priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        priceLabel.textColor = .white
+        
+        rightStackView.addArrangedSubview(priceLabel)
+        
+        // Add "Best Value" label
+        let bestValueLabel = UILabel()
+        bestValueLabel.text = "Best Value"
+        bestValueLabel.font = UIFont.font(.sofiaProBold, style: .footnote)
+        bestValueLabel.textColor = .white
+        bestValueLabel.backgroundColor = .systemOrange
+        bestValueLabel.textAlignment = .center
+        bestValueLabel.layer.cornerRadius = 10
+        bestValueLabel.clipsToBounds = true
+        bestValueLabel.isUserInteractionEnabled = false // Disable user interaction on the "Best Value" label
+        bestValueLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Remove any existing "Best Value" label
+        subscriptionStackView.subviews.first(where: { $0.accessibilityIdentifier == "BestValueLabel" })?.removeFromSuperview()
+        
+        // Add the label to the subscription stack view
+        subscriptionStackView.addSubview(bestValueLabel)
+        bestValueLabel.accessibilityIdentifier = "BestValueLabel"
+        
+        NSLayoutConstraint.activate([
+            bestValueLabel.topAnchor.constraint(equalTo: button.topAnchor, constant: -10),
+            bestValueLabel.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: 10),
+            bestValueLabel.widthAnchor.constraint(equalToConstant: 80),
+            bestValueLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+
+    private func configureWeeklyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double?) {
+        let titleLabel = UILabel()
+        titleLabel.text = "Subscribe Weekly"
+        titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
+        titleLabel.textColor = .white
+        
+        let priceLabel = UILabel()
+        priceLabel.text = price + " per week"
+        priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        priceLabel.textColor = .white
+        
+        leftStackView.addArrangedSubview(titleLabel)
+        leftStackView.addArrangedSubview(priceLabel)
+        
+        if let pricePerMonth = pricePerMonth {
+            let yearlyPrice = round(pricePerMonth * 12)
+            let yearlyPriceLabel = UILabel()
+            yearlyPriceLabel.text = "$\(Int(yearlyPrice))"
+            yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+            yearlyPriceLabel.textColor = .white
+            
+            let perYearLabel = UILabel()
+            perYearLabel.text = "per year"
+            perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+            perYearLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+            
+            rightStackView.addArrangedSubview(yearlyPriceLabel)
+            rightStackView.addArrangedSubview(perYearLabel)
+        }
+    }
+
+    private func _configureSubscribeButton() {
+        subscribeButton.setTitle("CONTINUE", for: .normal)
+        updateFreeTrialInfo()
+    }
+
+    private func updateFreeTrialInfo() {
+        guard let uiProviderDelegate = uiProviderDelegate else { return }
+        
+        let trialDuration = uiProviderDelegate.freeTrialDuration(for: 0)
+        let price = uiProviderDelegate.subscriptionPrice(for: 0, withDurationSuffix: false)
+        
+        let attributedString = NSMutableAttributedString()
+        
+        if !trialDuration.isEmpty {
+            attributedString.append(NSAttributedString(string: "\(trialDuration) free trial, then ", attributes: [.font: UIFont.font(.sofiaProRegular, style: .title3), .foregroundColor: UIColor.label]))
+        }
+        
+        attributedString.append(NSAttributedString(string: price, attributes: [.font: UIFont.font(.sofiaProBold, style: .title3), .foregroundColor: UIColor.label]))
+        attributedString.append(NSAttributedString(string: " / year", attributes: [.font: UIFont.font(.sofiaProRegular, style: .title3), .foregroundColor: UIColor.label]))
+        
+        freeTrialInfoLabel.attributedText = attributedString
+    }
+
     // MARK: - Helper Methods
     private func highlightButton(at index: Int) {
-        // Highlight selected button
+        priceButtons.forEach { $0.backgroundColor = .systemGray5 }
+        priceButtons[index].backgroundColor = .systemBlue
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+        
+        updateFreeTrialInfo()
     }
     
     private func unhighlightButton(at index: Int) {
-        // Unhighlight deselected button
+        priceButtons[index].backgroundColor = .systemGray5
     }
     
     private func checkFreeOfferTrialStatus(for index: Int) {
         // Check and update free trial status
     }
-    
+
     // MARK: - IBActions
-    @objc private func subscriptionButtonTapped(_ sender: UIButton) {
-        _selectedIndex = sender.tag
+    @objc private func buttonTapped(_ sender: UIButton) {
+        guard let index = priceButtons.firstIndex(of: sender) else { return }
+        selectedIndex = index + 1
+        delegate?.selectPlan(at: selectedIndex, controller: self)
     }
-    
+
     @IBAction func didTapSubscribeNowButton(_ sender: UIButton) {
-        delegate?.selectPlan(at: _selectedIndex, controller: self)
+        delegate?.selectPlan(at: selectedIndex, controller: self)
     }
-    
+
     @IBAction func didTapCancelButton(_ sender: UIButton) {
         delegate?.exit(self)
     }
-    
+
     @IBAction func didTapRestorePurchase(_ sender: Any) {
         delegate?.restorePurchases(self)
+    }
+
+    private func updateScrollViewContentSize() {
+        DispatchQueue.main.async {
+            self.scrollView.contentSize = self.contentView.bounds.size
+        }
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateScrollViewContentSize()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.viewDidAppear(self)
+        
+        updateScrollViewContentSize()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.updateScrollViewContentSize()
+        }
     }
 }

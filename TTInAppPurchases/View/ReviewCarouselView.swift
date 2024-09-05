@@ -1,16 +1,12 @@
 import UIKit
 
-class ReviewCarouselView: UIView {
+public class ReviewCarouselView: UIView {
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
     private var timer: Timer?
     private var currentPage = 0
     
-    private let reviews = [
-        ("John D.", "⭐️⭐️⭐️⭐️⭐️", "This app is a game-changer!"),
-        ("Sarah M.", "⭐️⭐️⭐️⭐️⭐️", "Absolutely love the features!"),
-        ("Mike R.", "⭐️⭐️⭐️⭐️⭐️", "Best app for call recording!")
-    ]
+    private var reviews: [(String, String, String)] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,6 +15,11 @@ class ReviewCarouselView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(with reviews: [(String, String, String)]) {
+        self.reviews = reviews
+        setupReviews()
     }
     
     private func setupViews() {
@@ -53,7 +54,20 @@ class ReviewCarouselView: UIView {
         startAutoScroll()
     }
     
-    override func layoutSubviews() {
+    private func setupReviews() {
+        // Remove existing review views
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        for review in reviews {
+            let reviewView = createReviewView(name: review.0, rating: review.1, comment: review.2)
+            stackView.addArrangedSubview(reviewView)
+        }
+        
+        layoutIfNeeded()
+        startAutoScroll()
+    }
+    
+    override public func layoutSubviews() {
         super.layoutSubviews()
         for view in stackView.arrangedSubviews {
             view.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -100,7 +114,8 @@ class ReviewCarouselView: UIView {
     }
     
     private func startAutoScroll() {
-        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: true) { [weak self] _ in
             self?.scrollToNextPage()
         }
     }
