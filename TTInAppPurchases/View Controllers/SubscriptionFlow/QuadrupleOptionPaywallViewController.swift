@@ -260,11 +260,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing() * 2),
+            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing() * 1.5),
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 2),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
             topDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             topDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             

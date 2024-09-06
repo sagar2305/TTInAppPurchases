@@ -84,17 +84,20 @@ public class ReviewCarouselView: UIView {
         
         let ratingLabel = UILabel()
         ratingLabel.text = rating
+        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14))
         ratingLabel.textAlignment = .center
         
         let commentLabel = UILabel()
         commentLabel.text = comment
-        commentLabel.font = UIFont.font(.sofiaProRegular, style: .body)
-        commentLabel.numberOfLines = 0
+        commentLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14))
+        commentLabel.adjustsFontForContentSizeCategory = true
+        commentLabel.numberOfLines = 2
         commentLabel.textAlignment = .center
         
         let nameLabel = UILabel()
         nameLabel.text = "- " + name
-        nameLabel.font = UIFont.font(.sofiaProMedium, style: .subheadline)
+        nameLabel.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: UIFont(name: "SofiaPro-Medium", size: 12) ?? UIFont.systemFont(ofSize: 12))
+        nameLabel.adjustsFontForContentSizeCategory = true
         nameLabel.textAlignment = .right
         
         let stackView = UIStackView(arrangedSubviews: [ratingLabel, commentLabel, nameLabel])
