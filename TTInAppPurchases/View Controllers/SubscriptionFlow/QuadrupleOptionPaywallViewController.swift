@@ -29,6 +29,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.font = UIFont.font(.sofiaProBlack, style: .title2)
         label.text = "Upgrade To Premium".localized
         label.textAlignment = .center
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -38,6 +40,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.font = UIFont.font(.sofiaProLight, style: .body)
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -247,7 +251,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
             return 8
         default:
-            return 10 // Default spacing for other sizes
+            return 8 // Default spacing for other sizes
         }
     }
     
@@ -260,24 +264,24 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing() * 1.5),
+            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing()*1.5),
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 0.5),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
             topDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             topDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             reviewCarouselView.topAnchor.constraint(equalTo: topDescriptionLabel.bottomAnchor, constant: 16),
             reviewCarouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             reviewCarouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            reviewCarouselView.heightAnchor.constraint(equalToConstant: 100),
+            reviewCarouselView.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.14),
             
             featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: calculateSpacing() * 1.5),
             featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()*1.5),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: 0),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
