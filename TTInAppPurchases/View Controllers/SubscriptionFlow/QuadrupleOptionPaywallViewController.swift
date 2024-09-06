@@ -55,7 +55,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = calculateSpacing()
+        stackView.spacing = calculateSpacing() * 0.7
+        stackView.setContentHuggingPriority(.required, for: .vertical)
+        stackView.setContentCompressionResistancePriority(.required, for: .vertical)
         return stackView
     }()
     
@@ -66,8 +68,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.textAlignment = .center
         label.numberOfLines = 0
         label.backgroundColor = .clear
-        label.layer.cornerRadius = 12
-        label.clipsToBounds = true
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -81,6 +83,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
         
         // Add a gradient background
         let gradientLayer = CAGradientLayer()
@@ -114,6 +118,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.textAlignment = .center
         label.text = "Save 75% • Top Rated Plan"
         label.textColor = .systemGreen
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -240,19 +246,21 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let screenHeight = UIScreen.main.bounds.height
         
         switch screenHeight {
-        case 926: // iPhone 6.7" (iPhone 13/14 Pro Max, etc.)
-            return 16
-        case 844: // iPhone 6.1" (iPhone 13/14/12, etc.)
-            return 14
-        case 812: // iPhone 5.8" (iPhone X, XS, 13 Mini, etc.)
-            return 12
-        case 736: // iPhone 5.5" (iPhone 8 Plus, etc.)
-            return 10
-        case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
-            return 8
-        default:
-            return 8 // Default spacing for other sizes
-        }
+            case 926...932: // iPhone 15 Pro Max, 14 Plus, 13 Pro Max, 12 Pro Max (6.7 inches)
+                return 22
+            case 844...896: // iPhone 15, iPhone 14, 13/12 Pro, 13/12, 11 Pro Max, XS Max, 11, XR (6.1 - 6.5 inches)
+                return 16
+            case 812: // iPhone X, XS (5.8 inches) and iPhone 13 Mini, 12 Mini (5.4 inches)
+                return 14
+            case 736: // iPhone 8 Plus, iPhone 7 Plus (5.5 inches)
+                return 10
+            case 667: // iPhone 8, iPhone 7, SE 2nd/3rd Gen (4.7 inches)
+                return 8
+            case 568: // iPhone SE 1st Gen, iPhone 5s, 5c (4 inches)
+                return 6
+            default:
+                return 8 // Default font size for unlisted screen sizes
+            }
     }
     
     private func getScreenHeight() -> CGFloat {
@@ -264,11 +272,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing()*1.5),
+            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing()),
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing()),
             topDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             topDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -277,11 +285,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             reviewCarouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             reviewCarouselView.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.14),
             
-            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: calculateSpacing() * 1.5),
+            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: calculateSpacing()),
             featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: 0),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -295,7 +303,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             mostPopularLabel.widthAnchor.constraint(equalToConstant: 80),
             mostPopularLabel.heightAnchor.constraint(equalToConstant: 16),
 
-            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
+            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: calculateSpacing()),
             saveInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             saveInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
@@ -381,6 +389,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
                 label.text = "✓ " + feature
                 label.numberOfLines = 0
                 label.textAlignment = .center
+                label.setContentHuggingPriority(.required, for: .vertical)
+                label.setContentCompressionResistancePriority(.required, for: .vertical)
                 featureStackView.addArrangedSubview(label)
             }
         }
