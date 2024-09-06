@@ -70,11 +70,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private lazy var subscribeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .title3)
+        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .callout)
         button.setTitle("CONTINUE".localized, for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
         
@@ -264,7 +264,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 0.5),
             topDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             topDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -277,14 +277,14 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()*1.5),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
-            subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            subscribeButton.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.06),
+            subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            subscribeButton.heightAnchor.constraint(equalToConstant: 44),
 
             mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
             mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
