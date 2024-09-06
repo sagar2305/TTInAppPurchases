@@ -284,7 +284,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
             subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            subscribeButton.heightAnchor.constraint(equalToConstant: 50),
+            subscribeButton.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.06),
 
             mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
             mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
@@ -299,7 +299,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             subscriptionStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             subscriptionStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            cancelAnytimeLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 8),
+            cancelAnytimeLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 5),
             cancelAnytimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cancelAnytimeLabel.heightAnchor.constraint(equalToConstant: 30),
             cancelAnytimeLabel.widthAnchor.constraint(equalToConstant: 160),

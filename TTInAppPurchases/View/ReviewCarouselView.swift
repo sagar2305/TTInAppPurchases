@@ -84,7 +84,7 @@ public class ReviewCarouselView: UIView {
         
         let ratingLabel = UILabel()
         ratingLabel.text = rating
-        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14))
+        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12))
         ratingLabel.textAlignment = .center
         
         let commentLabel = UILabel()
