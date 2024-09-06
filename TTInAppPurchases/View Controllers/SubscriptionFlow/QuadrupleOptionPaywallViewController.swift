@@ -11,6 +11,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
     public var hideCloseButton: Bool = false
     public var lifetimeOffer: Bool = false
+    public let screenHeight = UIScreen.main.bounds.height
     
     // MARK: - UI Elements
     private lazy var scrollView: UIScrollView = {
@@ -62,7 +63,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = calculateSpacing()
         return stackView
     }()
     
@@ -248,6 +249,25 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         updateScrollViewContentSize()
     }
     
+    private func calculateSpacing() -> CGFloat {
+        let screenHeight = UIScreen.main.bounds.height
+        
+        switch screenHeight {
+        case 926: // iPhone 6.7" (iPhone 13/14 Pro Max, etc.)
+            return 16
+        case 844: // iPhone 6.1" (iPhone 13/14/12, etc.)
+            return 14
+        case 812: // iPhone 5.8" (iPhone X, XS, 13 Mini, etc.)
+            return 12
+        case 736: // iPhone 5.5" (iPhone 8 Plus, etc.)
+            return 10
+        case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
+            return 8
+        default:
+            return 10 // Default spacing for other sizes
+        }
+    }
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -264,24 +284,24 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             cancelButton.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
             cancelButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            primaryHeaderLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 32),
+            primaryHeaderLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing() * 2),
             primaryHeaderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             primaryHeaderLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: 16),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing() * 2),
             topDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             topDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             reviewCarouselView.topAnchor.constraint(equalTo: topDescriptionLabel.bottomAnchor, constant: 16),
             reviewCarouselView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             reviewCarouselView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            reviewCarouselView.heightAnchor.constraint(equalToConstant: 130),
+            reviewCarouselView.heightAnchor.constraint(equalToConstant: 100),
             
-            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: 24),
+            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: calculateSpacing() * 1.5),
             featureStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: 32),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing() * 2),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
