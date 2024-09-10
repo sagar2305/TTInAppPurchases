@@ -23,6 +23,14 @@ public struct Constants {
         public static let devAPIKey = "16c6f8537a7da60e7ce27e6dc42defa3"
     }
     
+    public struct WhisperAi {
+        public static let keySecreate = "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"
+    }
+    
+    public struct AssemblyAI{
+        public static let keySecreate = "dfa5e11ff72e4b12a89c8d948144c34e"
+    }
+    
     public struct Mixpanel {
         public static let liveAPIKey = "a183c69686c8434ed5adc954f7e74710"
         public static let devAPIKey = "c83bcb489dd8bb1fc7466a3ff1d7c1bb"
