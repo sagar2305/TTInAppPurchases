@@ -24,11 +24,12 @@ public struct Constants {
     }
     
     public struct WhisperAi {
-        public static let keySecreate = "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"
+        public static let liveAPIKey = "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"
     }
     
+//    Sagar you can update assembly api key here. For now i am using free account key
     public struct AssemblyAI{
-        public static let keySecreate = "dfa5e11ff72e4b12a89c8d948144c34e"
+        public static let liveAPIKey = "dfa5e11ff72e4b12a89c8d948144c34e"
     }
     
     public struct Mixpanel {
