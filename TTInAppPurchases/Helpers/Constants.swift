@@ -9,6 +9,29 @@
 import Foundation
 import PhoneNumberKit
 
+// Keep this struct for WhisperAI obfuscation
+private struct Obfuscator {
+    // Function to obfuscate a string
+    static func obfuscate(_ string: String, withKey key: String) -> String? {
+        let keyData = Array(key.utf8)
+        let inputData = Array(string.utf8)
+        
+        var obfuscatedData = [UInt8]()
+        for (index, char) in inputData.enumerated() {
+            let obfuscatedChar = char ^ keyData[index % keyData.count]
+            obfuscatedData.append(obfuscatedChar)
+        }
+        
+        return String(bytes: obfuscatedData, encoding: .utf8)
+    }
+
+    // Function to reverse the obfuscation (deobfuscate)
+    static func deobfuscate(_ obfuscatedString: String, withKey key: String) -> String? {
+        return obfuscate(obfuscatedString, withKey: key) // XOR is its own inverse
+    }
+    
+}
+
 public struct Constants {
     public struct RevenueCat {
         public static let apiKey = "MoLhuBBtzrRhsnUcqvRjHffckdYwfUEX"
@@ -24,11 +47,15 @@ public struct Constants {
     }
     
     public struct WhisperAi {
-        public static let liveAPIKey = "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"
+        
+        public static let obfuscatedLiveAPIKey = "F\t\u{18}\u{12}@\u{0E}_Op\0\\&p\u{08}|*\u{01}\nv%M&{S\u{01}6t2{3t$[\u{13}a;ZU\u{07}U[SW[A\u{11}a5X\u{11}q/[>[\0D0U\nm4C\u{15}m$\u{03}OQ&[\u{0C}_/\u{07}.@(b:Q-fRw\u{0E}W\tt+qO\u{07}\u{06}}\u{16}\u{18}-D/\u{05}\u{0F}v0P&dSV)\u{18}\u{1A}\u{0B}4T\rA1pY`\u{12}g\u{04}w\u{18}E5q-\u{06}&}\rM\u{13}h3p*\u{05}SkP`6D\u{13}m4{3\u{18}\u{0F}@5RRB\'Q6t#"
+        
+        public static var liveAPIKey: String {
+            return Obfuscator.deobfuscate(obfuscatedLiveAPIKey, withKey: "5b5b2a") ?? ""
+        }
     }
     
-//    Sagar you can update assembly api key here. For now i am using free account key
-    public struct AssemblyAI{
+    public struct AssemblyAI {
         public static let liveAPIKey = "dfa5e11ff72e4b12a89c8d948144c34e"
     }
     
