@@ -11,20 +11,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     public weak var uiProviderDelegate: UpgradeUIProviderDelegate?
     public var hideCloseButton: Bool = false
     public var lifetimeOffer: Bool = false
+    public let screenHeight = UIScreen.main.bounds.height
     
     // MARK: - UI Elements
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +29,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.font = UIFont.font(.sofiaProBlack, style: .title2)
         label.text = "Upgrade To Premium".localized
         label.textAlignment = .center
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -49,6 +40,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.font = UIFont.font(.sofiaProLight, style: .body)
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -62,7 +55,9 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = calculateSpacing() * 0.7
+        stackView.setContentHuggingPriority(.required, for: .vertical)
+        stackView.setContentCompressionResistancePriority(.required, for: .vertical)
         return stackView
     }()
     
@@ -73,21 +68,23 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.textAlignment = .center
         label.numberOfLines = 0
         label.backgroundColor = .clear
-        label.layer.cornerRadius = 12
-        label.clipsToBounds = true
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
     private lazy var subscribeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .title3)
+        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .callout)
         button.setTitle("CONTINUE".localized, for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
         
         // Add a gradient background
         let gradientLayer = CAGradientLayer()
@@ -121,6 +118,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         label.textAlignment = .center
         label.text = "Save 75% • Top Rated Plan"
         label.textColor = .systemGreen
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -225,12 +224,10 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
         
         [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView,
          freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView,
-         cancelAnytimeLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { contentView.addSubview($0) }
+         cancelAnytimeLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { view.addSubview($0) }
         
         subscriptionStackView.isUserInteractionEnabled = true
         
@@ -243,85 +240,97 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             tickMarkViews.append(tickMark)
             button.addSubview(tickMark)
         }
+    }
+    
+    private func calculateSpacing() -> CGFloat {
+        let screenHeight = UIScreen.main.bounds.height
         
-        scrollView.isScrollEnabled = true
-        updateScrollViewContentSize()
+        switch screenHeight {
+            case 926...932: // iPhone 15 Pro Max, 14 Plus, 13 Pro Max, 12 Pro Max (6.7 inches)
+                return 22
+            case 844...896: // iPhone 15, iPhone 14, 13/12 Pro, 13/12, 11 Pro Max, XS Max, 11, XR (6.1 - 6.5 inches)
+                return 16
+            case 812: // iPhone X, XS (5.8 inches) and iPhone 13 Mini, 12 Mini (5.4 inches)
+                return 14
+            case 736: // iPhone 8 Plus, iPhone 7 Plus (5.5 inches)
+                return 10
+            case 667: // iPhone 8, iPhone 7, SE 2nd/3rd Gen (4.7 inches)
+                return 8
+            case 568: // iPhone SE 1st Gen, iPhone 5s, 5c (4 inches)
+                return 6
+            default:
+                return 8 // Default font size for unlisted screen sizes
+            }
+    }
+    
+    private func getScreenHeight() -> CGFloat {
+        return UIScreen.main.bounds.height
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            primaryHeaderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: calculateSpacing()),
+            primaryHeaderLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            primaryHeaderLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            cancelButton.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16),
-            cancelButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            primaryHeaderLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 32),
-            primaryHeaderLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            primaryHeaderLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: 16),
-            topDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            topDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            topDescriptionLabel.topAnchor.constraint(equalTo: primaryHeaderLabel.bottomAnchor, constant: calculateSpacing()),
+            topDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            topDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             reviewCarouselView.topAnchor.constraint(equalTo: topDescriptionLabel.bottomAnchor, constant: 16),
-            reviewCarouselView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            reviewCarouselView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            reviewCarouselView.heightAnchor.constraint(equalToConstant: 130),
+            reviewCarouselView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            reviewCarouselView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            reviewCarouselView.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.14),
             
-            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: 24),
-            featureStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            featureStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            featureStackView.topAnchor.constraint(equalTo: reviewCarouselView.bottomAnchor, constant: calculateSpacing()),
+            featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: 32),
-            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()),
+            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
-            subscribeButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            subscribeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            subscribeButton.heightAnchor.constraint(equalToConstant: 50),
+            subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            subscribeButton.heightAnchor.constraint(equalToConstant: 44),
 
             mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
             mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
             mostPopularLabel.widthAnchor.constraint(equalToConstant: 80),
             mostPopularLabel.heightAnchor.constraint(equalToConstant: 16),
 
-            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
-            saveInfoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            saveInfoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: calculateSpacing()),
+            saveInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            saveInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
-            subscriptionStackView.topAnchor.constraint(equalTo: saveInfoLabel.bottomAnchor, constant: 32),
-            subscriptionStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            subscriptionStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            subscriptionStackView.topAnchor.constraint(equalTo: saveInfoLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
+            subscriptionStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            subscriptionStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            cancelAnytimeLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 8),
-            cancelAnytimeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            cancelAnytimeLabel.topAnchor.constraint(equalTo: subscriptionStackView.bottomAnchor, constant: 5),
+            cancelAnytimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             cancelAnytimeLabel.heightAnchor.constraint(equalToConstant: 30),
             cancelAnytimeLabel.widthAnchor.constraint(equalToConstant: 160),
             
             restorePurchasesButton.topAnchor.constraint(equalTo: cancelAnytimeLabel.bottomAnchor, constant: 8),
-            restorePurchasesButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            restorePurchasesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 8),
-            privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            privacyAndTermsOfLawLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            privacyAndTermsOfLawLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
     
     private func setupButtonConstraints() {
         for button in priceButtons {
             NSLayoutConstraint.activate([
-                button.heightAnchor.constraint(equalToConstant: 70),
+                button.heightAnchor.constraint(equalToConstant: getScreenHeight() * 0.075),
                 button.widthAnchor.constraint(equalTo: subscriptionStackView.widthAnchor)
             ])
         }
@@ -380,6 +389,8 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
                 label.text = "✓ " + feature
                 label.numberOfLines = 0
                 label.textAlignment = .center
+                label.setContentHuggingPriority(.required, for: .vertical)
+                label.setContentCompressionResistancePriority(.required, for: .vertical)
                 featureStackView.addArrangedSubview(label)
             }
         }
@@ -470,32 +481,42 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
 
     private func configureMonthlyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double?) {
-        let title = "Subscribe Monthly"
+        // This function configures the UI for the monthly subscription option
+        
+        // Create and configure the title label for "Subscribe Monthly"
         let titleLabel = UILabel()
-        titleLabel.text = title
+        titleLabel.text = "Subscribe Monthly"
         titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
         titleLabel.textColor = .label
         
+        // Create and configure the price label showing the monthly price
         let priceLabel = UILabel()
         priceLabel.text = price + " per month"
         priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
         priceLabel.textColor = .label
         
+        // Add the title and price labels to the left stack view
         leftStackView.addArrangedSubview(titleLabel)
         leftStackView.addArrangedSubview(priceLabel)
         
+        // If a monthly price is provided, calculate and display the yearly equivalent
         if let pricePerMonth = pricePerMonth {
+            // Calculate the yearly price
             let yearlyPrice = pricePerMonth * 12
+            
+            // Create and configure the yearly price label
             let yearlyPriceLabel = UILabel()
             yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
             yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
             yearlyPriceLabel.textColor = .label
             
+            // Create and configure the "per year" label
             let perYearLabel = UILabel()
             perYearLabel.text = "per year".localized
             perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
             perYearLabel.textColor = UIColor.secondaryLabel
             
+            // Add the yearly price and "per year" labels to the right stack view
             rightStackView.addArrangedSubview(yearlyPriceLabel)
             rightStackView.addArrangedSubview(perYearLabel)
         }
@@ -663,7 +684,15 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
 
     private func updateScrollViewContentSize() {
         DispatchQueue.main.async {
-            self.scrollView.contentSize = self.contentView.bounds.size
+            // UIView doesn't have a contentSize property
+            // If you're using a UIScrollView, update its contentSize instead
+            if let scrollView = self.view as? UIScrollView {
+                scrollView.contentSize = self.view.bounds.size
+            } else {
+                // If view is not a UIScrollView, you might need to adjust your layout
+                // or reconsider how you're handling the content size
+                print("Warning: Attempting to set contentSize on a non-scrollable view")
+            }
         }
     }
 
