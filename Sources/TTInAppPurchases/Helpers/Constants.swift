@@ -84,6 +84,9 @@ public struct Constants {
     public struct FirebaseConstants {
         public static let hasUserMadeFirstFreeCall = "hasUserMadeFirstFreeCall"
         public static let callCountInTrialPeriod = "CallCountInTrailPeriod"
+        public static let userdata = "userdata"
+        public static let notificationToken = "notificationToken"
+        public static let appUserId = "appUserId"
     }
     
     public struct CallRecorderDefaults {
