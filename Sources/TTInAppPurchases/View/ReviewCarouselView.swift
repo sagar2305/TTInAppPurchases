@@ -84,19 +84,19 @@ public class ReviewCarouselView: UIView {
         
         let ratingLabel = UILabel()
         ratingLabel.text = rating
-        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize()) ?? UIFont.systemFont(ofSize: calculateFontSize()))
+        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
         ratingLabel.textAlignment = .center
         
         let commentLabel = UILabel()
         commentLabel.text = comment
-        commentLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize()) ?? UIFont.systemFont(ofSize: calculateFontSize()))
+        commentLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
         commentLabel.adjustsFontForContentSizeCategory = true
-        commentLabel.numberOfLines = 2
+        commentLabel.numberOfLines = 3
         commentLabel.textAlignment = .center
         
         let nameLabel = UILabel()
         nameLabel.text = "- " + name
-        nameLabel.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: UIFont(name: "SofiaPro-Medium", size: calculateFontSize()) ?? UIFont.systemFont(ofSize: calculateFontSize()))
+        nameLabel.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: UIFont(name: "SofiaPro-Medium", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
         nameLabel.adjustsFontForContentSizeCategory = true
         nameLabel.textAlignment = .right
         
@@ -134,17 +134,17 @@ public class ReviewCarouselView: UIView {
         
         switch screenHeight {
         case 926: // iPhone 6.7" (iPhone 13/14 Pro Max, etc.)
-            return 22
-        case 844: // iPhone 6.1" (iPhone 13/14/12, etc.)
             return 20
-        case 812: // iPhone 5.8" (iPhone X, XS, 13 Mini, etc.)
+        case 844: // iPhone 6.1" (iPhone 13/14/12, etc.)
             return 18
-        case 736: // iPhone 5.5" (iPhone 8 Plus, etc.)
-            return 17
-        case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
+        case 812: // iPhone 5.8" (iPhone X, XS, 13 Mini, etc.)
             return 16
+        case 736: // iPhone 5.5" (iPhone 8 Plus, etc.)
+            return 15
+        case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
+            return 14
         default:
-            return 16 // Default font size for other sizes
+            return 14 // Default font size for other sizes
         }
     }
 
