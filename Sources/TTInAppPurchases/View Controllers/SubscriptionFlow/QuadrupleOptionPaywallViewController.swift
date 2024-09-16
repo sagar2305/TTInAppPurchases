@@ -426,61 +426,64 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         for (index, button) in priceButtons.enumerated() {
             let price = uiProviderDelegate.subscriptionPrice(for: index + 1, withDurationSuffix: false)
-            if let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1) {
-                let yearlyPrice = pricePerMonth * 12
+            
+            // Create a container view for the button
+            let containerView = UIView()
+            containerView.translatesAutoresizingMaskIntoConstraints = false
+            containerView.isUserInteractionEnabled = false
+            button.addSubview(containerView)
+            
+            NSLayoutConstraint.activate([
+                containerView.topAnchor.constraint(equalTo: button.topAnchor),
+                containerView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
+                containerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+                containerView.trailingAnchor.constraint(equalTo: button.trailingAnchor)
+            ])
+            
+            let leftStackView = UIStackView()
+            leftStackView.axis = .vertical
+            leftStackView.alignment = .leading
+            leftStackView.translatesAutoresizingMaskIntoConstraints = false
+            leftStackView.isUserInteractionEnabled = false
+            
+            let rightStackView = UIStackView()
+            rightStackView.axis = .vertical
+            rightStackView.alignment = .trailing
+            rightStackView.translatesAutoresizingMaskIntoConstraints = false
+            rightStackView.isUserInteractionEnabled = false
+            
+            containerView.addSubview(leftStackView)
+            containerView.addSubview(rightStackView)
+            
+            NSLayoutConstraint.activate([
+                leftStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
+                leftStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
                 
-                let containerView = UIView()
-                containerView.translatesAutoresizingMaskIntoConstraints = false
-                containerView.isUserInteractionEnabled = false // Disable user interaction on container
-                button.addSubview(containerView)
-                
-                NSLayoutConstraint.activate([
-                    containerView.topAnchor.constraint(equalTo: button.topAnchor),
-                    containerView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
-                    containerView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
-                    containerView.trailingAnchor.constraint(equalTo: button.trailingAnchor)
-                ])
-                
-                let leftStackView = UIStackView()
-                leftStackView.axis = .vertical
-                leftStackView.alignment = .leading
-                leftStackView.translatesAutoresizingMaskIntoConstraints = false
-                leftStackView.isUserInteractionEnabled = false // Disable user interaction on left stack view
-                
-                let rightStackView = UIStackView()
-                rightStackView.axis = .vertical
-                rightStackView.alignment = .trailing
-                rightStackView.translatesAutoresizingMaskIntoConstraints = false
-                rightStackView.isUserInteractionEnabled = false // Disable user interaction on right stack view
-                
-                containerView.addSubview(leftStackView)
-                containerView.addSubview(rightStackView)
-                
-                NSLayoutConstraint.activate([
-                    leftStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
-                    leftStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-                    
-                    rightStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-                    rightStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
-                ])
-                
-                // Configure button content based on index
-                switch index {
-                case 0: // Monthly
+                rightStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+                rightStackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            ])
+            
+            // Handle button content based on index
+            switch index {
+            case 0: // Monthly
+                if let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1) {
                     configureMonthlyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
-                case 1: // Lifetime
-                    configureLifetimeButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, button: button)
-                case 2: // Weekly
-                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
-                default:
-                    break
                 }
-                
-                // Ensure the button is on top of the container view
-                button.bringSubviewToFront(button.titleLabel!)
+            case 1: // Lifetime
+                configureLifetimeButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, button: button)
+            case 2: // Weekly
+                if let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1) {
+                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
+                }
+            default:
+                break
             }
+            
+            // Ensure the button title label is on top of the container view
+            button.bringSubviewToFront(button.titleLabel!)
         }
     }
+
 
     private func configureMonthlyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double) {
         // This function configures the UI for the monthly subscription option
