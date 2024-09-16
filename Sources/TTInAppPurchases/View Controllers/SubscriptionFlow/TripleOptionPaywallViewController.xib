@@ -646,7 +646,7 @@
                                                 <action selector="didTapRestorePurchase:" destination="-1" eventType="touchUpInside" id="hzw-Dw-WdZ"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-Kg-1Io" customClass="SubtitleButton" customModule="TTInAppPurchases" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvu-Kg-1Io" customClass="SubtitleButton" customModule="TTInAppPurchases">
                                             <rect key="frame" x="20" y="865" width="374" height="50"/>
                                             <color key="backgroundColor" name="primaryColor"/>
                                             <constraints>
