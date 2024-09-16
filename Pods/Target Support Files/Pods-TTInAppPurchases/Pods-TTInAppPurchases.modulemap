@@ -1,6 +1,0 @@
-framework module Pods_TTInAppPurchases {
-  umbrella header "Pods-TTInAppPurchases-umbrella.h"
-
-  export *
-  module * { export * }
-}

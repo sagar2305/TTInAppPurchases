@@ -1,0 +1,96 @@
+{
+  "originHash" : "ea86293bd183a075c7ca43456e66230c73e38d8d591e42dd65651dcf99c35229",
+  "pins" : [
+    {
+      "identity" : "amplitude-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/amplitude/Amplitude-iOS.git",
+      "state" : {
+        "revision" : "681c49824a2b011256f3e66ab910f2e514629bd3",
+        "version" : "8.21.0"
+      }
+    },
+    {
+      "identity" : "analytics-connector-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/amplitude/analytics-connector-ios.git",
+      "state" : {
+        "revision" : "e2ca17ac735bcbc48b13062484541702ef45153d",
+        "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "revision" : "4a6058cbbdfe4f74aeae92c8bd51ad3b0de2a1ee",
+        "version" : "3.3.0"
+      }
+    },
+    {
+      "identity" : "mixpanel-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mixpanel/mixpanel-swift.git",
+      "state" : {
+        "revision" : "369e5796b2a166b4a8abb1c73c6014f5e02513bd",
+        "version" : "3.5.1"
+      }
+    },
+    {
+      "identity" : "nvactivityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ninjaprox/NVActivityIndicatorView.git",
+      "state" : {
+        "revision" : "4a4726d15367d82bd3e9e1f01625bd76dbbb0c98",
+        "version" : "4.8.0"
+      }
+    },
+    {
+      "identity" : "phonenumberkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/PhoneNumberKit.git",
+      "state" : {
+        "revision" : "c107075aa8d394be7aced273a46e944afe8b321b",
+        "version" : "3.8.0"
+      }
+    },
+    {
+      "identity" : "purchases-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios.git",
+      "state" : {
+        "revision" : "7d55b964114a3d4a76791227cdc28577617596db",
+        "version" : "4.43.2"
+      }
+    },
+    {
+      "identity" : "quicklayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huri000/QuickLayout",
+      "state" : {
+        "revision" : "6be62decbe508d8fc8f9dbafc349d05bab03c38b",
+        "version" : "3.0.1"
+      }
+    },
+    {
+      "identity" : "swiftdate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/malcommac/SwiftDate.git",
+      "state" : {
+        "revision" : "6190d0cefff3013e77ed567e6b074f324e5c5bf5",
+        "version" : "6.3.1"
+      }
+    },
+    {
+      "identity" : "swiftentrykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huri000/SwiftEntryKit.git",
+      "state" : {
+        "revision" : "c2d42574e4fe4e1f9719843f35add7922942a16b",
+        "version" : "1.2.7"
+      }
+    }
+  ],
+  "version" : 3
+}
