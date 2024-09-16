@@ -149,7 +149,7 @@
                                                 <action selector="didTapRestorePurchaseButton:" destination="-1" eventType="touchUpInside" id="CU5-Bt-Y2U"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a2O-jz-k6T" customClass="SubtitleButton" customModule="TTInAppPurchases" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a2O-jz-k6T" customClass="SubtitleButton" customModule="TTInAppPurchases">
                                             <rect key="frame" x="28" y="121.5" width="319" height="54"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="54" id="JsE-aP-6IP"/>
