@@ -21,6 +21,16 @@ public struct AlertMessageHelper {
         ).present()
     }
     
+    public func presentContactsAccessDeniedAlert() {
+        UIAlertView(title: "Permission Denied!".localized,
+                    description: "Please grant permission to access contacts".localized,
+                    actions: UIAlertView.Action(title: "Cancel".localized, onSelect: {}),
+                    UIAlertView.Action(title: "Settings".localized, onSelect: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    })
+        ).present()
+    }
+    
     public func presentMicrophoneAccessDeniedAlert() {
         UIAlertView(title: "Permission Denied!".localized,
                     description: "Please grant permission to use the microphone".localized,
