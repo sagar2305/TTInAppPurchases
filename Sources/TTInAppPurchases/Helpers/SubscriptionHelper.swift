@@ -44,6 +44,7 @@ public class SubscriptionHelper {
     public typealias CompletionHandler = (_ product: [IAPProduct]?, _ error: InAppPurchaseError?) -> Void
     public typealias PurchaseCompletion = (_ success: Bool, _ error: InAppPurchaseError?) -> Void
     public typealias ProUserStatusCompletion = (_ isProUser: Bool) -> Void
+    public typealias ProductsCompletionHandler = (_ offeringIdentifier: String?, _ products: [IAPProduct]?, _ error: InAppPurchaseError?) -> Void
 
     private init() {
         _refreshPurchaseInfo()
@@ -126,28 +127,27 @@ public class SubscriptionHelper {
         }
     }
 
-    public func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping CompletionHandler) {
-        var availableProducts: [IAPProduct]?
-        Purchases.shared.getOfferings { (offerings, _) in
-            if let offerings = offerings {
-                
-                if offeringIdentifier == nil {
-                    // All available packages
-                    if let packages = offerings.current?.availablePackages {
-                        availableProducts = packages.map { IAPProduct(package: $0) }
-                    }
-                } else {
-                    // Specific offering
-                    if let packages = offerings.offering(identifier: offeringIdentifier)?.availablePackages {
-                        availableProducts = packages.map { IAPProduct(package: $0) }
-                    }
-                }
-                
-                // Completion before notification to pass on the value
-                completionHandler(availableProducts, nil)
-            } else {
-                completionHandler(availableProducts, .noProductsAvailable)
+    public func fetchAvailableProducts(for offeringIdentifier: String? = nil, completionHandler: @escaping ProductsCompletionHandler) {
+        Purchases.shared.getOfferings { (offerings, error) in
+            if let error = error {
+                completionHandler(nil, nil, .noProductsAvailable)
+                return
             }
+
+            let offering: Offering?
+            if let offeringIdentifier = offeringIdentifier {
+                offering = offerings?.offering(identifier: offeringIdentifier)
+            } else {
+                offering = offerings?.current
+            }
+
+            guard let currentOffering = offering else {
+                completionHandler(nil, nil, .noProductsAvailable)
+                return
+            }
+
+            let availableProducts = currentOffering.availablePackages.map { IAPProduct(package: $0) }
+            completionHandler(currentOffering.identifier, availableProducts, nil)
         }
     }
     
