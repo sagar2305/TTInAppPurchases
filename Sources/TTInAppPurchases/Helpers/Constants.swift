@@ -87,6 +87,11 @@ public struct Constants {
         public static let userdata = "userdata"
         public static let notificationToken = "notificationToken"
         public static let appUserId = "appUserId"
+        //        notification type
+        public static let subscriptionCancelled = "subscription_cancelled"
+        public static let subscriptionExpired = "subscription_expired"
+        public static let billingIssue = "billing_issue"
+        public static let subscriptionPaused = "subscription_paused"
     }
     
     public struct CallRecorderDefaults {
