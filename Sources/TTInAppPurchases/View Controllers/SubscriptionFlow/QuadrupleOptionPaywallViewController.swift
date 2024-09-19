@@ -173,20 +173,6 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = -1 {
-        didSet {
-            if isViewLoaded {
-                checkFreeOfferTrialStatus(for: _selectedIndex)
-                if oldValue != -1 {
-                    unhighlightButton(at: oldValue)
-                }
-                if _selectedIndex != -1 {
-                    highlightButton(at: _selectedIndex)
-                }
-            }
-        }
-    }
-    
     private var selectedIndex: Int = 0 // Set default to 0 for the continue button
     
     // MARK: - View Lifecycle
@@ -675,7 +661,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
 
     @IBAction func didTapSubscribeNowButton(_ sender: UIButton) {
-        _selectedIndex = 0
+        selectedIndex = 0
         delegate?.selectPlan(at: selectedIndex, controller: self)
     }
 
@@ -852,15 +838,27 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         ])
 
         // Calculate weekly price
-        let priceString = price.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-        if let priceValue = Double(priceString) {
-            let weeklyPrice = priceValue / 52 // Divide annual price by 52 weeks
-            let currencySymbol = price.components(separatedBy: CharacterSet.decimalDigits).first ?? "$"
-            let weeklyPriceFormatted = String(format: "%.2f", weeklyPrice)
-            let weeklyPriceTag = "\(currencySymbol)\(weeklyPriceFormatted)/week"
-            
-            weeklyPriceLabel.text = weeklyPriceTag
-        }
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = Locale.current
+
+            // Extract the currency symbol from the original price
+            let currencySymbol = price.prefix { !$0.isNumber && $0 != "." }
+            print("Debug: Extracted currency symbol: \(currencySymbol)")
+
+            if let priceValue = numberFormatter.number(from: price)?.doubleValue {
+                print("Debug: Parsed price value: \(priceValue)")
+                let weeklyPrice = priceValue / 52 // Divide annual price by 52 weeks
+                print("Debug: Calculated weekly price: \(weeklyPrice)")
+                let weeklyPriceFormatted = String(format: "%.2f", weeklyPrice)
+                print("Debug: Formatted weekly price: \(weeklyPriceFormatted)")
+                let weeklyPriceTag = "\(currencySymbol)\(weeklyPriceFormatted)/week"
+                print("Debug: Weekly price tag: \(weeklyPriceTag)")
+                
+                weeklyPriceLabel.text = weeklyPriceTag
+            } else {
+                print("Debug: Failed to parse price value")
+            }
 
         // Update the width constraint of the savingsInfoView based on its content
         let padding: CGFloat = 24 // Total horizontal padding
