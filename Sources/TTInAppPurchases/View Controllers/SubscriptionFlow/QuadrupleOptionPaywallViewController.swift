@@ -305,11 +305,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             continueButtonContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             continueButtonContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
 
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: continueButtonContainer.topAnchor, constant: 20),
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: continueButtonContainer.topAnchor, constant: 16),
             freeTrialInfoLabel.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
             freeTrialInfoLabel.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
 
-            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 16),
+            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 4),
             subscribeButton.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
             subscribeButton.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
             subscribeButton.heightAnchor.constraint(equalToConstant: 56),
@@ -515,22 +515,22 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         leftStackView.addArrangedSubview(titleLabel)
         leftStackView.addArrangedSubview(priceLabel)
         
-        // Calculate the yearly price
+        // Calculate the weekly price
         let weeklyPrice = pricePerMonth / 4.34
         
-        // Create and configure the yearly price label
+        // Create and configure the weekly price label
         let weeklyPriceLabel = UILabel()
         weeklyPriceLabel.text = formatPrice(weeklyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
         weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
         weeklyPriceLabel.textColor = .label
         
-        // Create and configure the "per year" label
+        // Create and configure the "per week" label
         let perWeekLabel = UILabel()
         perWeekLabel.text = "per week".localized
         perWeekLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
         perWeekLabel.textColor = UIColor.secondaryLabel
         
-        // Add the yearly price and "per year" labels to the right stack view
+        // Add the weekly price and "per week" labels to the right stack view
         rightStackView.addArrangedSubview(weeklyPriceLabel)
         rightStackView.addArrangedSubview(perWeekLabel)
     }
@@ -789,10 +789,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
 
     private func updateFreeTrialInfo() {
-        guard let uiProviderDelegate = uiProviderDelegate else { return }
+        guard let uiProviderDelegate = uiProviderDelegate else {
+            print("Debug: uiProviderDelegate is nil")
+            return
+        }
         
         let trialDuration = uiProviderDelegate.freeTrialDuration(for: selectedIndex)
         let price = uiProviderDelegate.subscriptionPrice(for: selectedIndex, withDurationSuffix: false)
+        
+        print("Debug: Trial Duration: \(trialDuration)")
+        print("Debug: Original Price: \(price)")
         
         let attributedString = NSMutableAttributedString()
         
@@ -818,31 +824,74 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         freeTrialInfoLabel.attributedText = attributedString
         
-        // Update save info label
-        let saveInfoAttributedString = NSMutableAttributedString()
-        saveInfoAttributedString.append(NSAttributedString(string: "Save 75% • ", attributes: [
-            .font: UIFont.font(.sofiaProBold, style: .subheadline),
-            .foregroundColor: UIColor.systemGreen
-        ]))
-        saveInfoAttributedString.append(NSAttributedString(string: "Top Rated Plan", attributes: [
-            .font: UIFont.font(.sofiaProMedium, style: .subheadline),
-            .foregroundColor: traitCollection.userInterfaceStyle == .dark ? UIColor.lightGray : UIColor.darkGray
-        ]))
-        
-        // Add SF Symbol
-        let imageAttachment = NSTextAttachment()
-        let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
-        imageAttachment.image = UIImage(systemName: "star.fill", withConfiguration: config)?.withTintColor(.systemYellow)
-        let imageString = NSAttributedString(attachment: imageAttachment)
-        saveInfoAttributedString.append(NSAttributedString(string: " "))
-        saveInfoAttributedString.append(imageString)
-        
-        saveInfoLabel.attributedText = saveInfoAttributedString
+        // Create a custom view for weekly price and savings info
+        let savingsInfoView = UIView()
+        savingsInfoView.translatesAutoresizingMaskIntoConstraints = false
+        savingsInfoView.backgroundColor = .systemBackground
+        savingsInfoView.layer.cornerRadius = 8
+        savingsInfoView.layer.borderWidth = 1
+        savingsInfoView.layer.borderColor = UIColor.systemGreen.cgColor
+        continueButtonContainer.addSubview(savingsInfoView)
+
+        // Weekly price label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .subheadline)
+        weeklyPriceLabel.textColor = .label
+        savingsInfoView.addSubview(weeklyPriceLabel)
+
+        // Savings label
+        let savingsLabel = UILabel()
+        savingsLabel.translatesAutoresizingMaskIntoConstraints = false
+        savingsLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
+        savingsLabel.textColor = .systemGreen
+        savingsLabel.text = "Save 75%"
+        savingsInfoView.addSubview(savingsLabel)
+
+        NSLayoutConstraint.activate([
+            savingsInfoView.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
+            savingsInfoView.centerXAnchor.constraint(equalTo: continueButtonContainer.centerXAnchor),
+            savingsInfoView.heightAnchor.constraint(equalToConstant: 18),
+
+            weeklyPriceLabel.leadingAnchor.constraint(equalTo: savingsInfoView.leadingAnchor, constant: 12),
+            weeklyPriceLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor),
+
+            savingsLabel.leadingAnchor.constraint(equalTo: weeklyPriceLabel.trailingAnchor, constant: 8),
+            savingsLabel.trailingAnchor.constraint(equalTo: savingsInfoView.trailingAnchor, constant: -12),
+            savingsLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor)
+        ])
+
+        // Calculate and display weekly price
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = Locale.current
+
+        if let priceValue = numberFormatter.number(from: price)?.doubleValue {
+            calculateAndDisplayWeeklyPrice(priceValue: priceValue, numberFormatter: numberFormatter, weeklyPriceLabel: weeklyPriceLabel, originalPrice: price)
+        } else {
+            let priceWithoutCurrency = price.replacingOccurrences(of: "[^0-9.]", with: "", options: .regularExpression)
+            if let priceValue = Double(priceWithoutCurrency) {
+                calculateAndDisplayWeeklyPrice(priceValue: priceValue, numberFormatter: numberFormatter, weeklyPriceLabel: weeklyPriceLabel, originalPrice: price)
+            } else {
+                print("Debug: Failed to parse price value")
+            }
+        }
+
+        // Update the width constraint of the savingsInfoView based on its content
+        let padding: CGFloat = 24 // Total horizontal padding
+        let spacing: CGFloat = 8 // Spacing between labels
+        let totalWidth = weeklyPriceLabel.intrinsicContentSize.width + savingsLabel.intrinsicContentSize.width + padding + spacing
+        savingsInfoView.widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
     }
 
-    // Override traitCollectionDidChange to handle dark mode changes
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateColorsForCurrentTraitCollection()
+    private func calculateAndDisplayWeeklyPrice(priceValue: Double, numberFormatter: NumberFormatter, weeklyPriceLabel: UILabel, originalPrice: String) {
+        let weeklyPrice = priceValue / 52
+        let currencySymbol = originalPrice.components(separatedBy: CharacterSet.decimalDigits).first ?? "$"
+        
+        numberFormatter.currencySymbol = ""
+        let formattedWeeklyPrice = numberFormatter.string(from: NSNumber(value: weeklyPrice)) ?? ""
+        
+        let weeklyPriceTag = "\(currencySymbol)\(formattedWeeklyPrice)/week"
+        weeklyPriceLabel.text = weeklyPriceTag
     }
 }
