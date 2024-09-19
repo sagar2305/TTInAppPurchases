@@ -812,14 +812,14 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         // Weekly price label
         let weeklyPriceLabel = UILabel()
         weeklyPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .subheadline)
+        weeklyPriceLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
         weeklyPriceLabel.textColor = mainTextColor
         savingsInfoView.addSubview(weeklyPriceLabel)
 
         // Savings label
         let savingsLabel = UILabel()
         savingsLabel.translatesAutoresizingMaskIntoConstraints = false
-        savingsLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
+        savingsLabel.font = UIFont.font(.sofiaProBold, style: .subheadline)
         savingsLabel.textColor = UIColor.systemGreen
         savingsLabel.text = "Save 75%"
         savingsInfoView.addSubview(savingsLabel)
