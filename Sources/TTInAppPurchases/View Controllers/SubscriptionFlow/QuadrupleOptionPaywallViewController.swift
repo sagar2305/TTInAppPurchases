@@ -61,13 +61,24 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return stackView
     }()
     
+    private lazy var continueButtonContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = false // Allow shadow to be visible
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.1
+        return view
+    }()
+    
     private lazy var freeTrialInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.font(.sofiaProMedium, style: .body)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.backgroundColor = .clear
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
@@ -76,17 +87,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private lazy var subscribeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .callout)
-        button.setTitle("CONTINUE".localized, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.titleLabel?.font = UIFont.font(.sofiaProBold, style: .headline)
+        button.setTitle("CONTINUE", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
         button.setContentHuggingPriority(.required, for: .vertical)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        // Add a gradient background
+        // Add gradient background
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
         gradientLayer.locations = [0.0, 1.0]
@@ -98,26 +108,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return button
     }()
     
-    private lazy var mostPopularLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.font(.sofiaProBold, style: .caption1)
-        label.text = "Most Popular"
-        label.textColor = .white
-        label.backgroundColor = .systemGreen
-        label.textAlignment = .center
-        label.layer.cornerRadius = 8
-        label.clipsToBounds = true
-        return label
-    }()
-    
     private lazy var saveInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.font(.sofiaProMedium, style: .subheadline)
         label.textAlignment = .center
-        label.text = "Save 75% • Top Rated Plan"
-        label.textColor = .systemGreen
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
@@ -220,14 +215,22 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         }
         
         updateColorsForCurrentTraitCollection()
+        
+        // Force layout update
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
         
         [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView,
-         freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView,
-         cancelAnytimeLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { view.addSubview($0) }
+         continueButtonContainer, subscriptionStackView, cancelAnytimeLabel, restorePurchasesButton, 
+         privacyAndTermsOfLawLabel].forEach { view.addSubview($0) }
+        
+        continueButtonContainer.addSubview(freeTrialInfoLabel)
+        continueButtonContainer.addSubview(subscribeButton)
+        continueButtonContainer.addSubview(saveInfoLabel)
         
         subscriptionStackView.isUserInteractionEnabled = true
         
@@ -240,6 +243,15 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             tickMarkViews.append(tickMark)
             button.addSubview(tickMark)
         }
+        
+        // Ensure continue button container and its subviews are set up properly
+        continueButtonContainer.addSubview(freeTrialInfoLabel)
+        continueButtonContainer.addSubview(subscribeButton)
+        continueButtonContainer.addSubview(saveInfoLabel)
+        
+        // Force layout update
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
     }
     
     private func calculateSpacing() -> CGFloat {
@@ -289,25 +301,25 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()),
-            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            continueButtonContainer.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing() * 1.5),
+            continueButtonContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            continueButtonContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: continueButtonContainer.topAnchor, constant: 20),
+            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+
+            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 16),
+            subscribeButton.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            subscribeButton.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+            subscribeButton.heightAnchor.constraint(equalToConstant: 56),
+
+            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 16),
+            saveInfoLabel.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            saveInfoLabel.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+            saveInfoLabel.bottomAnchor.constraint(equalTo: continueButtonContainer.bottomAnchor, constant: -20),
             
-            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
-            subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            subscribeButton.heightAnchor.constraint(equalToConstant: 44),
-
-            mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
-            mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
-            mostPopularLabel.widthAnchor.constraint(equalToConstant: 80),
-            mostPopularLabel.heightAnchor.constraint(equalToConstant: 16),
-
-            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: calculateSpacing()),
-            saveInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            saveInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            subscriptionStackView.topAnchor.constraint(equalTo: saveInfoLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
+            subscriptionStackView.topAnchor.constraint(equalTo: continueButtonContainer.bottomAnchor, constant: calculateSpacing()),
             subscriptionStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             subscriptionStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -698,6 +710,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        // Update continue button gradient
+        if let gradientLayer = subscribeButton.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.frame = subscribeButton.bounds
+        }
+        
+        // Force layout update for continue button container
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
+        
         updateScrollViewContentSize()
     }
 
@@ -715,12 +737,26 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     // Add this method to update colors for dark mode
     private func updateColorsForCurrentTraitCollection() {
         if traitCollection.userInterfaceStyle == .dark {
+            continueButtonContainer.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.8)
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.2)
             cancelAnytimeLabel.textColor = .systemGreen
         } else {
+            continueButtonContainer.backgroundColor = UIColor.white
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.1)
             cancelAnytimeLabel.textColor = .systemGreen
         }
+        
+        // Update gradient for subscribe button
+        if let gradientLayer = subscribeButton.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.colors = traitCollection.userInterfaceStyle == .dark
+                ? [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
+                : [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
+            gradientLayer.frame = subscribeButton.bounds
+        }
+        
+        // Force layout update
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
     }
 
     // Override traitCollectionDidChange to handle dark mode changes
@@ -760,12 +796,25 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         freeTrialInfoLabel.attributedText = attributedString
         
-        // Remove the background color and shadow
-        freeTrialInfoLabel.backgroundColor = .clear
-        freeTrialInfoLabel.layer.shadowColor = nil
-        freeTrialInfoLabel.layer.shadowOffset = .zero
-        freeTrialInfoLabel.layer.shadowRadius = 0
-        freeTrialInfoLabel.layer.shadowOpacity = 0
-        freeTrialInfoLabel.layer.masksToBounds = true
+        // Update save info label
+        let saveInfoAttributedString = NSMutableAttributedString()
+        saveInfoAttributedString.append(NSAttributedString(string: "Save 75% • ", attributes: [
+            .font: UIFont.font(.sofiaProBold, style: .subheadline),
+            .foregroundColor: UIColor.systemGreen
+        ]))
+        saveInfoAttributedString.append(NSAttributedString(string: "Top Rated Plan", attributes: [
+            .font: UIFont.font(.sofiaProMedium, style: .subheadline),
+            .foregroundColor: UIColor.secondaryLabel
+        ]))
+        
+        // Add SF Symbol
+        let imageAttachment = NSTextAttachment()
+        let config = UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
+        imageAttachment.image = UIImage(systemName: "star.fill", withConfiguration: config)?.withTintColor(.systemYellow)
+        let imageString = NSAttributedString(attachment: imageAttachment)
+        saveInfoAttributedString.append(NSAttributedString(string: " "))
+        saveInfoAttributedString.append(imageString)
+        
+        saveInfoLabel.attributedText = saveInfoAttributedString
     }
 }
