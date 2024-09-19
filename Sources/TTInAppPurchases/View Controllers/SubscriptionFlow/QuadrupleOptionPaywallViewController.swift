@@ -815,6 +815,13 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         weeklyPriceLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
         weeklyPriceLabel.textColor = mainTextColor
         savingsInfoView.addSubview(weeklyPriceLabel)
+        
+        let goldenColor = UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1) // Custom golden color
+        let separatorImageView = UIImageView()
+        separatorImageView.translatesAutoresizingMaskIntoConstraints = false
+        separatorImageView.image = UIImage(systemName: "circle.fill")
+        separatorImageView.tintColor = goldenColor
+        savingsInfoView.addSubview(separatorImageView)
 
         // Savings label
         let savingsLabel = UILabel()
@@ -829,10 +836,18 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             savingsInfoView.centerXAnchor.constraint(equalTo: continueButtonContainer.centerXAnchor),
             savingsInfoView.heightAnchor.constraint(equalToConstant: 18),
 
+            // Weekly price label constraints
             weeklyPriceLabel.leadingAnchor.constraint(equalTo: savingsInfoView.leadingAnchor, constant: 12),
             weeklyPriceLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor),
 
-            savingsLabel.leadingAnchor.constraint(equalTo: weeklyPriceLabel.trailingAnchor, constant: 8),
+            // Separator image view constraints
+            separatorImageView.leadingAnchor.constraint(equalTo: weeklyPriceLabel.trailingAnchor, constant: 2),
+            separatorImageView.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor),
+            separatorImageView.widthAnchor.constraint(equalToConstant: 6), // Adjust size of the separator
+            separatorImageView.heightAnchor.constraint(equalToConstant: 6),
+
+            // Savings label constraints
+            savingsLabel.leadingAnchor.constraint(equalTo: separatorImageView.trailingAnchor, constant: 2),
             savingsLabel.trailingAnchor.constraint(equalTo: savingsInfoView.trailingAnchor, constant: -12),
             savingsLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor)
         ])
@@ -861,29 +876,29 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             }
 
         // Update the width constraint of the savingsInfoView based on its content
-        let padding: CGFloat = 24 // Total horizontal padding
+        let padding: CGFloat = 28 // Total horizontal padding
         let spacing: CGFloat = 8 // Spacing between labels
         let totalWidth = weeklyPriceLabel.intrinsicContentSize.width + savingsLabel.intrinsicContentSize.width + padding + spacing
         savingsInfoView.widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
 
-        // Add "Top Rated" badge
-        let topRatedBadge = UILabel()
-        topRatedBadge.text = "Top Rated"
-        topRatedBadge.font = UIFont.font(.sofiaProBold, style: .caption2)
-        topRatedBadge.textColor = UIColor.white
-        topRatedBadge.backgroundColor = UIColor.systemGreen
-        topRatedBadge.textAlignment = .center
-        topRatedBadge.layer.cornerRadius = 8
-        topRatedBadge.clipsToBounds = true
-        topRatedBadge.translatesAutoresizingMaskIntoConstraints = false
+        // Add "Most Popular" badge
+        let mostPopularBadge = UILabel()
+        mostPopularBadge.text = "Most Popular"
+        mostPopularBadge.font = UIFont.font(.sofiaProBold, style: .caption2)
+        mostPopularBadge.textColor = UIColor.white
+        mostPopularBadge.backgroundColor = UIColor.systemGreen
+        mostPopularBadge.textAlignment = .center
+        mostPopularBadge.layer.cornerRadius = 8
+        mostPopularBadge.clipsToBounds = true
+        mostPopularBadge.translatesAutoresizingMaskIntoConstraints = false
         
-        continueButtonContainer.addSubview(topRatedBadge)
+        continueButtonContainer.addSubview(mostPopularBadge)
         
         NSLayoutConstraint.activate([
-            topRatedBadge.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -12),
-            topRatedBadge.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: 12),
-            topRatedBadge.widthAnchor.constraint(equalToConstant: 70),
-            topRatedBadge.heightAnchor.constraint(equalToConstant: 20)
+            mostPopularBadge.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -12),
+            mostPopularBadge.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: 12),
+            mostPopularBadge.widthAnchor.constraint(equalToConstant: 80),
+            mostPopularBadge.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     
