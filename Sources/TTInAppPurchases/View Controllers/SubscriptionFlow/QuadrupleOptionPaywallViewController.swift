@@ -70,6 +70,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 10
         view.layer.shadowOpacity = 0.1
+        view.layer.borderWidth = 1
         return view
     }()
     
@@ -354,11 +355,10 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.isUserInteractionEnabled = true
         button.isEnabled = true
-        button.layer.cornerRadius = 12 // Increased corner radius
+        button.layer.cornerRadius = 12
         button.clipsToBounds = true
         button.backgroundColor = .systemBackground
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.separator.cgColor
         
         // Add a subtle shadow
         button.layer.shadowColor = UIColor.black.cgColor
@@ -737,35 +737,55 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     // Add this method to update colors for dark mode
     private func updateColorsForCurrentTraitCollection() {
         if traitCollection.userInterfaceStyle == .dark {
-            continueButtonContainer.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.8)
+            view.backgroundColor = .black
+            continueButtonContainer.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.2)
+            continueButtonContainer.layer.borderColor = UIColor.systemGray4.cgColor
+            continueButtonContainer.layer.shadowColor = UIColor.white.cgColor
+            continueButtonContainer.layer.shadowOpacity = 0.05
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.2)
             cancelAnytimeLabel.textColor = .systemGreen
+            
+            // Update price button colors for dark mode
+            for button in priceButtons {
+                button.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.2)
+                button.layer.borderColor = UIColor.systemGray4.cgColor
+            }
         } else {
+            view.backgroundColor = .white
             continueButtonContainer.backgroundColor = UIColor.white
+            continueButtonContainer.layer.borderColor = UIColor.systemGray3.cgColor
+            continueButtonContainer.layer.shadowColor = UIColor.black.cgColor
+            continueButtonContainer.layer.shadowOpacity = 0.1
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.1)
             cancelAnytimeLabel.textColor = .systemGreen
+            
+            // Update price button colors for light mode
+            for button in priceButtons {
+                button.backgroundColor = .systemBackground
+                button.layer.borderColor = UIColor.separator.cgColor
+            }
         }
         
         // Update gradient for subscribe button
         if let gradientLayer = subscribeButton.layer.sublayers?.first as? CAGradientLayer {
             gradientLayer.colors = traitCollection.userInterfaceStyle == .dark
-                ? [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
+                ? [UIColor.systemBlue.cgColor, UIColor(red: 0.3, green: 0.2, blue: 0.8, alpha: 1.0).cgColor]
                 : [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
             gradientLayer.frame = subscribeButton.bounds
         }
         
+        // Update text colors for better readability in both modes
+        primaryHeaderLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .white : .black
+        topDescriptionLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .lightGray : .darkGray
+        
         // Force layout update
         continueButtonContainer.setNeedsLayout()
         continueButtonContainer.layoutIfNeeded()
+        
+        // Update free trial info colors
+        updateFreeTrialInfo()
     }
 
-    // Override traitCollectionDidChange to handle dark mode changes
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateColorsForCurrentTraitCollection()
-    }
-
-    // Update the updateFreeTrialInfo() method
     private func updateFreeTrialInfo() {
         guard let uiProviderDelegate = uiProviderDelegate else { return }
         
@@ -781,17 +801,17 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             ]))
             attributedString.append(NSAttributedString(string: "then ", attributes: [
                 .font: UIFont.font(.sofiaProRegular, style: .subheadline),
-                .foregroundColor: UIColor.secondaryLabel
+                .foregroundColor: traitCollection.userInterfaceStyle == .dark ? UIColor.lightGray : UIColor.darkGray
             ]))
         }
         
         attributedString.append(NSAttributedString(string: price, attributes: [
             .font: UIFont.font(.sofiaProBlack, style: .title2),
-            .foregroundColor: UIColor.label
+            .foregroundColor: traitCollection.userInterfaceStyle == .dark ? UIColor.white : UIColor.black
         ]))
         attributedString.append(NSAttributedString(string: " / year", attributes: [
             .font: UIFont.font(.sofiaProRegular, style: .subheadline),
-            .foregroundColor: UIColor.secondaryLabel
+            .foregroundColor: traitCollection.userInterfaceStyle == .dark ? UIColor.lightGray : UIColor.darkGray
         ]))
         
         freeTrialInfoLabel.attributedText = attributedString
@@ -804,7 +824,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         ]))
         saveInfoAttributedString.append(NSAttributedString(string: "Top Rated Plan", attributes: [
             .font: UIFont.font(.sofiaProMedium, style: .subheadline),
-            .foregroundColor: UIColor.secondaryLabel
+            .foregroundColor: traitCollection.userInterfaceStyle == .dark ? UIColor.lightGray : UIColor.darkGray
         ]))
         
         // Add SF Symbol
@@ -816,5 +836,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         saveInfoAttributedString.append(imageString)
         
         saveInfoLabel.attributedText = saveInfoAttributedString
+    }
+
+    // Override traitCollectionDidChange to handle dark mode changes
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateColorsForCurrentTraitCollection()
     }
 }
