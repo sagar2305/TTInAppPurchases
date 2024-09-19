@@ -484,7 +484,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
                 configureLifetimeButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, button: button)
             case 2: // Weekly
                 if let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1) {
-                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
+                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price)
                 }
             default:
                 break
@@ -516,23 +516,23 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         leftStackView.addArrangedSubview(priceLabel)
         
         // Calculate the yearly price
-        let yearlyPrice = pricePerMonth * 12
+        let weeklyPrice = pricePerMonth / 4.34
         
         // Create and configure the yearly price label
-        let yearlyPriceLabel = UILabel()
-        yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
-        yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        yearlyPriceLabel.textColor = .label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.text = formatPrice(weeklyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
+        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        weeklyPriceLabel.textColor = .label
         
         // Create and configure the "per year" label
-        let perYearLabel = UILabel()
-        perYearLabel.text = "per year".localized
-        perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-        perYearLabel.textColor = UIColor.secondaryLabel
+        let perWeekLabel = UILabel()
+        perWeekLabel.text = "per week".localized
+        perWeekLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+        perWeekLabel.textColor = UIColor.secondaryLabel
         
         // Add the yearly price and "per year" labels to the right stack view
-        rightStackView.addArrangedSubview(yearlyPriceLabel)
-        rightStackView.addArrangedSubview(perYearLabel)
+        rightStackView.addArrangedSubview(weeklyPriceLabel)
+        rightStackView.addArrangedSubview(perWeekLabel)
     }
 
     private func configureLifetimeButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, button: UIButton) {
@@ -578,33 +578,26 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         ])
     }
 
-    private func configureWeeklyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double) {
+    private func configureWeeklyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String) {
         let titleLabel = UILabel()
         titleLabel.text = "Subscribe Weekly"
-        titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
+        titleLabel.font = UIFont.font(.sofiaProBold, style: .callout)
         titleLabel.textColor = .label
         
-        let priceLabel = UILabel()
-        priceLabel.text = price + " per week"
-        priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        priceLabel.textColor = .label
-        
         leftStackView.addArrangedSubview(titleLabel)
-        leftStackView.addArrangedSubview(priceLabel)
         
-        let yearlyPrice = pricePerMonth * 12
-        let yearlyPriceLabel = UILabel()
-        yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
-        yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        yearlyPriceLabel.textColor = .label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.text = price
+        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        weeklyPriceLabel.textColor = .label
         
-        let perYearLabel = UILabel()
-        perYearLabel.text = "per year".localized
-        perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-        perYearLabel.textColor = UIColor.secondaryLabel
+        let perWeekLabel = UILabel()
+        perWeekLabel.text = "per week".localized
+        perWeekLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+        perWeekLabel.textColor = UIColor.secondaryLabel
         
-        rightStackView.addArrangedSubview(yearlyPriceLabel)
-        rightStackView.addArrangedSubview(perYearLabel)
+        rightStackView.addArrangedSubview(weeklyPriceLabel)
+        rightStackView.addArrangedSubview(perWeekLabel)
     }
 
     private func formatPrice(_ price: Double, currencyCode: String, originalPriceString: String) -> String {
@@ -682,6 +675,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
 
     @IBAction func didTapSubscribeNowButton(_ sender: UIButton) {
+        _selectedIndex = 0
         delegate?.selectPlan(at: selectedIndex, controller: self)
     }
 
