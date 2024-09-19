@@ -70,7 +70,6 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
         view.layer.shadowRadius = 10
         view.layer.shadowOpacity = 0.1
-        view.layer.borderWidth = 1
         return view
     }()
     
@@ -737,25 +736,30 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     // Add this method to update colors for dark mode
     private func updateColorsForCurrentTraitCollection() {
         if traitCollection.userInterfaceStyle == .dark {
-            view.backgroundColor = .black
-            continueButtonContainer.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.2)
-            continueButtonContainer.layer.borderColor = UIColor.systemGray4.cgColor
-            continueButtonContainer.layer.shadowColor = UIColor.white.cgColor
-            continueButtonContainer.layer.shadowOpacity = 0.05
+            view.backgroundColor = .systemGray6 // Light gray background for dark mode
+            continueButtonContainer.backgroundColor = UIColor.systemGray5.withAlphaComponent(0.8)
+            // Use a black shadow for better contrast in dark mode
+            continueButtonContainer.layer.shadowColor = UIColor.black.cgColor
+            continueButtonContainer.layer.shadowOpacity = 0.3
+            continueButtonContainer.layer.shadowRadius = 15
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.2)
             cancelAnytimeLabel.textColor = .systemGreen
             
             // Update price button colors for dark mode
             for button in priceButtons {
-                button.backgroundColor = UIColor.systemGray6.withAlphaComponent(0.2)
-                button.layer.borderColor = UIColor.systemGray4.cgColor
+                button.backgroundColor = UIColor.systemGray5.withAlphaComponent(0.8)
+                button.layer.borderColor = UIColor.systemGray3.cgColor
+                // Add black shadow to price buttons in dark mode
+                button.layer.shadowColor = UIColor.black.cgColor
+                button.layer.shadowOpacity = 0.2
+                button.layer.shadowRadius = 8
             }
         } else {
             view.backgroundColor = .white
             continueButtonContainer.backgroundColor = UIColor.white
-            continueButtonContainer.layer.borderColor = UIColor.systemGray3.cgColor
             continueButtonContainer.layer.shadowColor = UIColor.black.cgColor
             continueButtonContainer.layer.shadowOpacity = 0.1
+            continueButtonContainer.layer.shadowRadius = 10
             cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.1)
             cancelAnytimeLabel.textColor = .systemGreen
             
@@ -763,6 +767,10 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             for button in priceButtons {
                 button.backgroundColor = .systemBackground
                 button.layer.borderColor = UIColor.separator.cgColor
+                // Reset shadow for price buttons in light mode
+                button.layer.shadowColor = UIColor.black.cgColor
+                button.layer.shadowOpacity = 0.1
+                button.layer.shadowRadius = 6
             }
         }
         
