@@ -259,13 +259,13 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         switch screenHeight {
             case 926...932: // iPhone 15 Pro Max, 14 Plus, 13 Pro Max, 12 Pro Max (6.7 inches)
-                return 22
+                return 16
             case 844...896: // iPhone 15, iPhone 14, 13/12 Pro, 13/12, 11 Pro Max, XS Max, 11, XR (6.1 - 6.5 inches)
                 return 16
             case 812: // iPhone X, XS (5.8 inches) and iPhone 13 Mini, 12 Mini (5.4 inches)
-                return 14
+                return 12
             case 736: // iPhone 8 Plus, iPhone 7 Plus (5.5 inches)
-                return 10
+                return 8
             case 667: // iPhone 8, iPhone 7, SE 2nd/3rd Gen (4.7 inches)
                 return 8
             case 568: // iPhone SE 1st Gen, iPhone 5s, 5c (4 inches)
@@ -331,7 +331,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             restorePurchasesButton.topAnchor.constraint(equalTo: cancelAnytimeLabel.bottomAnchor, constant: 8),
             restorePurchasesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 8),
+            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 4),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
