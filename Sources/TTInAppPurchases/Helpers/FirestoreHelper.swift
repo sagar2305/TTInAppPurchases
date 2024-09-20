@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  FirestoreHelper.swift
 //  
 //
-//  Created by Admin on 18/09/24.
+//  Created by Ashok on 18/09/24.
 //
 
 import FirebaseCore
@@ -19,7 +19,7 @@ public class FirestoreHelper {
     public var notificationType: String = ""
     private let database = Firestore.firestore()
     
-    public func saveNotificationToken(completion: ((Error?) -> Void)? = nil) {
+    public func savePhoneNumberAndNotificationToken(completion: ((Error?) -> Void)? = nil) {
         guard let currentUser = Auth.auth().currentUser else {
             completion?(NSError(domain: "FirestoreHelper", code: 1, userInfo: [NSLocalizedDescriptionKey: "No authenticated user found"]))
             return

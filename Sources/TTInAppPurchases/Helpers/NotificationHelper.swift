@@ -1,14 +1,16 @@
 //
-//  File.swift
+//  NotificationHelper.swift
 //  
 //
-//  Created by Admin on 17/09/24.
+//  Created by Ashok on 17/09/24.
 //
 
 import FirebaseMessaging
 import UserNotifications
 import UIKit
 import FirebaseCore
+import PermissionsKit
+import NotificationPermission
 
 public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, MessagingDelegate {
     
@@ -25,13 +27,12 @@ public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, Mes
         // Configure UserNotifications
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
-        notificationCenter.requestAuthorization(options: [.alert, .sound, .badge]) { success, error in
-            guard success else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                application.registerForRemoteNotifications()
+        
+        Permission.notification.request {
+            if Permission.notification.authorized {
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
             }
         }
     }
@@ -40,7 +41,7 @@ public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, Mes
     public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         // Save token or send it to your backend
         FirestoreHelper.shared.notificationToken = fcmToken ?? ""
-        FirestoreHelper.shared.saveNotificationToken()
+        FirestoreHelper.shared.savePhoneNumberAndNotificationToken()
     }
     
     // UNUserNotificationCenterDelegate method to detect if app was opened via a notification
