@@ -61,13 +61,24 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return stackView
     }()
     
+    private lazy var continueButtonContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = false // Allow shadow to be visible
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.1
+        return view
+    }()
+    
     private lazy var freeTrialInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.font(.sofiaProMedium, style: .body)
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.backgroundColor = .clear
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
@@ -76,17 +87,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private lazy var subscribeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.font(.sofiaProMedium, style: .callout)
-        button.setTitle("CONTINUE".localized, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.titleLabel?.font = UIFont.font(.sofiaProBold, style: .headline)
+        button.setTitle("CONTINUE", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapSubscribeNowButton), for: .touchUpInside)
         button.setContentHuggingPriority(.required, for: .vertical)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         
-        // Add a gradient background
+        // Add gradient background
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
         gradientLayer.locations = [0.0, 1.0]
@@ -98,26 +108,11 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         return button
     }()
     
-    private lazy var mostPopularLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.font(.sofiaProBold, style: .caption1)
-        label.text = "Most Popular"
-        label.textColor = .white
-        label.backgroundColor = .systemGreen
-        label.textAlignment = .center
-        label.layer.cornerRadius = 8
-        label.clipsToBounds = true
-        return label
-    }()
-    
     private lazy var saveInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.font(.sofiaProMedium, style: .subheadline)
         label.textAlignment = .center
-        label.text = "Save 75% • Top Rated Plan"
-        label.textColor = .systemGreen
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
@@ -178,20 +173,6 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     private var restoreButtonTextStyle: UIFont.TextStyle = .footnote
     private let characterSet = CharacterSet(charactersIn: "0123456789.").inverted
     
-    private var _selectedIndex = -1 {
-        didSet {
-            if isViewLoaded {
-                checkFreeOfferTrialStatus(for: _selectedIndex)
-                if oldValue != -1 {
-                    unhighlightButton(at: oldValue)
-                }
-                if _selectedIndex != -1 {
-                    highlightButton(at: _selectedIndex)
-                }
-            }
-        }
-    }
-    
     private var selectedIndex: Int = 0 // Set default to 0 for the continue button
     
     // MARK: - View Lifecycle
@@ -220,14 +201,22 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         }
         
         updateColorsForCurrentTraitCollection()
+        
+        // Force layout update
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     private func setupViews() {
         view.backgroundColor = .systemBackground
         
         [cancelButton, primaryHeaderLabel, topDescriptionLabel, reviewCarouselView, featureStackView,
-         freeTrialInfoLabel, subscribeButton, mostPopularLabel, saveInfoLabel, subscriptionStackView,
-         cancelAnytimeLabel, restorePurchasesButton, privacyAndTermsOfLawLabel].forEach { view.addSubview($0) }
+         continueButtonContainer, subscriptionStackView, cancelAnytimeLabel, restorePurchasesButton,
+         privacyAndTermsOfLawLabel].forEach { view.addSubview($0) }
+        
+        continueButtonContainer.addSubview(freeTrialInfoLabel)
+        continueButtonContainer.addSubview(subscribeButton)
+        continueButtonContainer.addSubview(saveInfoLabel)
         
         subscriptionStackView.isUserInteractionEnabled = true
         
@@ -240,6 +229,15 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             tickMarkViews.append(tickMark)
             button.addSubview(tickMark)
         }
+        
+        // Ensure continue button container and its subviews are set up properly
+        continueButtonContainer.addSubview(freeTrialInfoLabel)
+        continueButtonContainer.addSubview(subscribeButton)
+        continueButtonContainer.addSubview(saveInfoLabel)
+        
+        // Force layout update
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
     }
     
     private func calculateSpacing() -> CGFloat {
@@ -247,13 +245,13 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         
         switch screenHeight {
             case 926...932: // iPhone 15 Pro Max, 14 Plus, 13 Pro Max, 12 Pro Max (6.7 inches)
-                return 22
+                return 16
             case 844...896: // iPhone 15, iPhone 14, 13/12 Pro, 13/12, 11 Pro Max, XS Max, 11, XR (6.1 - 6.5 inches)
                 return 16
             case 812: // iPhone X, XS (5.8 inches) and iPhone 13 Mini, 12 Mini (5.4 inches)
-                return 14
+                return 12
             case 736: // iPhone 8 Plus, iPhone 7 Plus (5.5 inches)
-                return 10
+                return 8
             case 667: // iPhone 8, iPhone 7, SE 2nd/3rd Gen (4.7 inches)
                 return 8
             case 568: // iPhone SE 1st Gen, iPhone 5s, 5c (4 inches)
@@ -289,25 +287,25 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             featureStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             featureStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            freeTrialInfoLabel.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing()),
-            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            continueButtonContainer.topAnchor.constraint(equalTo: featureStackView.bottomAnchor, constant: calculateSpacing() * 1.5),
+            continueButtonContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            continueButtonContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            freeTrialInfoLabel.topAnchor.constraint(equalTo: continueButtonContainer.topAnchor, constant: 16),
+            freeTrialInfoLabel.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            freeTrialInfoLabel.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+
+            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 4),
+            subscribeButton.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            subscribeButton.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+            subscribeButton.heightAnchor.constraint(equalToConstant: 56),
+
+            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 16),
+            saveInfoLabel.leadingAnchor.constraint(equalTo: continueButtonContainer.leadingAnchor, constant: 20),
+            saveInfoLabel.trailingAnchor.constraint(equalTo: continueButtonContainer.trailingAnchor, constant: -20),
+            saveInfoLabel.bottomAnchor.constraint(equalTo: continueButtonContainer.bottomAnchor, constant: -20),
             
-            subscribeButton.topAnchor.constraint(equalTo: freeTrialInfoLabel.bottomAnchor, constant: 8),
-            subscribeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            subscribeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            subscribeButton.heightAnchor.constraint(equalToConstant: 44),
-
-            mostPopularLabel.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -8),
-            mostPopularLabel.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: -8),
-            mostPopularLabel.widthAnchor.constraint(equalToConstant: 80),
-            mostPopularLabel.heightAnchor.constraint(equalToConstant: 16),
-
-            saveInfoLabel.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: calculateSpacing()),
-            saveInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            saveInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-
-            subscriptionStackView.topAnchor.constraint(equalTo: saveInfoLabel.bottomAnchor, constant: calculateSpacing() * 1.5),
+            subscriptionStackView.topAnchor.constraint(equalTo: continueButtonContainer.bottomAnchor, constant: calculateSpacing()),
             subscriptionStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             subscriptionStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -319,7 +317,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             restorePurchasesButton.topAnchor.constraint(equalTo: cancelAnytimeLabel.bottomAnchor, constant: 8),
             restorePurchasesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 8),
+            privacyAndTermsOfLawLabel.topAnchor.constraint(equalTo: restorePurchasesButton.bottomAnchor, constant: 4),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             privacyAndTermsOfLawLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -342,11 +340,10 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         button.isUserInteractionEnabled = true
         button.isEnabled = true
-        button.layer.cornerRadius = 12 // Increased corner radius
+        button.layer.cornerRadius = 12
         button.clipsToBounds = true
         button.backgroundColor = .systemBackground
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.separator.cgColor
         
         // Add a subtle shadow
         button.layer.shadowColor = UIColor.black.cgColor
@@ -473,7 +470,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
                 configureLifetimeButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, button: button)
             case 2: // Weekly
                 if let pricePerMonth = uiProviderDelegate.subscriptionPricePerMonth(for: index + 1) {
-                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price, pricePerMonth: pricePerMonth)
+                    configureWeeklyButton(leftStackView: leftStackView, rightStackView: rightStackView, price: price)
                 }
             default:
                 break
@@ -504,24 +501,24 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         leftStackView.addArrangedSubview(titleLabel)
         leftStackView.addArrangedSubview(priceLabel)
         
-        // Calculate the yearly price
-        let yearlyPrice = pricePerMonth * 12
+        // Calculate the weekly price
+        let weeklyPrice = pricePerMonth / 4.34
         
-        // Create and configure the yearly price label
-        let yearlyPriceLabel = UILabel()
-        yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
-        yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        yearlyPriceLabel.textColor = .label
+        // Create and configure the weekly price label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.text = formatPrice(weeklyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
+        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        weeklyPriceLabel.textColor = .label
         
-        // Create and configure the "per year" label
-        let perYearLabel = UILabel()
-        perYearLabel.text = "per year".localized
-        perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-        perYearLabel.textColor = UIColor.secondaryLabel
+        // Create and configure the "per week" label
+        let perWeekLabel = UILabel()
+        perWeekLabel.text = "per week".localized
+        perWeekLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+        perWeekLabel.textColor = UIColor.secondaryLabel
         
-        // Add the yearly price and "per year" labels to the right stack view
-        rightStackView.addArrangedSubview(yearlyPriceLabel)
-        rightStackView.addArrangedSubview(perYearLabel)
+        // Add the weekly price and "per week" labels to the right stack view
+        rightStackView.addArrangedSubview(weeklyPriceLabel)
+        rightStackView.addArrangedSubview(perWeekLabel)
     }
 
     private func configureLifetimeButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, button: UIButton) {
@@ -567,33 +564,26 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
         ])
     }
 
-    private func configureWeeklyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String, pricePerMonth: Double) {
+    private func configureWeeklyButton(leftStackView: UIStackView, rightStackView: UIStackView, price: String) {
         let titleLabel = UILabel()
         titleLabel.text = "Subscribe Weekly"
-        titleLabel.font = UIFont.font(.sofiaProRegular, style: .callout)
+        titleLabel.font = UIFont.font(.sofiaProBold, style: .callout)
         titleLabel.textColor = .label
         
-        let priceLabel = UILabel()
-        priceLabel.text = price + " per week"
-        priceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        priceLabel.textColor = .label
-        
         leftStackView.addArrangedSubview(titleLabel)
-        leftStackView.addArrangedSubview(priceLabel)
         
-        let yearlyPrice = pricePerMonth * 12
-        let yearlyPriceLabel = UILabel()
-        yearlyPriceLabel.text = formatPrice(yearlyPrice, currencyCode: getCurrencyCode(from: price), originalPriceString: price)
-        yearlyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
-        yearlyPriceLabel.textColor = .label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.text = price
+        weeklyPriceLabel.font = UIFont.font(.sofiaProBold, style: .callout)
+        weeklyPriceLabel.textColor = .label
         
-        let perYearLabel = UILabel()
-        perYearLabel.text = "per year".localized
-        perYearLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
-        perYearLabel.textColor = UIColor.secondaryLabel
+        let perWeekLabel = UILabel()
+        perWeekLabel.text = "per week".localized
+        perWeekLabel.font = UIFont.font(.sofiaProRegular, style: .footnote)
+        perWeekLabel.textColor = UIColor.secondaryLabel
         
-        rightStackView.addArrangedSubview(yearlyPriceLabel)
-        rightStackView.addArrangedSubview(perYearLabel)
+        rightStackView.addArrangedSubview(weeklyPriceLabel)
+        rightStackView.addArrangedSubview(perWeekLabel)
     }
 
     private func formatPrice(_ price: Double, currencyCode: String, originalPriceString: String) -> String {
@@ -671,6 +661,7 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
     }
 
     @IBAction func didTapSubscribeNowButton(_ sender: UIButton) {
+        selectedIndex = 0
         delegate?.selectPlan(at: selectedIndex, controller: self)
     }
 
@@ -698,6 +689,16 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        // Update continue button gradient
+        if let gradientLayer = subscribeButton.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.frame = subscribeButton.bounds
+        }
+        
+        // Force layout update for continue button container
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
+        
         updateScrollViewContentSize()
     }
 
@@ -714,27 +715,66 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
 
     // Add this method to update colors for dark mode
     private func updateColorsForCurrentTraitCollection() {
-        if traitCollection.userInterfaceStyle == .dark {
-            cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.2)
-            cancelAnytimeLabel.textColor = .systemGreen
-        } else {
-            cancelAnytimeLabel.backgroundColor = .systemGreen.withAlphaComponent(0.1)
-            cancelAnytimeLabel.textColor = .systemGreen
+        let isDarkMode = traitCollection.userInterfaceStyle == .dark
+        
+        // Background colors
+        view.backgroundColor = isDarkMode ? .systemGray6 : .white
+        continueButtonContainer.backgroundColor = isDarkMode ? UIColor.systemGray5.withAlphaComponent(0.8) : .white
+        
+        // Shadow for continueButtonContainer
+        continueButtonContainer.layer.shadowColor = UIColor.black.cgColor
+        continueButtonContainer.layer.shadowOpacity = isDarkMode ? 0.3 : 0.1
+        continueButtonContainer.layer.shadowRadius = isDarkMode ? 15 : 10
+        
+        // Cancel anytime label
+        cancelAnytimeLabel.backgroundColor = isDarkMode ? .systemGreen.withAlphaComponent(0.2) : .systemGreen.withAlphaComponent(0.1)
+        cancelAnytimeLabel.textColor = .systemGreen
+        
+        // Price buttons
+        for button in priceButtons {
+            button.backgroundColor = isDarkMode ? UIColor.systemGray5.withAlphaComponent(0.8) : .systemBackground
+            button.layer.borderColor = isDarkMode ? UIColor.systemGray3.cgColor : UIColor.separator.cgColor
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOpacity = isDarkMode ? 0.2 : 0.1
+            button.layer.shadowRadius = isDarkMode ? 8 : 6
         }
+        
+        // Text colors
+        primaryHeaderLabel.textColor = isDarkMode ? .white : .black
+        topDescriptionLabel.textColor = isDarkMode ? .lightGray : .darkGray
+        freeTrialInfoLabel.textColor = isDarkMode ? .white : .black
+        
+        // Update gradient for subscribe button
+        if let gradientLayer = subscribeButton.layer.sublayers?.first as? CAGradientLayer {
+            gradientLayer.colors = isDarkMode
+                ? [UIColor.systemBlue.cgColor, UIColor(red: 0.3, green: 0.2, blue: 0.8, alpha: 1.0).cgColor]
+                : [UIColor.systemBlue.cgColor, UIColor.systemIndigo.cgColor]
+            gradientLayer.frame = subscribeButton.bounds
+        }
+        
+        // Force layout update
+        continueButtonContainer.setNeedsLayout()
+        continueButtonContainer.layoutIfNeeded()
+        
+        // Update free trial info colors
+        updateFreeTrialInfo()
     }
 
-    // Override traitCollectionDidChange to handle dark mode changes
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        updateColorsForCurrentTraitCollection()
-    }
-
-    // Update the updateFreeTrialInfo() method
     private func updateFreeTrialInfo() {
-        guard let uiProviderDelegate = uiProviderDelegate else { return }
+        guard let uiProviderDelegate = uiProviderDelegate else {
+            print("Debug: uiProviderDelegate is nil")
+            return
+        }
         
         let trialDuration = uiProviderDelegate.freeTrialDuration(for: selectedIndex)
         let price = uiProviderDelegate.subscriptionPrice(for: selectedIndex, withDurationSuffix: false)
+        
+        print("Debug: Trial Duration: \(trialDuration)")
+        print("Debug: Original Price: \(price)")
+        
+        let isDarkMode = traitCollection.userInterfaceStyle == .dark
+        let mainTextColor = isDarkMode ? UIColor.white : UIColor.black
+        let secondaryTextColor = isDarkMode ? UIColor.lightGray : UIColor.darkGray
         
         let attributedString = NSMutableAttributedString()
         
@@ -745,27 +785,128 @@ public class QuadrupleOptionPaywallViewController: UIViewController, Subscriptio
             ]))
             attributedString.append(NSAttributedString(string: "then ", attributes: [
                 .font: UIFont.font(.sofiaProRegular, style: .subheadline),
-                .foregroundColor: UIColor.secondaryLabel
+                .foregroundColor: secondaryTextColor
             ]))
         }
         
         attributedString.append(NSAttributedString(string: price, attributes: [
             .font: UIFont.font(.sofiaProBlack, style: .title2),
-            .foregroundColor: UIColor.label
+            .foregroundColor: mainTextColor
         ]))
         attributedString.append(NSAttributedString(string: " / year", attributes: [
             .font: UIFont.font(.sofiaProRegular, style: .subheadline),
-            .foregroundColor: UIColor.secondaryLabel
+            .foregroundColor: secondaryTextColor
         ]))
         
         freeTrialInfoLabel.attributedText = attributedString
         
-        // Remove the background color and shadow
-        freeTrialInfoLabel.backgroundColor = .clear
-        freeTrialInfoLabel.layer.shadowColor = nil
-        freeTrialInfoLabel.layer.shadowOffset = .zero
-        freeTrialInfoLabel.layer.shadowRadius = 0
-        freeTrialInfoLabel.layer.shadowOpacity = 0
-        freeTrialInfoLabel.layer.masksToBounds = true
+        // Create a custom view for weekly price and savings info
+        let savingsInfoView = UIView()
+        savingsInfoView.translatesAutoresizingMaskIntoConstraints = false
+        savingsInfoView.backgroundColor = isDarkMode ? UIColor.systemGray5 : UIColor.systemBackground
+        savingsInfoView.layer.cornerRadius = 8
+        savingsInfoView.layer.borderWidth = 1
+        savingsInfoView.layer.borderColor = UIColor.systemGreen.cgColor
+        continueButtonContainer.addSubview(savingsInfoView)
+
+        // Weekly price label
+        let weeklyPriceLabel = UILabel()
+        weeklyPriceLabel.translatesAutoresizingMaskIntoConstraints = false
+        weeklyPriceLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
+        weeklyPriceLabel.textColor = mainTextColor
+        savingsInfoView.addSubview(weeklyPriceLabel)
+        
+        let goldenColor = UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1) // Custom golden color
+        let separatorImageView = UIImageView()
+        separatorImageView.translatesAutoresizingMaskIntoConstraints = false
+        separatorImageView.image = UIImage(systemName: "circle.fill")
+        separatorImageView.tintColor = goldenColor
+        savingsInfoView.addSubview(separatorImageView)
+
+        // Savings label
+        let savingsLabel = UILabel()
+        savingsLabel.translatesAutoresizingMaskIntoConstraints = false
+        savingsLabel.font = UIFont.font(.sofiaProBold, style: .subheadline)
+        savingsLabel.textColor = UIColor.systemGreen
+        savingsLabel.text = "Save 75%"
+        savingsInfoView.addSubview(savingsLabel)
+
+        NSLayoutConstraint.activate([
+            savingsInfoView.topAnchor.constraint(equalTo: subscribeButton.bottomAnchor, constant: 8),
+            savingsInfoView.centerXAnchor.constraint(equalTo: continueButtonContainer.centerXAnchor),
+            savingsInfoView.heightAnchor.constraint(equalToConstant: 18),
+
+            // Weekly price label constraints
+            weeklyPriceLabel.leadingAnchor.constraint(equalTo: savingsInfoView.leadingAnchor, constant: 12),
+            weeklyPriceLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor),
+
+            // Separator image view constraints
+            separatorImageView.leadingAnchor.constraint(equalTo: weeklyPriceLabel.trailingAnchor, constant: 2),
+            separatorImageView.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor),
+            separatorImageView.widthAnchor.constraint(equalToConstant: 6), // Adjust size of the separator
+            separatorImageView.heightAnchor.constraint(equalToConstant: 6),
+
+            // Savings label constraints
+            savingsLabel.leadingAnchor.constraint(equalTo: separatorImageView.trailingAnchor, constant: 2),
+            savingsLabel.trailingAnchor.constraint(equalTo: savingsInfoView.trailingAnchor, constant: -12),
+            savingsLabel.centerYAnchor.constraint(equalTo: savingsInfoView.centerYAnchor)
+        ])
+
+        // Calculate weekly price
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .currency
+            numberFormatter.locale = Locale.current
+
+            // Extract the currency symbol from the original price
+            let currencySymbol = price.prefix { !$0.isNumber && $0 != "." }
+            print("Debug: Extracted currency symbol: \(currencySymbol)")
+
+            if let priceValue = numberFormatter.number(from: price)?.doubleValue {
+                print("Debug: Parsed price value: \(priceValue)")
+                let weeklyPrice = priceValue / 52 // Divide annual price by 52 weeks
+                print("Debug: Calculated weekly price: \(weeklyPrice)")
+                let weeklyPriceFormatted = String(format: "%.2f", weeklyPrice)
+                print("Debug: Formatted weekly price: \(weeklyPriceFormatted)")
+                let weeklyPriceTag = "\(currencySymbol)\(weeklyPriceFormatted)/week"
+                print("Debug: Weekly price tag: \(weeklyPriceTag)")
+                
+                weeklyPriceLabel.text = weeklyPriceTag
+            } else {
+                print("Debug: Failed to parse price value")
+            }
+
+        // Update the width constraint of the savingsInfoView based on its content
+        let padding: CGFloat = 28 // Total horizontal padding
+        let spacing: CGFloat = 8 // Spacing between labels
+        let totalWidth = weeklyPriceLabel.intrinsicContentSize.width + savingsLabel.intrinsicContentSize.width + padding + spacing
+        savingsInfoView.widthAnchor.constraint(equalToConstant: totalWidth).isActive = true
+
+        // Add "Most Popular" badge
+        let mostPopularBadge = UILabel()
+        mostPopularBadge.text = "Most Popular"
+        mostPopularBadge.font = UIFont.font(.sofiaProBold, style: .caption2)
+        mostPopularBadge.textColor = UIColor.white
+        mostPopularBadge.backgroundColor = UIColor.systemGreen
+        mostPopularBadge.textAlignment = .center
+        mostPopularBadge.layer.cornerRadius = 8
+        mostPopularBadge.clipsToBounds = true
+        mostPopularBadge.translatesAutoresizingMaskIntoConstraints = false
+        
+        continueButtonContainer.addSubview(mostPopularBadge)
+        
+        NSLayoutConstraint.activate([
+            mostPopularBadge.topAnchor.constraint(equalTo: subscribeButton.topAnchor, constant: -12),
+            mostPopularBadge.trailingAnchor.constraint(equalTo: subscribeButton.trailingAnchor, constant: 12),
+            mostPopularBadge.widthAnchor.constraint(equalToConstant: 80),
+            mostPopularBadge.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            updateColorsForCurrentTraitCollection()
+        }
     }
 }

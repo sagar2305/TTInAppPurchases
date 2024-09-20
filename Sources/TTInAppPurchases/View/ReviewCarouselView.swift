@@ -23,13 +23,17 @@ public class ReviewCarouselView: UIView {
     }
     
     private func setupViews() {
+        layer.cornerRadius = 16
+        clipsToBounds = true
+        layer.borderWidth = 1
+        
         addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
         
         stackView.axis = .horizontal
-        stackView.spacing = 0
+        stackView.spacing = 16
         scrollView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -40,18 +44,13 @@ public class ReviewCarouselView: UIView {
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
-        for review in reviews {
-            let reviewView = createReviewView(name: review.0, rating: review.1, comment: review.2)
-            stackView.addArrangedSubview(reviewView)
-        }
-        
-        startAutoScroll()
+        updateColorsForCurrentTraitCollection()
     }
     
     private func setupReviews() {
@@ -70,39 +69,52 @@ public class ReviewCarouselView: UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
         for view in stackView.arrangedSubviews {
-            view.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+            view.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32).isActive = true
         }
-        scrollView.contentSize = CGSize(width: CGFloat(reviews.count) * bounds.width, height: bounds.height)
+        scrollView.contentSize = CGSize(width: CGFloat(reviews.count) * (bounds.width - 32) + CGFloat(reviews.count - 1) * 16, height: bounds.height)
     }
     
     private func createReviewView(name: String, rating: String, comment: String) -> UIView {
         let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.layer.cornerRadius = 8
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray4.cgColor
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        
+        // Add gradient background
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.cornerRadius = 12
+        gradientLayer.frame = view.bounds
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        // Add shadow
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.1
         
         let ratingLabel = UILabel()
         ratingLabel.text = rating
-        ratingLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
+        ratingLabel.font = UIFont.font(.sofiaProBold, style: .subheadline)
         ratingLabel.textAlignment = .center
         
         let commentLabel = UILabel()
         commentLabel.text = comment
-        commentLabel.font = UIFontMetrics(forTextStyle: .footnote).scaledFont(for: UIFont(name: "SofiaPro-Regular", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
-        commentLabel.adjustsFontForContentSizeCategory = true
+        commentLabel.font = UIFont.font(.sofiaProRegular, style: .body)
         commentLabel.numberOfLines = 3
         commentLabel.textAlignment = .center
         
         let nameLabel = UILabel()
         nameLabel.text = "- " + name
-        nameLabel.font = UIFontMetrics(forTextStyle: .caption2).scaledFont(for: UIFont(name: "SofiaPro-Medium", size: calculateFontSize() - 2) ?? UIFont.systemFont(ofSize: calculateFontSize() - 2))
-        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
         nameLabel.textAlignment = .right
         
+        let screenHeight = UIScreen.main.bounds.height
+        let dynamicSpacing = 5
+
         let stackView = UIStackView(arrangedSubviews: [ratingLabel, commentLabel, nameLabel])
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = UIScreen.main.bounds.height < 700 ? 5 : 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(stackView)
@@ -125,27 +137,35 @@ public class ReviewCarouselView: UIView {
     
     private func scrollToNextPage() {
         currentPage = (currentPage + 1) % reviews.count
-        let offsetX = CGFloat(currentPage) * bounds.width
+        let offsetX = CGFloat(currentPage) * (bounds.width - 32) + CGFloat(currentPage) * 16
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
     }
     
-    private func calculateFontSize() -> CGFloat {
-        let screenHeight = UIScreen.main.bounds.height
+    private func updateColorsForCurrentTraitCollection() {
+        let isDarkMode = traitCollection.userInterfaceStyle == .dark
         
-        switch screenHeight {
-        case 926: // iPhone 6.7" (iPhone 13/14 Pro Max, etc.)
-            return 20
-        case 844: // iPhone 6.1" (iPhone 13/14/12, etc.)
-            return 18
-        case 812: // iPhone 5.8" (iPhone X, XS, 13 Mini, etc.)
-            return 16
-        case 736: // iPhone 5.5" (iPhone 8 Plus, etc.)
-            return 15
-        case 667: // iPhone 4.7" (iPhone SE 2nd gen, iPhone 8, etc.)
-            return 14
-        default:
-            return 14 // Default font size for other sizes
+        backgroundColor = isDarkMode ? UIColor.systemGray5.withAlphaComponent(0.5) : .white // Changed to white for light mode
+        layer.borderColor = isDarkMode ? UIColor.systemGray4.cgColor : UIColor.systemGray3.cgColor
+        
+        for case let reviewView as UIView in stackView.arrangedSubviews {
+            if let gradientLayer = reviewView.layer.sublayers?.first as? CAGradientLayer {
+                gradientLayer.colors = isDarkMode
+                    ? [UIColor.systemGray6.cgColor, UIColor.systemGray5.cgColor]
+                    : [UIColor.white.cgColor, UIColor.systemGray6.cgColor]
+            }
+            
+            for case let label as UILabel in reviewView.subviews.first?.subviews ?? [] {
+                if label.font == UIFont.font(.sofiaProBold, style: .subheadline) {
+                    label.textColor = .systemYellow // Rating color
+                } else {
+                    label.textColor = isDarkMode ? .white : .black
+                }
+            }
         }
     }
-
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateColorsForCurrentTraitCollection()
+    }
 }
