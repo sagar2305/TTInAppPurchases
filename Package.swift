@@ -23,6 +23,7 @@ let package = Package(
         .package(url: "https://github.com/huri000/SwiftEntryKit.git", .upToNextMajor(from: "1.2.7")),
         .package(url: "https://github.com/marmelroy/PhoneNumberKit.git", .upToNextMajor(from: "3.6.0")),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.0.0"),
+        .package(url: "https://github.com/sparrowcode/PermissionsKit", .upToNextMajor(from: "11.0.0"))
     ],
     targets: [
         .target(
@@ -39,6 +40,7 @@ let package = Package(
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "NotificationPermission", package: "PermissionsKit")
             ],
             resources: [
                 .process("Resources/Assets.xcassets")

@@ -1,5 +1,5 @@
 {
-  "originHash" : "60aaf23550a0d70498f8138a347d4c3f50066aa0ffab514b6dca7eef3b1f60f2",
+  "originHash" : "47592882fd11801921878bceac84c49a65c179936c04a1458dfd422ecf4be5e4",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "4a4726d15367d82bd3e9e1f01625bd76dbbb0c98",
         "version" : "4.8.0"
+      }
+    },
+    {
+      "identity" : "permissionskit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sparrowcode/PermissionsKit",
+      "state" : {
+        "revision" : "f10828f2113980c06bc867c1be4075403726aad1",
+        "version" : "11.0.0"
       }
     },
     {
