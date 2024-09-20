@@ -109,9 +109,12 @@ public class ReviewCarouselView: UIView {
         nameLabel.font = UIFont.font(.sofiaProMedium, style: .footnote)
         nameLabel.textAlignment = .right
         
+        let screenHeight = UIScreen.main.bounds.height
+        let dynamicSpacing = 5
+
         let stackView = UIStackView(arrangedSubviews: [ratingLabel, commentLabel, nameLabel])
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = UIScreen.main.bounds.height < 700 ? 5 : 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(stackView)
