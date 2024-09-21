@@ -16,4 +16,5 @@ public struct Configuration: Codable {
     public var reviewPromptOnStartup: Bool
     public var lifetimePlan: Bool
     public var lifetimePlanAllCountries: Bool
+    public var autoCallEnabledForCountryCodes: [Int] // Changed from boolean to [Int]
 }

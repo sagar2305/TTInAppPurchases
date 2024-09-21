@@ -18,6 +18,7 @@ public struct ConfigurationHelper {
     private var _reviewPromptOnStartup: Bool
     private var _lifetimePlan: Bool
     private var _lifetimePlanAllCountries: Bool
+    private var _autoCallEnabledForCountryCodes: [Int]
     
     public var minimumAppVersion: String {
        return _minimumAppVersion
@@ -42,6 +43,13 @@ public struct ConfigurationHelper {
             return _lifetimePlanAllCountries
         }
     }
+    
+    public var isAutoCallEnabled: Bool {
+        guard let registeredCountryCode = PhoneNumberHelper.shared.registeredPhoneNumber()?.countryCode else {
+            return false // If there's no registered phone number, auto-call is not enabled
+        }
+        return _autoCallEnabledForCountryCodes.contains(Int(registeredCountryCode))
+    }
 
     init() {
         let currentConfiguration: Configuration? = UserDefaults.standard.fetch(forKey: Constants.CallRecorderDefaults.currentAppConfiguration)
@@ -52,6 +60,7 @@ public struct ConfigurationHelper {
         _reviewPromptOnStartup = currentConfiguration?.reviewPromptOnStartup ?? true
         _lifetimePlan = currentConfiguration?.lifetimePlan ?? false
         _lifetimePlanAllCountries = currentConfiguration?.lifetimePlanAllCountries ?? false
+        _autoCallEnabledForCountryCodes = currentConfiguration?.autoCallEnabledForCountryCodes ?? []
     }
     
     public mutating func update(config: Configuration) {
@@ -59,5 +68,9 @@ public struct ConfigurationHelper {
         _inReview = config.inReview
         _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration
         _reviewPromptOnStartup = config.reviewPromptOnStartup
+        _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration
+        _lifetimePlan = config.lifetimePlan
+        _lifetimePlanAllCountries = config.lifetimePlanAllCountries
+        _autoCallEnabledForCountryCodes = config.autoCallEnabledForCountryCodes
     }
 }

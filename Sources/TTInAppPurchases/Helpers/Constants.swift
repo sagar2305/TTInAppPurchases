@@ -91,8 +91,7 @@ public struct Constants {
         public static let deviceId = "DeviceID"
         public static let isUserOnBoarded = "IsUserOnBoardedd"
         public static let hasUserUsedInteractiveGuide = "HasUserUsedIntractiveGuide"
-        public static let sectionsKey = "CallRecorderSectionsKey"
-        public static let recentContactsListKey = "RecentContactssListKey"
+        public static let recentContactsSectionsKey = "CallRecorderRecentContactsSectionsKey"
         public static let recordingsFetchedDateKey = "CallRecorderRecordingsFetchedDateKey"
         public static let savedContactsKey = "CallRecorderSavedContactsKey"
         public static let verifiedNumberKey = "CallRecorderVerifiedNumberKey"
@@ -117,6 +116,7 @@ public struct Constants {
         public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
         public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
+        public static let lastFreeDailyCallDateKey = "LastFreeDailyCallDate"
     }
     
     public struct SettingsDefaults {
