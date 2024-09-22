@@ -21,7 +21,7 @@ public struct ConfigurationHelper {
     private var _autoCallEnabledForCountryCodes: [Int]
     
     public var minimumAppVersion: String {
-       return _minimumAppVersion
+        return _minimumAppVersion
     }
     
     public var inReview: Bool {
@@ -68,7 +68,6 @@ public struct ConfigurationHelper {
         _inReview = config.inReview
         _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration
         _reviewPromptOnStartup = config.reviewPromptOnStartup
-        _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration
         _lifetimePlan = config.lifetimePlan
         _lifetimePlanAllCountries = config.lifetimePlanAllCountries
         _autoCallEnabledForCountryCodes = config.autoCallEnabledForCountryCodes
