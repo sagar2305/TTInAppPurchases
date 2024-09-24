@@ -73,6 +73,7 @@ public struct Constants {
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
         public static let quadruple = "quadruple" // New offering for 4-option paywall
+        public static let fiveMinuteOffer = "fiveMinuteOffer"
     }
     
     public struct CallRecorder {

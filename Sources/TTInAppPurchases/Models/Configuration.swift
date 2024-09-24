@@ -14,7 +14,6 @@ public struct Configuration: Codable {
     public var inReview: Bool
     public var freeUserRecordingPlaybackDuration: Int
     public var reviewPromptOnStartup: Bool
-    public var lifetimePlan: Bool
-    public var lifetimePlanAllCountries: Bool
     public var autoCallEnabledForCountryCodes: [Int] // Changed from boolean to [Int]
+    public var fiveMinuteOfferCountries: [String] // New property
 }

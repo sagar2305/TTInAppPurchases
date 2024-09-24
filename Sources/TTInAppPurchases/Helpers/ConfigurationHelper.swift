@@ -16,10 +16,13 @@ public struct ConfigurationHelper {
     private var _inReview: Bool
     private var _freeUserRecordingPlaybackDuration: Int
     private var _reviewPromptOnStartup: Bool
-    private var _lifetimePlan: Bool
-    private var _lifetimePlanAllCountries: Bool
     private var _autoCallEnabledForCountryCodes: [Int]
-    
+    private var _fiveMinuteOfferCountries: [String] // New private variable
+
+    private var currentCountryCode: String? {
+        return SubscriptionHelper.shared.countryCode()
+    }
+
     public var minimumAppVersion: String {
         return _minimumAppVersion
     }
@@ -36,12 +39,11 @@ public struct ConfigurationHelper {
         return _reviewPromptOnStartup
     }
     
-    public var isLifetimePlanAvailable: Bool {
-        if SubscriptionHelper.shared.isIndianAppStore() {
-            return _lifetimePlan
-        } else {
-            return _lifetimePlanAllCountries
+    public func isFiveMinuteOfferAvailable() -> Bool {
+        guard let currentCountryCode = currentCountryCode else {
+            return false
         }
+        return _fiveMinuteOfferCountries.contains(currentCountryCode)
     }
     
     public var isAutoCallEnabled: Bool {
@@ -58,18 +60,17 @@ public struct ConfigurationHelper {
         _inReview = currentConfiguration?.inReview ?? false
         _freeUserRecordingPlaybackDuration = currentConfiguration?.freeUserRecordingPlaybackDuration ?? 15
         _reviewPromptOnStartup = currentConfiguration?.reviewPromptOnStartup ?? true
-        _lifetimePlan = currentConfiguration?.lifetimePlan ?? false
-        _lifetimePlanAllCountries = currentConfiguration?.lifetimePlanAllCountries ?? false
         _autoCallEnabledForCountryCodes = currentConfiguration?.autoCallEnabledForCountryCodes ?? []
+        _fiveMinuteOfferCountries = currentConfiguration?.fiveMinuteOfferCountries ?? [] // Initialize new property
     }
     
     public mutating func update(config: Configuration) {
+        _accessNumberVersion = config.accessNumberVersion
         _minimumAppVersion = config.minimumVersion
         _inReview = config.inReview
         _freeUserRecordingPlaybackDuration = config.freeUserRecordingPlaybackDuration
         _reviewPromptOnStartup = config.reviewPromptOnStartup
-        _lifetimePlan = config.lifetimePlan
-        _lifetimePlanAllCountries = config.lifetimePlanAllCountries
         _autoCallEnabledForCountryCodes = config.autoCallEnabledForCountryCodes
+        _fiveMinuteOfferCountries = config.fiveMinuteOfferCountries // Update new property
     }
 }
