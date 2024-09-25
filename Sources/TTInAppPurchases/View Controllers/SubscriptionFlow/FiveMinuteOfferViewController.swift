@@ -80,15 +80,14 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
-        NotificationCenter.default.addObserver(self, selector:
-                                                #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
-                                                    Notification.Name.iapProductsFetchedNotification,
-                                               object: nil)
-    }
-    
-    public override  func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        _configureOfferDescriptionView()
+        if fiveMinOfferUIProviderDelegate!.productsFetched() {
+            _configureSubscriptionButtonsAndLabels(notification: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector:
+                                                    #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
+                                                        Notification.Name.iapProductsFetchedNotification,
+                                                   object: nil)
+        }
     }
     
     @objc private func _configureSubscriptionButtonsAndLabels(notification: Notification?) {
@@ -237,15 +236,25 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureFeatureLabel() {
+        print("Configuring feature labels")
+        
         let bounds = UIScreen.main.bounds
         let style: UIFont.TextStyle = bounds.height > 812 ? .title3 : .callout
+        print("Using font style: \(style)")
         
         // Get the features using the allFeatures(for:) method
         let lifetimeOffer = fiveMinOfferUIProviderDelegate!.isLifetimeOffer()
-        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: lifetimeOffer) else { return }
+        print("Is lifetime offer: \(lifetimeOffer)")
+        
+        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: lifetimeOffer) else {
+            print("Error: Failed to get features from fiveMinOfferUIProviderDelegate")
+            return
+        }
+        print("Retrieved \(features.count) features")
         
         // Create an array of the feature labels
         let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
+        print("Number of feature labels: \(featureLabels.count)")
         
         // Iterate through the labels and configure them with the corresponding feature text
         for (index, label) in featureLabels.enumerated() {
@@ -254,10 +263,14 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
             // Ensure we don't access an out-of-bounds index in the features array
             if index < features.count {
                 label?.text = features[index]
+                print("Configured label \(index + 1) with text: \(features[index])")
             } else {
-                label?.text = "" // Or handle this case as appropriate
+                label?.text = ""
+                print("Label \(index + 1) set to empty string (no corresponding feature)")
             }
         }
+        
+        print("Feature label configuration completed")
     }
 
     
