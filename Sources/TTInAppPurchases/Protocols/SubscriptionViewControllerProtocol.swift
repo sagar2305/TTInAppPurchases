@@ -12,6 +12,5 @@ import Foundation
 public protocol SubscriptionViewControllerProtocol: UIViewController {
     var delegate: SubscriptionViewControllerDelegate? { get set }
     var uiProviderDelegate: UpgradeUIProviderDelegate? { get set }
-    var lifetimeOffer: Bool { get set }
     var hideCloseButton: Bool { get set }
 }

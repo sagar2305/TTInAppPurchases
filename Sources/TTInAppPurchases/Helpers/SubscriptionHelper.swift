@@ -60,8 +60,8 @@ public class SubscriptionHelper {
         return SKPaymentQueue.default().storefront?.countryCode
     }
     
-    public func isIndianAppStore() -> Bool {
-        return _countryCode == "IND"
+    public func countryCode() -> String? {
+        return _countryCode
     }
     
     private func _process(purchaserInfo: CustomerInfo?) {
