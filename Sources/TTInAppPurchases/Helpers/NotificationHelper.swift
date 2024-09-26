@@ -15,11 +15,11 @@ import NotificationPermission
 public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     public static let shared = NotificationHelper()
-    
+        
     private override init() { }
     
     // Function to configure Firebase and request notification permission
-    public func configureNotifications(for application: UIApplication) {
+    public func configureNotifications() {
         
         // Set FCM delegate
         Messaging.messaging().delegate = self
@@ -28,13 +28,6 @@ public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, Mes
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
         
-        Permission.notification.request {
-            if Permission.notification.authorized {
-                DispatchQueue.main.async {
-                    application.registerForRemoteNotifications()
-                }
-            }
-        }
     }
     
     // Handle receiving a new FCM token
@@ -42,6 +35,16 @@ public class NotificationHelper: NSObject, UNUserNotificationCenterDelegate, Mes
         // Save token or send it to your backend
         FirestoreHelper.shared.notificationToken = fcmToken ?? ""
         FirestoreHelper.shared.savePhoneNumberAndNotificationToken()
+    }
+    
+    public func askNotificationPermission(){
+        Permission.notification.request {
+            if Permission.notification.authorized {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
     }
     
     // UNUserNotificationCenterDelegate method to detect if app was opened via a notification
