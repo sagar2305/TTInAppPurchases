@@ -118,6 +118,8 @@ public struct Constants {
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
         public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
         public static let lastFreeDailyCallDateKey = "LastFreeDailyCallDate"
+        public static let firstAppLaunchTimeKey = "firstAppLaunchTimeKey"
+        public static let hasUserMadeFirstCall = "hasUserMadeFirstCall"
     }
     
     public struct SettingsDefaults {
