@@ -127,6 +127,13 @@ public struct Constants {
         public static let feedbackEmail = "support@eztape.app"
     }
     
+    public struct localPushNotificationText {
+        public static let titleForCall = "📞 Ready to Record Your Call?"
+        public static let subtitleForCall = "Try making your next call through the app to record automatically. Capture every detail effortlessly!"
+        public static let titleForPlayRecording = "🎧 Playback Your Call Recording!"
+        public static let subtitleForPlayRecording = "You made a call, but haven't listened to the recording. Check it out now in the Recordings tab!"
+    }
+    
     public struct API {
         public static let version = "v1"
         private static let _baseUrl = "https://api.eztape.app/" + version

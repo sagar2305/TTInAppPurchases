@@ -35,24 +35,32 @@ public class NotificationManager {
     public func scheduleLocalNotifications() {
         guard Permission.notification.authorized else { return }
         
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        saveFirstHomeScreenLaunchTime()
+        let hasUserMadeFirstCall = UserDefaults.standard.bool(forKey: Constants.CallRecorderDefaults.hasUserMadeFirstCall) ?? false
+        let hasUserPlayed = UserDefaults.standard.bool(forKey: Constants.CallRecorderDefaults.haveUserPlayedFirstRecordingKey) ?? false
         
-        let content = createNotificationContent()
-        
-        if let firstLaunchTime = getFirstLaunchTime() {
-            scheduleNotification(content: content, firstLaunchTime: firstLaunchTime)
+        if !hasUserMadeFirstCall || !hasUserPlayed {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            saveFirstHomeScreenLaunchTime()
+            
+            let content = createNotificationContent(callMade: hasUserMadeFirstCall, recordingPlayed: hasUserPlayed)
+            
+            if let firstLaunchTime = getFirstLaunchTime() {
+                scheduleNotification(content: content, firstLaunchTime: firstLaunchTime)
+            }
         }
     }
     
-    private func createNotificationContent() -> UNMutableNotificationContent {
+    private func createNotificationContent(callMade : Bool, recordingPlayed: Bool) -> UNMutableNotificationContent {
+        
         let content = UNMutableNotificationContent()
-        content.title = "Notification Title"
-        content.body = "This is a local notification"
+        content.title = !callMade ? Constants.localPushNotificationText.titleForCall : Constants.localPushNotificationText.titleForPlayRecording
+        content.body = !callMade ? Constants.localPushNotificationText.subtitleForCall : Constants.localPushNotificationText.subtitleForPlayRecording
         content.sound = UNNotificationSound.default
         return content
     }
+    
+    
     
     private func getFirstLaunchTime() -> Date? {
         let userDefaults = UserDefaults.standard
@@ -60,7 +68,7 @@ public class NotificationManager {
     }
     
     private func scheduleNotification(content: UNMutableNotificationContent, firstLaunchTime: Date) {
-        let triggerTime = 60 //60 * 60 * 12 // Example: 12 hours in seconds
+        let triggerTime = 60 //* 60 * 12 // Example: 12 hours in seconds
         let triggerDate = Date(timeInterval: TimeInterval(triggerTime), since: firstLaunchTime)
         
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerDate)
