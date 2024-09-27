@@ -118,7 +118,6 @@ public struct Constants {
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
         public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
         public static let lastFreeDailyCallDateKey = "LastFreeDailyCallDate"
-        public static let firstAppLaunchTimeKey = "firstAppLaunchTimeKey"
         public static let hasUserMadeFirstCall = "hasUserMadeFirstCall"
     }
     
@@ -129,9 +128,10 @@ public struct Constants {
     
     public struct localPushNotificationText {
         public static let titleForCall = "📞 Ready to Record Your Call?"
-        public static let subtitleForCall = "Try making your next call through the app to record automatically. Capture every detail effortlessly!"
-        public static let titleForPlayRecording = "🎧 Playback Your Call Recording!"
-        public static let subtitleForPlayRecording = "You made a call, but haven't listened to the recording. Check it out now in the Recordings tab!"
+        public static let subtitleForAutoCall = "Make your next call through the app, and it will record automatically!"
+        public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
+        public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
+        public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
     }
     
     public struct API {

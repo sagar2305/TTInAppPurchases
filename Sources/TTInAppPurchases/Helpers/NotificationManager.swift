@@ -25,54 +25,49 @@ public class NotificationManager {
         }
     }
     
-    private func saveFirstHomeScreenLaunchTime() {
-        let userDefaults = UserDefaults.standard
-        let currentTime = Date()
-        userDefaults.set(currentTime, forKey: Constants.CallRecorderDefaults.firstAppLaunchTimeKey)
-        userDefaults.synchronize()
-    }
-    
     public func scheduleLocalNotifications() {
         guard Permission.notification.authorized else { return }
         
         let hasUserMadeFirstCall = UserDefaults.standard.bool(forKey: Constants.CallRecorderDefaults.hasUserMadeFirstCall) ?? false
         let hasUserPlayed = UserDefaults.standard.bool(forKey: Constants.CallRecorderDefaults.haveUserPlayedFirstRecordingKey) ?? false
+        cancelLocalNotifications()
         
         if !hasUserMadeFirstCall || !hasUserPlayed {
-            let center = UNUserNotificationCenter.current()
-            center.removeAllPendingNotificationRequests()
-            saveFirstHomeScreenLaunchTime()
-            
             let content = createNotificationContent(callMade: hasUserMadeFirstCall, recordingPlayed: hasUserPlayed)
-            
-            if let firstLaunchTime = getFirstLaunchTime() {
-                scheduleNotification(content: content, firstLaunchTime: firstLaunchTime)
-            }
+            scheduleNotification(content: content)
         }
+    }
+    
+    public func cancelLocalNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
     }
     
     private func createNotificationContent(callMade : Bool, recordingPlayed: Bool) -> UNMutableNotificationContent {
         
         let content = UNMutableNotificationContent()
-        content.title = !callMade ? Constants.localPushNotificationText.titleForCall : Constants.localPushNotificationText.titleForPlayRecording
-        content.body = !callMade ? Constants.localPushNotificationText.subtitleForCall : Constants.localPushNotificationText.subtitleForPlayRecording
+        
+        if callMade {
+            content.title = Constants.localPushNotificationText.titleForPlayRecording
+            content.body = Constants.localPushNotificationText.subtitleForPlayRecording
+        } else {
+            content.title = Constants.localPushNotificationText.titleForCall
+            if ConfigurationHelper.shared.isAutoCallEnabled {
+                content.body = Constants.localPushNotificationText.subtitleForAutoCall
+            } else {
+                content.body = Constants.localPushNotificationText.subtitleForRegularCall
+            }
+        }
+
         content.sound = UNNotificationSound.default
         return content
     }
     
     
-    
-    private func getFirstLaunchTime() -> Date? {
-        let userDefaults = UserDefaults.standard
-        return userDefaults.object(forKey: Constants.CallRecorderDefaults.firstAppLaunchTimeKey) as? Date
-    }
-    
-    private func scheduleNotification(content: UNMutableNotificationContent, firstLaunchTime: Date) {
-        let triggerTime = 60 //* 60 * 12 // Example: 12 hours in seconds
-        let triggerDate = Date(timeInterval: TimeInterval(triggerTime), since: firstLaunchTime)
+    private func scheduleNotification(content: UNMutableNotificationContent) {
+        let triggerTime: TimeInterval = 60 * 60 * 12  // 12 hours in seconds
         
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerDate)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerTime, repeats: true)
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
