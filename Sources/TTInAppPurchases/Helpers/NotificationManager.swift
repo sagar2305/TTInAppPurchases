@@ -33,8 +33,11 @@ public class NotificationManager {
         cancelLocalNotifications()
         
         if !hasUserMadeFirstCall || !hasUserPlayed {
-            let content = createNotificationContent(callMade: hasUserMadeFirstCall, recordingPlayed: hasUserPlayed)
-            scheduleNotification(content: content)
+            let content = createNotificationContent(callMade: hasUserMadeFirstCall)
+            
+            scheduleNotificationOneHourAfter(content: content, date: Date())
+            schedule24HoursNotification(content: content)
+            
         }
     }
     
@@ -43,7 +46,7 @@ public class NotificationManager {
         center.removeAllPendingNotificationRequests()
     }
     
-    private func createNotificationContent(callMade : Bool, recordingPlayed: Bool) -> UNMutableNotificationContent {
+    private func createNotificationContent(callMade : Bool) -> UNMutableNotificationContent {
         
         let content = UNMutableNotificationContent()
         
@@ -58,18 +61,37 @@ public class NotificationManager {
                 content.body = Constants.localPushNotificationText.subtitleForRegularCall
             }
         }
-
+        
         content.sound = UNNotificationSound.default
         return content
     }
     
+    func scheduleNotificationOneHourAfter(content: UNMutableNotificationContent, date: Date) {
+        
+        // Set trigger for 1 hour later
+        
+        let triggerDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)!
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerDate.timeIntervalSinceNow, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: Constants.localPushNotificationText.oneHourNotificationIdentifier, content: content, trigger: trigger)
+        
+        // Add the notification request
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("Error scheduling notification: \(error)")
+            }else{
+                print("Notification scheduled successfully")
+                
+            }
+        }
+    }
     
-    private func scheduleNotification(content: UNMutableNotificationContent) {
-        let triggerTime: TimeInterval = 60 * 60 * 12  // 12 hours in seconds
+    private func schedule24HoursNotification(content: UNMutableNotificationContent) {
+        let triggerTime: TimeInterval = 60 * 60 * 24  // 24 hours in seconds
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerTime, repeats: true)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: Constants.localPushNotificationText.repeatingNotification24HoursIdentifier, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Error adding notification: \(error.localizedDescription)")

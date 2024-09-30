@@ -132,6 +132,9 @@ public struct Constants {
         public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
         public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
         public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
+        //        notification identifier
+        public static let repeatingNotification24HoursIdentifier = "repeatingNotification24HoursIdentifier"
+        public static let oneHourNotificationIdentifier = "oneHourNotificationIdentifier"
     }
     
     public struct API {
