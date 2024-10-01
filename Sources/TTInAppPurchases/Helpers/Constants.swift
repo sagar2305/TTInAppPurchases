@@ -118,11 +118,23 @@ public struct Constants {
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
         public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
         public static let lastFreeDailyCallDateKey = "LastFreeDailyCallDate"
+        public static let hasUserMadeFirstCall = "hasUserMadeFirstCall"
     }
     
     public struct SettingsDefaults {
         public static let isAppLaunch = "IsApplicationLaunch"
         public static let feedbackEmail = "support@eztape.app"
+    }
+    
+    public struct localPushNotificationText {
+        public static let titleForCall = "📞 Ready to Record Your Call?"
+        public static let subtitleForAutoCall = "Make your next call through the app, and it will record automatically!"
+        public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
+        public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
+        public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
+        //        notification identifier
+        public static let repeatingNotification24HoursIdentifier = "repeatingNotification24HoursIdentifier"
+        public static let oneHourNotificationIdentifier = "oneHourNotificationIdentifier"
     }
     
     public struct API {
