@@ -22,8 +22,9 @@ public protocol FiveMinuteOfferViewControllerDelegate: AnyObject {
 public protocol FiveMinuteOfferUIProviderDelegate: AnyObject {
     func productsFetched() -> Bool
     func originalPrice() -> String
-    func discountedPrice() -> String
+    func introductoryPrice() -> String
     func percentDiscount() -> String
+    func isLifetimeOffer() -> Bool
     func getOriginalPriceLifeTimeOffer() -> NSAttributedString
     func monthlyComputedDiscountPrice(withIntroDiscount: Bool, withDurationSuffix: Bool) -> String
     func allFeatures(lifetimeOffer: Bool) -> [String]
@@ -66,13 +67,11 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
         delegate?.viewDidLoad(self)
         _configureVerticalSpaceBetweenContinueAndFeatureList()
         _configureRestoreButton()
-        _configureOfferDescriptionAndSubheadingLabel()
         _configureOfferTimerLabel()
         _configureSaveExtraHeaderAndPercentageLabel()
         _configureActualPriceLabel()
         _configureDiscountedPriceLabel()
         _configureSavingBreakdownLabel()
-        _configureFeatureLabel()
         _configureContinueButton()
         _configurePrivacyPolicyAndTermsAndConditionLabel()
         _configureCancelButton()
@@ -81,18 +80,19 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     public override  func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         delegate?.viewWillAppear(self)
-        NotificationCenter.default.addObserver(self, selector:
-                                                #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
-                                                    Notification.Name.iapProductsFetchedNotification,
-                                               object: nil)
-    }
-    
-    public override  func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        _configureOfferDescriptionView()
+        if fiveMinOfferUIProviderDelegate!.productsFetched() {
+            _configureSubscriptionButtonsAndLabels(notification: nil)
+        } else {
+            NotificationCenter.default.addObserver(self, selector:
+                                                    #selector(_configureSubscriptionButtonsAndLabels(notification:)), name:
+                                                        Notification.Name.iapProductsFetchedNotification,
+                                                   object: nil)
+        }
     }
     
     @objc private func _configureSubscriptionButtonsAndLabels(notification: Notification?) {
+        _configureOfferDescriptionAndSubheadingLabel()
+        _configureFeatureLabel()
         _configureSaveExtraHeaderAndPercentageLabel()
         _configureOfferDescriptionView()
         _configureActualPriceLabel()
@@ -152,8 +152,10 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureOfferDescriptionAndSubheadingLabel() {
+        let lifetimeOffer = fiveMinOfferUIProviderDelegate!.isLifetimeOffer()
+        
         offerDescriptionLabel.configure(with: UIFont.font(.sofiaProBlack, style: .largeTitle))
-        offerDescriptionLabel.text = "LIFE \nTIME \nOFFER".localized
+        offerDescriptionLabel.text = lifetimeOffer ? "LIFE \nTIME \nOFFER".localized : "ONE \nTIME \nOFFER".localized 
         
         offerDescriptionSubheadingLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
         offerDescriptionSubheadingLabel.text = "ENDS IN".localized
@@ -164,7 +166,7 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureSaveExtraHeaderAndPercentageLabel() {
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if fiveMinOfferUIProviderDelegate!.isLifetimeOffer() {
             saveExtraHeaderLabel.text = "Save an extra".localized
             savingPercentageLabel.text = "70% OFF".localized
         } else {
@@ -181,7 +183,7 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureActualPriceLabel() {
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if fiveMinOfferUIProviderDelegate!.isLifetimeOffer() {
             actualPriceLabel .attributedText = fiveMinOfferUIProviderDelegate!.getOriginalPriceLifeTimeOffer()
         } else {
             actualPriceLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title3))
@@ -197,12 +199,12 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
         
         discountedPriceLabel.adjustsFontForContentSizeCategory = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if fiveMinOfferUIProviderDelegate!.isLifetimeOffer() {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .largeTitle)
             discountedPriceLabel.text = fiveMinOfferUIProviderDelegate!.originalPrice()
         } else {
-            discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .title2)
-            discountedPriceLabel.text = "NOW".localized + "\(fiveMinOfferUIProviderDelegate!.discountedPrice())"
+            discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .title1)
+            discountedPriceLabel.text = "\(fiveMinOfferUIProviderDelegate!.introductoryPrice())"
         }
     }
     
@@ -214,21 +216,19 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
         paragraphStyle.lineSpacing = 4
         paragraphStyle.alignment = .center
         
-        if ConfigurationHelper.shared.isLifetimePlanAvailable {
+        if fiveMinOfferUIProviderDelegate!.isLifetimeOffer() {
             savingBreakdownLabel.configure(with: UIFont.font(.sofiaProRegular, style: .title2))
             let attributedString = NSMutableAttributedString(string: "LIFETIME SUBSCRIPTION".localized)
             attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.string.count))
             savingBreakdownLabel.attributedText = attributedString
         } else {
-            let attributedString = NSMutableAttributedString(string: "For Life Time\n".localized)
-            let attributedString1 = NSMutableAttributedString(string: "only".localized)
-            let attributedString2 = NSMutableAttributedString(string: "\(fiveMinOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) / ",
+            let attributedString = NSMutableAttributedString(string: "only".localized)
+            let attributedString1 = NSMutableAttributedString(string: " \(fiveMinOfferUIProviderDelegate!.monthlyComputedDiscountPrice(withIntroDiscount: true, withDurationSuffix: false)) /",
                                                               attributes: [NSAttributedString.Key.font: blackFont])
-            let attributedString3 = NSMutableAttributedString(string: "month".localized, attributes: [NSAttributedString.Key.font: blackFont])
+            let attributedString2 = NSMutableAttributedString(string: "month".localized, attributes: [NSAttributedString.Key.font: blackFont])
             
             attributedString.append(attributedString1)
             attributedString.append(attributedString2)
-            attributedString.append(attributedString3)
             attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.string.count))
             savingBreakdownLabel.attributedText = attributedString
         }
@@ -236,14 +236,25 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureFeatureLabel() {
+        print("Configuring feature labels")
+        
         let bounds = UIScreen.main.bounds
         let style: UIFont.TextStyle = bounds.height > 812 ? .title3 : .callout
+        print("Using font style: \(style)")
         
         // Get the features using the allFeatures(for:) method
-        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: true) else { return }
+        let lifetimeOffer = fiveMinOfferUIProviderDelegate!.isLifetimeOffer()
+        print("Is lifetime offer: \(lifetimeOffer)")
+        
+        guard let features = fiveMinOfferUIProviderDelegate?.allFeatures(lifetimeOffer: lifetimeOffer) else {
+            print("Error: Failed to get features from fiveMinOfferUIProviderDelegate")
+            return
+        }
+        print("Retrieved \(features.count) features")
         
         // Create an array of the feature labels
         let featureLabels = [feature1Label, feature2Label, feature3Label, feature4Label]
+        print("Number of feature labels: \(featureLabels.count)")
         
         // Iterate through the labels and configure them with the corresponding feature text
         for (index, label) in featureLabels.enumerated() {
@@ -252,10 +263,14 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
             // Ensure we don't access an out-of-bounds index in the features array
             if index < features.count {
                 label?.text = features[index]
+                print("Configured label \(index + 1) with text: \(features[index])")
             } else {
-                label?.text = "" // Or handle this case as appropriate
+                label?.text = ""
+                print("Label \(index + 1) set to empty string (no corresponding feature)")
             }
         }
+        
+        print("Feature label configuration completed")
     }
 
     

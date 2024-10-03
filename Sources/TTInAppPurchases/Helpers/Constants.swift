@@ -73,6 +73,7 @@ public struct Constants {
         public static let lifetime = "lifetime"
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
         public static let quadruple = "quadruple" // New offering for 4-option paywall
+        public static let fiveMinuteOffer = "fiveMinuteOffer"
     }
     
     public struct CallRecorder {
@@ -84,6 +85,14 @@ public struct Constants {
     public struct FirebaseConstants {
         public static let hasUserMadeFirstFreeCall = "hasUserMadeFirstFreeCall"
         public static let callCountInTrialPeriod = "CallCountInTrailPeriod"
+        public static let userdata = "userdata"
+        public static let notificationToken = "notificationToken"
+        public static let appUserId = "appUserId"
+        //        notification type
+        public static let subscriptionCancelled = "subscription_cancelled"
+        public static let subscriptionExpired = "subscription_expired"
+        public static let billingIssue = "billing_issue"
+        public static let subscriptionPaused = "subscription_paused"
     }
     
     public struct CallRecorderDefaults {
@@ -91,8 +100,7 @@ public struct Constants {
         public static let deviceId = "DeviceID"
         public static let isUserOnBoarded = "IsUserOnBoardedd"
         public static let hasUserUsedInteractiveGuide = "HasUserUsedIntractiveGuide"
-        public static let sectionsKey = "CallRecorderSectionsKey"
-        public static let recentContactsListKey = "RecentContactssListKey"
+        public static let recentContactsSectionsKey = "CallRecorderRecentContactsSectionsKey"
         public static let recordingsFetchedDateKey = "CallRecorderRecordingsFetchedDateKey"
         public static let savedContactsKey = "CallRecorderSavedContactsKey"
         public static let verifiedNumberKey = "CallRecorderVerifiedNumberKey"
@@ -117,11 +125,24 @@ public struct Constants {
         public static let subscribedToServerFetchDateRecordChangesKey = "SubscribedToServerFetchDateRecordChangesKey"
         public static let deleteAnimationShownStatus = "deleteAnimationShownStatus"
         public static let homeScreenLifetimeOfferTapped = "homeScreenLifetimeOfferTapped"
+        public static let lastFreeDailyCallDateKey = "LastFreeDailyCallDate"
+        public static let hasUserMadeFirstCall = "hasUserMadeFirstCall"
     }
     
     public struct SettingsDefaults {
         public static let isAppLaunch = "IsApplicationLaunch"
         public static let feedbackEmail = "support@eztape.app"
+    }
+    
+    public struct localPushNotificationText {
+        public static let titleForCall = "📞 Ready to Record Your Call?"
+        public static let subtitleForAutoCall = "Make your next call through the app, and it will record automatically!"
+        public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
+        public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
+        public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
+        //        notification identifier
+        public static let repeatingNotification24HoursIdentifier = "repeatingNotification24HoursIdentifier"
+        public static let oneHourNotificationIdentifier = "oneHourNotificationIdentifier"
     }
     
     public struct API {

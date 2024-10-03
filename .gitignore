@@ -6,6 +6,9 @@
 build/
 DerivedData/
 .DS_Store
+*.xcworkspace/ 
+.swiftpm/
+TTInAppPurchases.xcworkspace/
 
 ## Various settings
 *.pbxuser
