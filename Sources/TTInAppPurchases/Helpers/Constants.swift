@@ -74,6 +74,7 @@ public struct Constants {
         public static let weeklyMonthlyAndAnnual = "weeklymonthlyandannual"
         public static let quadruple = "quadruple" // New offering for 4-option paywall
         public static let fiveMinuteOffer = "fiveMinuteOffer"
+        public static let lifetimeReduced = "lifetimeReduced"
     }
     
     public struct CallRecorder {
