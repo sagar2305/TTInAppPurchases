@@ -10,8 +10,10 @@ import PermissionsKit
 import NotificationPermission
 import UIKit
 import UserNotifications // Make sure to import UserNotifications
+import FirebaseMessaging
+import FirebaseCore
 
-public class NotificationManager {
+public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, MessagingDelegate {
     public static let shared = NotificationManager()
     
     // This will ask for notification permission
@@ -98,4 +100,48 @@ public class NotificationManager {
             }
         }
     }
+    
+    // Function to configure Firebase and request notification permission
+    public func configureNotifications() {
+        
+        // Set FCM delegate
+        Messaging.messaging().delegate = self
+        
+        // Configure UserNotifications
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
+        
+    }
+    
+    // Handle receiving a new FCM token
+    public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        // Save token or send it to your backend
+        FirestoreHelper.shared.notificationToken = fcmToken ?? ""
+        FirestoreHelper.shared.savePhoneNumberAndNotificationToken()
+    }
+    
+    // UNUserNotificationCenterDelegate method to detect if app was opened via a notification
+    public func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                       didReceive response: UNNotificationResponse,
+                                       withCompletionHandler completionHandler: @escaping () -> Void) {
+        let defaults = UserDefaults.standard
+        let identifier = response.notification.request.identifier
+        
+        let hasUserMadeFirstCall = defaults.bool(forKey: Constants.CallRecorderDefaults.hasUserMadeFirstCall) ?? false
+        if identifier == Constants.localPushNotificationText.oneHourNotificationIdentifier || identifier == Constants.localPushNotificationText.repeatingNotification24HoursIdentifier {
+            if hasUserMadeFirstCall {
+                if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+                   let tabBarController = window.rootViewController as? UITabBarController {
+                    tabBarController.selectedIndex = 1 // Assuming the recordings tab is at index 1
+                }
+            }
+        } else {
+            let userInfo = response.notification.request.content.userInfo
+            FirestoreHelper.shared.isAppOpenedFromNotification = true
+            FirestoreHelper.shared.notificationType = userInfo["type"]! as! String
+        }
+        
+        completionHandler()
+    }
+
 }
