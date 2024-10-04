@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -174,10 +174,10 @@
                                     </constraints>
                                 </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NGy-nD-3l8" userLabel="FeatureStackViewContainer">
-                                    <rect key="frame" x="0.0" y="400" width="414" height="300"/>
+                                    <rect key="frame" x="0.0" y="400" width="414" height="274"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="iHV-8U-DDV">
-                                            <rect key="frame" x="16" y="96" width="382" height="108"/>
+                                            <rect key="frame" x="16" y="83" width="382" height="108"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Feature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-AG-PFP">
                                                     <rect key="frame" x="161.5" y="0.0" width="59.5" height="24"/>
@@ -233,7 +233,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lwt-Rw-XMU">
-                                    <rect key="frame" x="16" y="700" width="382" height="52"/>
+                                    <rect key="frame" x="16" y="674" width="382" height="52"/>
                                     <color key="backgroundColor" systemColor="systemGreenColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="52" id="g8F-JO-gW4"/>
@@ -250,8 +250,8 @@
                                         <action selector="continueWithOffer:" destination="-1" eventType="touchUpInside" id="2in-fw-5gm"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMq-9c-RzX">
-                                    <rect key="frame" x="16" y="762" width="382" height="42"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMq-9c-RzX" userLabel="TandCLabel">
+                                    <rect key="frame" x="16" y="736" width="382" height="42"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="42" id="WLm-DA-Aqw"/>
                                     </constraints>
@@ -285,7 +285,7 @@
                                 <constraint firstItem="lwt-Rw-XMU" firstAttribute="top" secondItem="NGy-nD-3l8" secondAttribute="bottom" id="aof-Yt-seU"/>
                                 <constraint firstItem="gVD-N4-5iO" firstAttribute="leading" secondItem="0AU-Ob-Ldd" secondAttribute="leading" id="gdV-9e-Bxz"/>
                                 <constraint firstAttribute="trailing" secondItem="ozV-p7-BX8" secondAttribute="trailing" constant="16" id="h3T-KD-iaV"/>
-                                <constraint firstAttribute="bottomMargin" secondItem="RMq-9c-RzX" secondAttribute="bottom" constant="16" id="hzc-HM-Hai"/>
+                                <constraint firstItem="0AU-Ob-Ldd" firstAttribute="bottom" secondItem="RMq-9c-RzX" secondAttribute="bottom" constant="50" id="hzc-HM-Hai"/>
                                 <constraint firstAttribute="trailing" secondItem="oJq-81-K1K" secondAttribute="trailing" constant="32" id="kZD-Pr-Vc7"/>
                                 <constraint firstAttribute="trailing" secondItem="lwt-Rw-XMU" secondAttribute="trailing" constant="16" id="nhH-iv-EvN"/>
                                 <constraint firstItem="J5d-Be-Xdz" firstAttribute="leading" secondItem="2n5-I4-BvY" secondAttribute="leading" constant="16" id="o9g-K0-yO9"/>
@@ -334,10 +334,10 @@
             <color red="0.49799999594688416" green="0.49799999594688416" blue="0.49799999594688416" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

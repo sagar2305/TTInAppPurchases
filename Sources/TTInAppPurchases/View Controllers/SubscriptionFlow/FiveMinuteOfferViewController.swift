@@ -196,14 +196,14 @@ public class FiveMinuteOfferViewController: UIViewController, FiveMinuteOfferVie
     }
     
     private func _configureDiscountedPriceLabel() {
-        
+        let screenWidth = UIScreen.main.bounds.width
         discountedPriceLabel.adjustsFontForContentSizeCategory = true
         discountedPriceLabel.adjustsFontSizeToFitWidth = true
         if fiveMinOfferUIProviderDelegate!.isLifetimeOffer() {
             discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .largeTitle)
             discountedPriceLabel.text = fiveMinOfferUIProviderDelegate!.originalPrice()
         } else {
-            discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: .title1)
+            discountedPriceLabel.font = UIFont.font(.sofiaProBlack, style: screenWidth > 375 ? .title1 :.title2)
             discountedPriceLabel.text = "\(fiveMinOfferUIProviderDelegate!.introductoryPrice())"
         }
     }
