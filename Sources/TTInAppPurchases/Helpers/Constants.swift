@@ -36,6 +36,12 @@ public struct Constants {
     public struct RevenueCat {
         public static let apiKey = "MoLhuBBtzrRhsnUcqvRjHffckdYwfUEX"
     }
+
+    public struct PostHog {
+        public static let apiKey = "phc_vHVRbTCmpwFSkfkKdr2oJ0DmA7IMCKTzFkN1BsahKaS"
+        public static let host = "https://us.i.posthog.com"
+        public static let dateOfFirstLogIn = "date_of_first_log_in"
+    }
     
     public struct Qonversion {
         public static let apiKey = "w0vcdbHWssRpyzklG24RvbAR3t9fDYXz"
