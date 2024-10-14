@@ -15,6 +15,8 @@ import PhoneNumberKit
 import SwiftDate
 import Amplitude
 import Mixpanel
+import PostHog
+
 //import AppsFlyerLib
 public class AnalyticsHelper {
 
@@ -29,6 +31,7 @@ public class AnalyticsHelper {
 
     private init() {
         Amplitude.instance().defaultTracking.sessions = true
+        configurePostHog()
     }
     
     // MARK: - Properties
@@ -42,6 +45,8 @@ public class AnalyticsHelper {
     
     public func setUserId(_ userId: String) {
         amplitudeInstance.setUserId(userId, startNewSession: false)
+        PostHogSDK.shared.identify("\(userId)",
+                                   userPropertiesSetOnce: [Constants.PostHog.dateOfFirstLogIn: Date().toISO()])
         if !shouldLogMixPanelEvents { return }
         mixpanelInstance.identify(distinctId: userId)
 //        AppsFlyerLib.shared().customerUserID = userId
@@ -50,6 +55,7 @@ public class AnalyticsHelper {
     // MARK: - Event Logging
     public func logEvent(_ event: String) {
         amplitudeInstance.logEvent(event)
+        PostHogSDK.shared.capture(event)
         if !shouldLogMixPanelEvents { return }
         mixpanelInstance.track(event: event)
 //        AppsFlyerHelper.shared.logEvent(event: event, properties: nil)
@@ -57,6 +63,7 @@ public class AnalyticsHelper {
     
     public func logEvent(_ type: Constants.AnalyticsEvent) {
         amplitudeInstance.logEvent(type.rawValue)
+        PostHogSDK.shared.capture(type.rawValue)
         if !shouldLogMixPanelEvents { return }
         mixpanelInstance.track(event: type.rawValue)
 //        AppsFlyerHelper.shared.logEvent(event: type.rawValue, properties: nil)
@@ -64,6 +71,10 @@ public class AnalyticsHelper {
     
     public func logEvent(_ type: Constants.AnalyticsEvent, properties: [Constants.AnalyticsEventProperties: Any]) {
         amplitudeInstance.logEvent(type.rawValue, withEventProperties: properties)
+        let stringProperties = properties.reduce(into: [String: Any]()) { (result, pair) in
+            result[pair.key.rawValue] = pair.value
+        }
+        PostHogSDK.shared.capture(type.rawValue, properties: stringProperties)
         if !shouldLogMixPanelEvents { return }
         let mixpanelProperties = properties.reduce([:]) { (propertiesSoFar, arg1) -> [String: MixpanelType] in
             let (key, value) = arg1
@@ -96,4 +107,30 @@ public class AnalyticsHelper {
         }
         mixpanelInstance.people.set(properties: mixpanelProperties)
     }
+    
+    //    MARK: - Configuration
+        
+        // Sets the PostHog API Key
+        private func configurePostHog() {
+            let config = PostHogConfig(apiKey: Constants.PostHog.apiKey, host: Constants.PostHog.host)
+            config.sessionReplay = true
+            config.sessionReplayConfig.maskAllImages = false
+            config.sessionReplayConfig.maskAllTextInputs = false
+            config.sessionReplayConfig.screenshotMode = true
+            config.sessionReplayConfig.debouncerDelay = 1.0
+            PostHogSDK.shared.setup(config)
+        }
+        
+        // MARK: Screen Recording
+        
+        public func startScreenRecordingPostHog() {
+            let config = PostHogConfig(apiKey: Constants.PostHog.apiKey, host: Constants.PostHog.host)
+            config.captureScreenViews = true
+            PostHogSDK.shared.startSession()
+        }
+        
+        public func stopScreenRecordingPostHog(){
+            let config = PostHogConfig(apiKey: Constants.PostHog.apiKey, host: Constants.PostHog.host)
+            config.captureScreenViews = false
+        }
 }
