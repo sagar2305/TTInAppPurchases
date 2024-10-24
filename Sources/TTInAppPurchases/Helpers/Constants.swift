@@ -147,9 +147,17 @@ public struct Constants {
         public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
         public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
         public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
-        //        notification identifier
-        public static let repeatingNotification24HoursIdentifier = "repeatingNotification24HoursIdentifier"
-        public static let oneHourNotificationIdentifier = "oneHourNotificationIdentifier"
+        // notification identifier
+        public static let makeCallOneHourNotificationIdentifier = "makeCallOneHourNotificationIdentifier"
+        public static let makeCallRepeatingNotificationIdentifier = "makeCallRepeatingNotificationIdentifier"
+        public static let listenRecordingOneHourNotificationIdentifier = "listenRecordingOneHourNotificationIdentifier"
+        public static let listenRecordingRepeatingNotificationIdentifier = "listenRecordingRepeatingNotificationIdentifier"
+        
+        public static let subscriptionCancelled = "subscription_cancelled"
+        public static let subscriptionExpired = "subscription_expired"
+        public static let billingIssue = "billing_issue"
+        public static let subscriptionPaused = "subscription_paused"
+
     }
     
     public struct API {
@@ -320,6 +328,22 @@ public struct Constants {
         case recordingDeletedLocally = "Recording Deleted Locally"
         case apiCalledForFetchingRecords = "Recordings API Called"
         case responseReceivedFromRecordingsAPI = "Recordings API Responded"
+        
+        //Local Notification
+        case makeCallNotificationsScheduled = "Make Call Notification Scheduled For Both 1 Hours And 24 Hours Repeating Notification"
+        case makeCallNotificationScheduledForOneHourTapped = "Make Call Notification Scheduled For One Hour, Tapped"
+        case makeCallNotificationScheduledFor24HourTapped = "Make Call Recording Notification Scheduled For 24 Hour, Tapped"
+        
+        case listenRecordigNotificationsScheduled = "Listen Recording Notification Scheduled For Both 1 Hours And 24 Hours Repeating Notification"
+        case listenRecordigNotificationScheduledForOneHourTapped = "Listen Recording Notification Scheduled For One Hour, Tapped"
+        case listenRecordigNotificationScheduledFor24HourTapped = "Listen Recording Recording Notification Scheduled For 24 Hour, Tapped"
+        
+        case subsciptionCancelledNotificationTapped = "Subscription Cancelled Notification Tapped"
+        case subsciptionExpiredNotificationTapped = "Subscription Expired Notification Tapped"
+        case subsciptionPausedNotificationTapped = "Subscription Paused Notification Tapped"
+        case subsciptionBillingIssueNotificationTapped = "Subscription Billing Issue Notification Tapped"
+        
+        case cancelledAllSheduledNotification = "Cancelled All Scheduled Notifications"
         
     }
 

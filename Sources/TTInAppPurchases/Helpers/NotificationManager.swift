@@ -22,12 +22,12 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
             guard Permission.notification.authorized else { return }
             DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
-                self?.scheduleLocalNotifications()
+                self?.scheduleLocalNotifications(isForRecording: false)
             }
         }
     }
     
-    public func scheduleLocalNotifications() {
+    public func scheduleLocalNotifications(isForRecording: Bool) {
         guard Permission.notification.authorized else { return }
         
         let hasUserMadeFirstCall = UserDefaults.standard.bool(forKey: Constants.CallRecorderDefaults.hasUserMadeFirstCall) ?? false
@@ -37,8 +37,16 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
         if !hasUserMadeFirstCall || !hasUserPlayed {
             let content = createNotificationContent(callMade: hasUserMadeFirstCall)
             
-            scheduleNotificationOneHourAfter(content: content, date: Date())
-            schedule24HoursNotification(content: content)
+            if(isForRecording){
+                scheduleNotificationOneHourAfter(content: content, date: Date(), notificationIdenifier: Constants.localPushNotificationText.listenRecordingOneHourNotificationIdentifier)
+                schedule24HoursNotification(content: content, notificationIdentifier: Constants.localPushNotificationText.listenRecordingRepeatingNotificationIdentifier)
+                AnalyticsHelper.shared.logEvent(.listenRecordigNotificationsScheduled)
+            }else{
+                scheduleNotificationOneHourAfter(content: content, date: Date(), notificationIdenifier: Constants.localPushNotificationText.makeCallOneHourNotificationIdentifier)
+                schedule24HoursNotification(content: content, notificationIdentifier: Constants.localPushNotificationText.makeCallRepeatingNotificationIdentifier)
+                AnalyticsHelper.shared.logEvent(.makeCallNotificationsScheduled)
+            }
+            
             
         }
     }
@@ -46,6 +54,7 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
     public func cancelLocalNotifications() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
+        AnalyticsHelper.shared.logEvent(.cancelledAllSheduledNotification)
     }
     
     private func createNotificationContent(callMade : Bool) -> UNMutableNotificationContent {
@@ -68,14 +77,14 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
         return content
     }
     
-    func scheduleNotificationOneHourAfter(content: UNMutableNotificationContent, date: Date) {
+    func scheduleNotificationOneHourAfter(content: UNMutableNotificationContent, date: Date, notificationIdenifier: String) {
         
         // Set trigger for 1 hour later
         
         let triggerDate = Calendar.current.date(byAdding: .hour, value: 1, to: date)!
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerDate.timeIntervalSinceNow, repeats: false)
         
-        let request = UNNotificationRequest(identifier: Constants.localPushNotificationText.oneHourNotificationIdentifier, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: notificationIdenifier, content: content, trigger: trigger)
         
         // Add the notification request
         UNUserNotificationCenter.current().add(request) { (error) in
@@ -88,12 +97,12 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
         }
     }
     
-    private func schedule24HoursNotification(content: UNMutableNotificationContent) {
+    private func schedule24HoursNotification(content: UNMutableNotificationContent, notificationIdentifier: String) {
         let triggerTime: TimeInterval = 60 * 60 * 24  // 24 hours in seconds
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerTime, repeats: true)
         
-        let request = UNNotificationRequest(identifier: Constants.localPushNotificationText.repeatingNotification24HoursIdentifier, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: notificationIdentifier, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Error adding notification: \(error.localizedDescription)")
@@ -125,10 +134,10 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
                                        didReceive response: UNNotificationResponse,
                                        withCompletionHandler completionHandler: @escaping () -> Void) {
         let defaults = UserDefaults.standard
-        let identifier = response.notification.request.identifier
+        var identifier = response.notification.request.identifier
         
         let hasUserMadeFirstCall = defaults.bool(forKey: Constants.CallRecorderDefaults.hasUserMadeFirstCall) ?? false
-        if identifier == Constants.localPushNotificationText.oneHourNotificationIdentifier || identifier == Constants.localPushNotificationText.repeatingNotification24HoursIdentifier {
+        if [Constants.localPushNotificationText.makeCallOneHourNotificationIdentifier, Constants.localPushNotificationText.makeCallRepeatingNotificationIdentifier, Constants.localPushNotificationText.listenRecordingOneHourNotificationIdentifier, Constants.localPushNotificationText.listenRecordingRepeatingNotificationIdentifier].contains(identifier) {
             if hasUserMadeFirstCall {
                 if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
                    let tabBarController = window.rootViewController as? UITabBarController {
@@ -139,9 +148,43 @@ public class NotificationManager : NSObject, UNUserNotificationCenterDelegate, M
             let userInfo = response.notification.request.content.userInfo
             FirestoreHelper.shared.isAppOpenedFromNotification = true
             FirestoreHelper.shared.notificationType = userInfo["type"]! as! String
+            identifier = FirestoreHelper.shared.notificationType
         }
         
+        logDifferentTypeOfNotificationTapEvents(identifier: identifier)
         completionHandler()
+    }
+    
+    private func logDifferentTypeOfNotificationTapEvents(identifier: String) {
+        print(identifier)
+        switch identifier {
+        case Constants.localPushNotificationText.makeCallOneHourNotificationIdentifier:
+            AnalyticsHelper.shared.logEvent(.makeCallNotificationScheduledForOneHourTapped)
+            break;
+        case Constants.localPushNotificationText.makeCallRepeatingNotificationIdentifier:
+            AnalyticsHelper.shared.logEvent(.makeCallNotificationScheduledFor24HourTapped)
+            break;
+        case Constants.localPushNotificationText.listenRecordingOneHourNotificationIdentifier:
+            AnalyticsHelper.shared.logEvent(.listenRecordigNotificationScheduledForOneHourTapped)
+            break;
+        case Constants.localPushNotificationText.listenRecordingRepeatingNotificationIdentifier:
+            AnalyticsHelper.shared.logEvent(.listenRecordigNotificationScheduledFor24HourTapped)
+            break;
+        case Constants.localPushNotificationText.subscriptionCancelled:
+            AnalyticsHelper.shared.logEvent(.subsciptionCancelledNotificationTapped)
+            break;
+        case Constants.localPushNotificationText.subscriptionExpired:
+            AnalyticsHelper.shared.logEvent(.subsciptionExpiredNotificationTapped)
+            break;
+        case Constants.localPushNotificationText.billingIssue:
+            AnalyticsHelper.shared.logEvent(.subsciptionBillingIssueNotificationTapped)
+            break;
+        case Constants.localPushNotificationText.subscriptionPaused:
+            AnalyticsHelper.shared.logEvent(.subsciptionPausedNotificationTapped)
+            break;
+        default:
+            break
+        }
     }
 
 }
