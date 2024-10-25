@@ -215,6 +215,9 @@ public struct Constants {
         }
         
         //Onboarding and registration
+        case onboardingFirstScreen = "Onboarding - First Screen"
+        case onboardingSecondScreen = "Onboarding - Second Screen"
+        case onboardingThirdScreen = "Onboarding - Third Screen"
         case skipOnboarding = "Onboarding - Skipped How-to flow"
         case internetRequiredScreen = "Viewed Internet Required Screen"
         case outgoingCallHowtoScreen = "Viewed Outgoing Calls How-to Screen"
