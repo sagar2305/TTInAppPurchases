@@ -45,6 +45,7 @@ public class SingleOptionPaywallViewController: UIViewController, SubscriptionVi
         }
     }
     public var hideCloseButton: Bool = false
+    public var isFromCancelSubscription: Bool = false
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -273,6 +274,9 @@ public class SingleOptionPaywallViewController: UIViewController, SubscriptionVi
     }
     
     @IBAction func didTapCancelButton(_ sender: UIButton) {
+        if isFromCancelSubscription {
+            delegate?.openRefundLinkOrChat(self)
+        }
         delegate?.exit(self)
     }
     
