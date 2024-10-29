@@ -322,6 +322,11 @@ public struct Constants {
         case apiCalledForFetchingRecords = "Recordings API Called"
         case responseReceivedFromRecordingsAPI = "Recordings API Responded"
         
+        // Cancel subscription Events
+        case cancellationReasonTooExpensive = "Subscription Cancellation - Too Expensive"
+        case cancellationReasonNoLongerNeeded = "Subscription Cancellation - No Longer Needed"
+        case cancellationReasonUsingOtherSoftware = " Subscription Cancellation - Using other software"
+        case cancellationReasonOther = "Subscription Cancellation - Other"
     }
 
     public enum AnalyticsEventProperties: String, CustomStringConvertible {
