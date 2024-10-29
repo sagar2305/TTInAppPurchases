@@ -348,6 +348,13 @@ public struct Constants {
         
         case cancelledAllSheduledNotification = "Cancelled All Scheduled Notifications"
         
+        case visitedLoginScreen = "Visited Login Screen"
+        case transcribeButtonTapped = "Transcribe Button Tapped"
+        case playRecordingForwardButtonTapped = "Play Recording Forward Button Tapped"
+        case playRecordingBackwardButtonTapped = "Play Recording Backward Button Tapped"
+        case shareRecordingButtonFromPlayRecordingScreenTapped = "Share Recording Button Tapped From Play Recording Screen Tapped"
+        case searchRecordingTextFieldFocused = "Search Recording Text Field Focused"
+        case outgoingCallContactPageVisited = "Outgoing Call Contact Page Visited"
     }
 
     public enum AnalyticsEventProperties: String, CustomStringConvertible {
