@@ -355,6 +355,24 @@ public struct Constants {
         case shareRecordingButtonFromPlayRecordingScreenTapped = "Share Recording Button Tapped From Play Recording Screen Tapped"
         case searchRecordingTextFieldFocused = "Search Recording Text Field Focused"
         case outgoingCallContactPageVisited = "Outgoing Call Contact Page Visited"
+        
+        //  Setting screen events
+        case settingScreenAccessNumber = "Setting Screen Access Number Tapped"
+        case settingScreenHowToRecordACall = "Setting Screen How To Record A Call Tapped"
+        case settingScreenInviteFriends = "Setting Screen Invite Friends Tapped"
+        case settingScreenCallRecordingLaw = "Setting Screen Call Recording Law Tapped"
+        case settingScreenUpgrade = "Setting Screen Upgrade Tapped"
+        case settingScreenRestorePurchases = "Setting Screen Restore Purchases Tapped"
+        case settingCancelSubscription = "Setting Screen Cancel Subscription Tapped"
+        case settingScreenLiveChat = "Setting Screen Live Chat Tapped"
+        case settingScreenFeatureRequest = "Setting Screen Feature Request Tapped"
+        case settingScreenAccessNumberRequest = "Setting Screen Access Number Request Tapped"
+        case settingScreenReportABug = "Setting Screen Report A Bug Tapped"
+        case settingScreenTermsAndConditions = "Setting Screen Terms And Conditions Tapped"
+        case settingScreenPrivacyPolicy = "Setting Screen Privacy Policy Tapped"
+        
+        case contactAccessPermissionGranted = "Contact Access Permission Granted"
+        case contactAccessPermissionDenied = "Contact Access Permission Denied"
     }
 
     public enum AnalyticsEventProperties: String, CustomStringConvertible {
