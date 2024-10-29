@@ -124,7 +124,7 @@ public class SingleOptionPaywallViewController: UIViewController, SubscriptionVi
     }
     
     private func _configurePrimaryHeaderLabel() {
-        if lifetimeOffer {
+        if lifetimeOffer || isFromCancelSubscription {
             primaryHeaderLabel.text = "Exclusive One-Time Offer!".localized.capitalized
         } else {
             primaryHeaderLabel.text = uiProviderDelegate?.headerMessage(for: _index)
