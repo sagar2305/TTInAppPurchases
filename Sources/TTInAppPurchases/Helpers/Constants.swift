@@ -81,6 +81,7 @@ public struct Constants {
         public static let quadruple = "quadruple" // New offering for 4-option paywall
         public static let fiveMinuteOffer = "fiveMinuteOffer"
         public static let lifetimeReduced = "lifetimeReduced"
+        public static let cancelOffer = "cancelOffer"
     }
     
     public struct CallRecorder {
@@ -364,7 +365,7 @@ public struct Constants {
         case settingScreenUpgrade = "Setting Screen Upgrade Tapped"
         case settingScreenRestorePurchases = "Setting Screen Restore Purchases Tapped"
         case settingCancelSubscription = "Setting Screen Cancel Subscription Tapped"
-        case settingScreenLiveChat = "Setting Screen Live Chat Tapped"
+        case settingScreenNeedHelp = "Setting Screen Need Help Tapped"
         case settingScreenFeatureRequest = "Setting Screen Feature Request Tapped"
         case settingScreenAccessNumberRequest = "Setting Screen Access Number Request Tapped"
         case settingScreenReportABug = "Setting Screen Report A Bug Tapped"
@@ -373,6 +374,11 @@ public struct Constants {
         
         case contactAccessPermissionGranted = "Contact Access Permission Granted"
         case contactAccessPermissionDenied = "Contact Access Permission Denied"
+        // Cancel subscription Events
+        case cancellationReasonTooExpensive = "Subscription Cancellation - Too Expensive"
+        case cancellationReasonNoLongerNeeded = "Subscription Cancellation - No Longer Needed"
+        case cancellationReasonUsingOtherSoftware = " Subscription Cancellation - Using other software"
+        case cancellationReasonOther = "Subscription Cancellation - Other"
     }
 
     public enum AnalyticsEventProperties: String, CustomStringConvertible {
