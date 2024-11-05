@@ -81,6 +81,7 @@ public struct Constants {
         public static let quadruple = "quadruple" // New offering for 4-option paywall
         public static let fiveMinuteOffer = "fiveMinuteOffer"
         public static let lifetimeReduced = "lifetimeReduced"
+        public static let cancelOffer = "cancelOffer"
     }
     
     public struct CallRecorder {
@@ -147,9 +148,17 @@ public struct Constants {
         public static let subtitleForRegularCall = "Head over to the app to make your first recording!"
         public static let titleForPlayRecording = "🎧 Play Back Your Call Recording!"
         public static let subtitleForPlayRecording = "You haven't listened to your call recording yet. Check it out in the Recordings tab!"
-        //        notification identifier
-        public static let repeatingNotification24HoursIdentifier = "repeatingNotification24HoursIdentifier"
-        public static let oneHourNotificationIdentifier = "oneHourNotificationIdentifier"
+        // notification identifier
+        public static let makeCallOneHourNotificationIdentifier = "makeCallOneHourNotificationIdentifier"
+        public static let makeCallRepeatingNotificationIdentifier = "makeCallRepeatingNotificationIdentifier"
+        public static let listenRecordingOneHourNotificationIdentifier = "listenRecordingOneHourNotificationIdentifier"
+        public static let listenRecordingRepeatingNotificationIdentifier = "listenRecordingRepeatingNotificationIdentifier"
+        
+        public static let subscriptionCancelled = "subscription_cancelled"
+        public static let subscriptionExpired = "subscription_expired"
+        public static let billingIssue = "billing_issue"
+        public static let subscriptionPaused = "subscription_paused"
+
     }
     
     public struct API {
@@ -207,6 +216,9 @@ public struct Constants {
         }
         
         //Onboarding and registration
+        case onboardingFirstScreen = "Onboarding - First Screen"
+        case onboardingSecondScreen = "Onboarding - Second Screen"
+        case onboardingThirdScreen = "Onboarding - Third Screen"
         case skipOnboarding = "Onboarding - Skipped How-to flow"
         case internetRequiredScreen = "Viewed Internet Required Screen"
         case outgoingCallHowtoScreen = "Viewed Outgoing Calls How-to Screen"
@@ -321,6 +333,52 @@ public struct Constants {
         case apiCalledForFetchingRecords = "Recordings API Called"
         case responseReceivedFromRecordingsAPI = "Recordings API Responded"
         
+        //Local Notification
+        case makeCallNotificationsScheduled = "Make Call Notification Scheduled For Both 1 Hours And 24 Hours Repeating Notification"
+        case makeCallNotificationScheduledForOneHourTapped = "Make Call Notification Scheduled For One Hour, Tapped"
+        case makeCallNotificationScheduledFor24HourTapped = "Make Call Recording Notification Scheduled For 24 Hour, Tapped"
+        
+        case listenRecordigNotificationsScheduled = "Listen Recording Notification Scheduled For Both 1 Hours And 24 Hours Repeating Notification"
+        case listenRecordigNotificationScheduledForOneHourTapped = "Listen Recording Notification Scheduled For One Hour, Tapped"
+        case listenRecordigNotificationScheduledFor24HourTapped = "Listen Recording Recording Notification Scheduled For 24 Hour, Tapped"
+        
+        case subsciptionCancelledNotificationTapped = "Subscription Cancelled Notification Tapped"
+        case subsciptionExpiredNotificationTapped = "Subscription Expired Notification Tapped"
+        case subsciptionPausedNotificationTapped = "Subscription Paused Notification Tapped"
+        case subsciptionBillingIssueNotificationTapped = "Subscription Billing Issue Notification Tapped"
+        
+        case cancelledAllSheduledNotification = "Cancelled All Scheduled Notifications"
+        
+        case visitedLoginScreen = "Visited Login Screen"
+        case transcribeButtonTapped = "Transcribe Button Tapped"
+        case playRecordingForwardButtonTapped = "Play Recording Forward Button Tapped"
+        case playRecordingBackwardButtonTapped = "Play Recording Backward Button Tapped"
+        case shareRecordingButtonFromPlayRecordingScreenTapped = "Share Recording Button Tapped From Play Recording Screen Tapped"
+        case searchRecordingTextFieldFocused = "Search Recording Text Field Focused"
+        case outgoingCallContactPageVisited = "Outgoing Call Contact Page Visited"
+        
+        //  Setting screen events
+        case settingScreenAccessNumber = "Setting Screen Access Number Tapped"
+        case settingScreenHowToRecordACall = "Setting Screen How To Record A Call Tapped"
+        case settingScreenInviteFriends = "Setting Screen Invite Friends Tapped"
+        case settingScreenCallRecordingLaw = "Setting Screen Call Recording Law Tapped"
+        case settingScreenUpgrade = "Setting Screen Upgrade Tapped"
+        case settingScreenRestorePurchases = "Setting Screen Restore Purchases Tapped"
+        case settingCancelSubscription = "Setting Screen Cancel Subscription Tapped"
+        case settingScreenNeedHelp = "Setting Screen Need Help Tapped"
+        case settingScreenFeatureRequest = "Setting Screen Feature Request Tapped"
+        case settingScreenAccessNumberRequest = "Setting Screen Access Number Request Tapped"
+        case settingScreenReportABug = "Setting Screen Report A Bug Tapped"
+        case settingScreenTermsAndConditions = "Setting Screen Terms And Conditions Tapped"
+        case settingScreenPrivacyPolicy = "Setting Screen Privacy Policy Tapped"
+        
+        case contactAccessPermissionGranted = "Contact Access Permission Granted"
+        case contactAccessPermissionDenied = "Contact Access Permission Denied"
+        // Cancel subscription Events
+        case cancellationReasonTooExpensive = "Subscription Cancellation - Too Expensive"
+        case cancellationReasonNoLongerNeeded = "Subscription Cancellation - No Longer Needed"
+        case cancellationReasonUsingOtherSoftware = " Subscription Cancellation - Using other software"
+        case cancellationReasonOther = "Subscription Cancellation - Other"
     }
 
     public enum AnalyticsEventProperties: String, CustomStringConvertible {
