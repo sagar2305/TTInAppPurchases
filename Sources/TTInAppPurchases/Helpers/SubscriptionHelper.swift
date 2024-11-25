@@ -274,4 +274,8 @@ public class SubscriptionHelper {
             }
         }
     }
+    
+    public func updateProUser(){
+        self._isProUser = true
+    }
 }

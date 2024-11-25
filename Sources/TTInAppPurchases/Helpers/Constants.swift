@@ -76,6 +76,8 @@ public struct Constants {
     
     public struct SuperWall {
         public static let liveApiKey = "pk_7d5cdfa494dff69de10dd17fd8b8f6eab374cec2270fd505"
+        public static let campaign_trigger = "campaign_trigger"
+        public static let paywall_decline = "paywall_decline"
     }
     
     public struct Offering {
