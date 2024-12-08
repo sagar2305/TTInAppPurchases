@@ -277,7 +277,7 @@ public class SingleOptionPaywallViewController: UIViewController, SubscriptionVi
         if isFromCancelSubscription {
             delegate?.openRefundLinkOrChat(self)
         }
-//        delegate?.exit(self)
+        delegate?.exit(self)
     }
     
     @IBAction func didTapRestorePurchaseButton(_ sender: UIButton) {

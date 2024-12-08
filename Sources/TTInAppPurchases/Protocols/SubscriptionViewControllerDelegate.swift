@@ -12,7 +12,7 @@ public protocol SubscriptionViewControllerDelegate: AnyObject {
     func viewWillAppear(_ controller: SubscriptionViewControllerProtocol)
     func viewDidAppear(_ controller: SubscriptionViewControllerProtocol)
     func openRefundLinkOrChat(_ controller: SubscriptionViewControllerProtocol)
-//    func exit(_ controller: SubscriptionViewControllerProtocol)
+    func exit(_ controller: SubscriptionViewControllerProtocol)
     func selectPlan(at index: Int, controller: SubscriptionViewControllerProtocol)
     func restorePurchases(_ controller: SubscriptionViewControllerProtocol)
     func showPrivacyPolicy(_ controller: SubscriptionViewControllerProtocol)

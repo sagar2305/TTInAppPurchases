@@ -437,7 +437,7 @@ public class TripleOptionPaywallViewController: UIViewController, SubscriptionVi
     }
     
     @IBAction func didTapCancelButton(_ sender: UIButton) {
-//        delegate?.exit(self)
+        delegate?.exit(self)
     }
     
     @IBAction func didTapRestorePurchase(_ sender: Any) {
