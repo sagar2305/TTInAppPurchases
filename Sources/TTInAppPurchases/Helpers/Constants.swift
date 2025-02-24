@@ -74,6 +74,10 @@ public struct Constants {
         public static let sdkKey = "GfL9ihNS8aC3vVjv4QgaK6"
     }
     
+    public struct SuperWall{
+        public static let apiKey = "pk_7d5cdfa494dff69de10dd17fd8b8f6eab374cec2270fd505"
+    }
+    
     public struct Offering {
         public static let onlyAnnual = "onlyannual"
         public static let lifetime = "lifetime"
