@@ -94,6 +94,10 @@ public class SubscriptionHelper {
             completion?(self._isProUser) // Return updated status
         }
     }
+    
+    public func setIsProUser(isProUser: Bool){
+        self._isProUser = isProUser
+    }
 
     public func isProUser(completion: @escaping ProUserStatusCompletion) {
         if _isPurchaseInfoRefreshed {
