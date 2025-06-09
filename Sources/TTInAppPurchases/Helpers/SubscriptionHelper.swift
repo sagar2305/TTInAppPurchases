@@ -78,6 +78,12 @@ public class SubscriptionHelper {
             return "✓  " + feature
     }
     
+    //            added this code to force refresh purchase info after successfull purchase,
+    //            to fix subscription screen is visible even after the purchase
+    public func forceRefreshPurchaseInfo(){
+            _refreshPurchaseInfo()
+    }
+    
     private func _refreshPurchaseInfo(completion: ProUserStatusCompletion? = nil) {
         Purchases.shared.getCustomerInfo { [weak self] (customerInfo, error) in
             guard let self = self else { return }

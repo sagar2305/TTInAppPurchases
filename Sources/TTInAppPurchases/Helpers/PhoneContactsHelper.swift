@@ -101,4 +101,18 @@ public class PhoneContactsHelper {
             // Handle the error
         }
     }
+    
+    public func requestContactPermission(completion: @escaping (Bool) -> Void) {
+        let store = CNContactStore()
+        store.requestAccess(for: .contacts) { granted, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Failed to request contact permission: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    completion(granted)
+                }
+            }
+        }
+    }
 }
