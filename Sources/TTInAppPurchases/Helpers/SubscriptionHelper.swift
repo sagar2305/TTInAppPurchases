@@ -78,6 +78,8 @@ public class SubscriptionHelper {
             return "✓  " + feature
     }
     
+    //            added this code to force refresh purchase info after successfull purchase,
+    //            to fix subscription screen is visible even after the purchase
     public func forceRefreshPurchaseInfo(){
             _refreshPurchaseInfo()
     }
@@ -97,10 +99,6 @@ public class SubscriptionHelper {
             self._isPurchaseInfoRefreshed = true
             completion?(self._isProUser) // Return updated status
         }
-    }
-    
-    public func setIsProUser(isProUser: Bool){
-        self._isProUser = isProUser
     }
 
     public func isProUser(completion: @escaping ProUserStatusCompletion) {
