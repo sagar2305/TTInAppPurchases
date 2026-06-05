@@ -87,6 +87,23 @@ public class AnalyticsHelper {
         
     }
     
+    // MARK: - Breadcrumbs
+
+    /// Logs a lightweight "breadcrumb" to PostHog to build a trail of the user's
+    /// actions/screens (visible in the Activity feed and as markers in session replay).
+    ///
+    /// - Important: Do NOT pass PII (phone numbers, recording URLs) in `message` or
+    ///   `properties` — breadcrumbs are visible to the whole team in PostHog. Log
+    ///   *what happened*, not *who*. Call only on meaningful transitions, never in loops.
+    public func logBreadcrumb(_ message: String,
+                              category: String = "navigation",
+                              properties: [String: Any] = [:]) {
+        var props = properties
+        props["category"] = category
+        props["message"] = message
+        PostHogSDK.shared.capture("breadcrumb", properties: props)
+    }
+
     public func logRevenue(_ revenue: AMPRevenue) {
         amplitudeInstance.logRevenueV2(revenue)
 //        mixpanelInstance.people.trackCharge(amount: revenue.price.doubleValue)
