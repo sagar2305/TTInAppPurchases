@@ -95,13 +95,29 @@ public class AnalyticsHelper {
     /// - Important: Do NOT pass PII (phone numbers, recording URLs) in `message` or
     ///   `properties` — breadcrumbs are visible to the whole team in PostHog. Log
     ///   *what happened*, not *who*. Call only on meaningful transitions, never in loops.
+    /// - Note: `"category"` and `"message"` are reserved keys; any same-named entries
+    ///   in `properties` are overwritten by the `category`/`message` arguments.
     public func logBreadcrumb(_ message: String,
                               category: String = "navigation",
                               properties: [String: Any] = [:]) {
+        PostHogSDK.shared.capture("breadcrumb",
+                                  properties: Self.breadcrumbProperties(message,
+                                                                        category: category,
+                                                                        properties: properties))
+    }
+
+    /// Builds the property dictionary sent with a `breadcrumb` event. Pure and
+    /// side-effect free so it can be unit-tested without configuring or calling PostHog.
+    ///
+    /// `"category"` and `"message"` are reserved keys and overwrite any same-named
+    /// entries supplied by the caller.
+    static func breadcrumbProperties(_ message: String,
+                                     category: String,
+                                     properties: [String: Any] = [:]) -> [String: Any] {
         var props = properties
         props["category"] = category
         props["message"] = message
-        PostHogSDK.shared.capture("breadcrumb", properties: props)
+        return props
     }
 
     public func logRevenue(_ revenue: AMPRevenue) {

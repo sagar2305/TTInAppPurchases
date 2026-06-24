@@ -2,18 +2,31 @@ import XCTest
 @testable import TTInAppPurchases
 
 final class TTInAppPurchasesTests: XCTestCase {
-    func testExample() throws {
+
+    /// `message` and `category` are folded into the breadcrumb properties.
+    /// Tests the pure property builder so nothing is sent to live PostHog.
+    func testBreadcrumbPropertiesMergesMessageAndCategory() {
+        let props = AnalyticsHelper.breadcrumbProperties("App launched", category: "lifecycle")
+        XCTAssertEqual(props["message"] as? String, "App launched")
+        XCTAssertEqual(props["category"] as? String, "lifecycle")
     }
 
-    /// Exercises the new breadcrumb API end-to-end through the real AnalyticsHelper
-    /// (which configures PostHog in its init). Proves logBreadcrumb runs without crashing
-    /// and accepts the message/category/properties shapes used at the app call sites.
-    func testLogBreadcrumbRunsWithoutCrashing() {
-        AnalyticsHelper.shared.logBreadcrumb("unit-test breadcrumb")
-        AnalyticsHelper.shared.logBreadcrumb("App launched", category: "lifecycle")
-        AnalyticsHelper.shared.logBreadcrumb("Transcription finished",
-                                             category: "transcription",
-                                             properties: ["result": "Success"])
-        XCTAssertTrue(true)
+    /// Caller-supplied properties are preserved alongside the reserved keys.
+    func testBreadcrumbPropertiesPreservesCustomProperties() {
+        let props = AnalyticsHelper.breadcrumbProperties("Transcription finished",
+                                                         category: "transcription",
+                                                         properties: ["result": "Success"])
+        XCTAssertEqual(props["result"] as? String, "Success")
+        XCTAssertEqual(props["message"] as? String, "Transcription finished")
+        XCTAssertEqual(props["category"] as? String, "transcription")
+    }
+
+    /// Reserved keys win: caller-supplied `category`/`message` are overwritten.
+    func testBreadcrumbReservedKeysOverrideCallerValues() {
+        let props = AnalyticsHelper.breadcrumbProperties("real message",
+                                                         category: "real",
+                                                         properties: ["category": "fake", "message": "fake"])
+        XCTAssertEqual(props["category"] as? String, "real")
+        XCTAssertEqual(props["message"] as? String, "real message")
     }
 }
