@@ -10,6 +10,14 @@ import RevenueCat
 
 
 extension RevenueCat.SubscriptionPeriod.Unit {
+    /// A human-readable description of the subscription period unit
+    /// (e.g. `"day"`, `"3 months"`).
+    ///
+    /// - Parameters:
+    ///   - capitalizeFirstLetter: Capitalizes the first letter of the unit (e.g. `"Month"`).
+    ///   - numberOfUnits: When greater than 1, pluralizes the unit and prefixes the count
+    ///     (e.g. `2` → `"2 months"`); `nil` or `1` leaves it singular and un-prefixed.
+    /// - Returns: The formatted unit string.
     func description(capitalizeFirstLetter: Bool = false, numberOfUnits: Int? = nil) -> String {
         var unitString = String(describing: self)
         
