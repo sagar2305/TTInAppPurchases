@@ -52,6 +52,30 @@ public class AnalyticsHelper {
 //        AppsFlyerLib.shared().customerUserID = userId
     }
 
+    /// Identifies a user who has NOT yet verified a phone number, using a stable
+    /// device identifier, so anonymous / onboarding users are trackable in PostHog
+    /// (and findable by that ID) instead of only appearing as a random anonymous id.
+    ///
+    /// Safe to call on every launch: PostHog only links the anonymous session to
+    /// `deviceId` the first time; later calls are no-ops. Once the user verifies a
+    /// number, call `aliasVerifiedUser(_:)` so the phone identity is merged in.
+    public func identifyAnonymousDevice(_ deviceId: String) {
+        PostHogSDK.shared.identify(deviceId,
+                                   userPropertiesSetOnce: [Constants.PostHog.dateOfFirstLogIn: Date().toISO()])
+    }
+
+    /// Links a freshly verified phone-number identity to the current PostHog person.
+    ///
+    /// `identify()` alone does NOT merge a user who is already identified (e.g. one
+    /// identified anonymously via `identifyAnonymousDevice(_:)`), so we alias the
+    /// phone number onto the current distinct id first, then run the normal
+    /// `setUserId(_:)` to update Amplitude / Mixpanel / PostHog person properties.
+    /// Call this once, right after a number is verified — not on every launch.
+    public func aliasVerifiedUser(_ userId: String) {
+        PostHogSDK.shared.alias(userId)
+        setUserId(userId)
+    }
+
     // MARK: - Event Logging
     public func logEvent(_ event: String) {
         amplitudeInstance.logEvent(event)
