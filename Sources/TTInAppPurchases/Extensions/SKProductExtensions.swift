@@ -9,7 +9,7 @@ import StoreKit
 import RevenueCat
 
 
-extension SubscriptionPeriod.Unit {
+extension RevenueCat.SubscriptionPeriod.Unit {
     func description(capitalizeFirstLetter: Bool = false, numberOfUnits: Int? = nil) -> String {
         var unitString = String(describing: self)
         
