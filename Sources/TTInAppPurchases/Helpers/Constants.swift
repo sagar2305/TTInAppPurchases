@@ -275,6 +275,11 @@ public struct Constants {
         case userTappedPlayButton = "User Played Recording"
         case userTappedPauseButton = "User Paused Recording"
         case reviewPromptRequested = "App review prompt requested"
+
+        //recording capture (download + local save)
+        case recordingStarted = "Recording - Download Started"
+        case recordingSavedLocally = "Recording - Saved Locally"
+        case recordingFailed = "Recording - Failed"
         
         //transcription
         case transcriptionRequest = "Transcription - Transcription Requested"
@@ -429,6 +434,10 @@ public struct Constants {
         
         //recording API
         case dateQueryItem = "Query Date"
+
+        //recording capture (non-PII)
+        case recordingDirection = "Recording Direction"
+        case recordingDuration = "Recording Duration"
         
     }
 }
